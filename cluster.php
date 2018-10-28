@@ -88,7 +88,10 @@ if($task == "node_scanner")
 		}
 	}
 
-	print_r($cluster);
+	$nodes json_encode($cluster['nodes']);
+
+	// write nodes to file
+	file_put_contents('/mcp_cluster/nodes.txt', $nodes)
 
 	// killlock
 	killlock();
