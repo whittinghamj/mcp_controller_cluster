@@ -82,6 +82,11 @@ $cpu_load 				= system_load($cpu_cores, 1);
 $memory_usage 			= system_memory_usage();
 $uptime 				= system_uptime();
 
+$hardware 			= exec("cat /sys/firmware/devicetree/base/model");
+$mac_address		= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
+$ip_address 		= exec("sh /mcp_cluster/lan_ip.sh");
+$cpu_temp			= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
+
 // build $cluster vars
 $cluster['version']								= '1.0.0.0';
 $hostname               						= exec('cat /etc/hostname');
@@ -91,9 +96,12 @@ if($hostname == 'cluster-master')
 }else{
     $cluster['machine']['type'] 				= 'slave';
 }
-$cluster['machine']['ip_address'] 				= exec('sh /mcp_cluster/lan_ip.sh');
-$cluster['machine']['cpu_cores']				= $cpu_cores;
-$cluster['machine']['cpu_load']					= $cpu_load;
+$cluster['machine']['hardware'] 				= $hardware;
+$cluster['machine']['temp'] 					= $cpu_temp;
+$cluster['machine']['ip_address'] 				= $ip_address;
+$cluster['machine']['mac_address'] 				= $mac_address;
+// $cluster['machine']['cpu_cores']				= $cpu_cores;
+// $cluster['machine']['cpu_load']					= $cpu_load;
 $cluster['machine']['memory_usage']				= $memory_usage;
 $cluster['machine']['uptime']					= $uptime;
 json_output($cluster);
