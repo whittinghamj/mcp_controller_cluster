@@ -71,14 +71,17 @@ if($task == "node_scanner")
 		$ip 						= trim($ip, " \n.");
 		$ip 						= trim($ip, " \r.");
 
+		echo "Checking ".$ip." -> ";
 		// check IP for web_api.php
 		$cluster_api_url = 'http://'.$ip.'/web_api.php';
 		$file_headers = @get_headers($cluster_api_url);
 		if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
 		    // not a cluster node
+		    echo "not a cluster node. \n";
 		}
 		else {
 		    // cluster node found, lets get some data.
+		    echo "cluster node FOUND. \n";
 		    $node = @file_get_contents($cluster_api_url);
 		    $node = json_decode($node, true);
 		    $cluster['nodes'][] = $node;
