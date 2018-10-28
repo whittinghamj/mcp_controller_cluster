@@ -1,10 +1,9 @@
 <?php
-
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
-// ini_set('error_reporting', E_ALL); 
-
 // MCP Controller Cluster - Cluster Management console Scripts
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('error_reporting', E_ALL); 
 
 $api_url = 'http://dashboard.miningcontrolpanel.com';
 
