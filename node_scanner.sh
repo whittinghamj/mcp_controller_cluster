@@ -33,7 +33,7 @@ for row in $(echo "${IP_RANGES}" | jq -r '.[] | @base64'); do
     }
 
    ## echo "Scanning " $(_jq '.ip_range')"0/24"
-   nmap -p80 $(_jq '.ip_range')"0/24" -oG - | grep 80/open | awk '{ print $2 }' >> /mcp_cluster/node_ip_addresses.txt
+   nmap -p1372 $(_jq '.ip_range')"0/24" -oG - | grep 1372/open | awk '{ print $2 }' >> /mcp_cluster/node_ip_addresses.txt
 done
 
 # echo ""
