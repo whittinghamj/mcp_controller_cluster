@@ -38,6 +38,8 @@ if(isset($argv[3]))
 	$silent = $argv[3];
 }
 
+$cluster = '';
+
 if($task == "node_scanner")
 {
 	$lockfile = dirname(__FILE__) . "/console.cluster_scan.loc";
