@@ -78,7 +78,7 @@ if(isset($miners['miners']))
     console_output("Total Miners: " . $total_miners);
 
     // calculate how many jobs per slave node
-    $jobs_per_node = round($cluster['total_slave'] / $total_miners);
+    $jobs_per_node = $cluster['total_slave'] / $total_miners;
     console_output("Jobs Per Slave: " . $jobs_per_node);
 
     console_output("Stopped for dev.");
