@@ -1,6 +1,17 @@
 <?php
 
-// version 1.3
+// check if this is a master or slave node
+$hostname               = exec('cat /etc/hostname');
+if($hostname == 'cluster-master')
+{
+    $this_node['type'] = 'master';
+}else{
+    $this_node['type'] = 'slave';
+}
+if($this_node['type'] == 'slave')
+{
+    die("slave detected.");
+}
 
 // check to see if we have any nodes available
 $nodes_file = @file_get_contents('/mcp_cluster/nodes.txt');
@@ -10,20 +21,19 @@ $cluster['total_master'] = 0;
 $cluster['total_slave'] = 0;
 foreach($cluster['nodes'] as $node)
 {
-    if($node['machine']['type'] == 'master')
+    if($node['type'] == 'master')
     {
         $cluster['total_master']++;
     }else{
         $cluster['total_slave']++;
     }
 }
-
 $cluster['total_nodes'] = count($cluster['nodes']);
 
-
+// set main api url endpoint
 $api_url = 'http://dashboard.miningcontrolpanel.com';
 
-
+// sanity check
 $global_vars = '/mcp_cluster/global_vars.php';
 if(!file_exists($global_vars))
 {
@@ -31,6 +41,7 @@ if(!file_exists($global_vars))
     die();
 }
 
+// sanity check
 $functions = '/mcp_cluster/functions.php';
 if(!file_exists($functions))
 {
@@ -38,28 +49,15 @@ if(!file_exists($functions))
     die();
 }
 
+// includes
 include('/mcp_cluster/global_vars.php');
 include('/mcp_cluster/functions.php');
 
+// output
 console_output("MCP Controller Cluster");
-
 console_output("Total Nodes: ".$cluster['total_nodes']);
-console_output(" - Master: ".$cluster['total_master']);
-console_output(" - Slaves: ".$cluster['total_slave']);
-
-// sleep(30);
-
-// set $cluster vars
-$hostname               = exec('cat /etc/hostname');
-if($hostname == 'cluster-master')
-{
-    $cluster['machine']['type'] = 'master';
-}else{
-    $cluster['machine']['type'] = 'node';
-}
-$cluster['machine']['ip_address'] = exec('sh /mcp_cluster/lan_ip.sh');
-
-
+console_output(" >- Master: ".$cluster['total_master']);
+console_output(" >- Slaves: ".$cluster['total_slave']);
 
 $runs                   = $argv[1];
 $forced_lag             = $argv[2];
@@ -75,9 +73,13 @@ if(isset($miners['miners']))
     	$miner_ids[] = $miner['id'];
     }
 
-    $count 				= count($miner_ids);
+    // count total miners to process
+    $total_miners 				= count($miner_ids);
+    console_output("Total Miners: " . $total_miners);
 
-    console_output("Polling " . $count . " miners.");
+    // calculate how many jobs per slave node
+    $jobs_per_node = round($cluster['total_slave'] / $total_miners);
+    console_output("Jobs Per Slave: " $jobs_per_node);
 
     console_output("Stopped for dev.");
     die();
