@@ -58,6 +58,9 @@ if($task == "node_scanner")
 	}
 
 	// run multi threaded network scan for cluster nodes
+	// exec('sh /mcp_cluster/node_scanner.sh '.$config['api_key']);
+
+	// get node_ip_address
 	$ip_file = file('/mcp_cluster/node_ip_addresses.txt');
 
 	// Loop through our array, show HTML source as HTML source; and line numbers too.
