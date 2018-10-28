@@ -19,6 +19,9 @@ function json_output($data)
 	die();
 }
 
+// get cpu load
+$cpu_load = sys_getloadavg();
+
 // build $cluster vars
 $cluster['version']								= '1.0.0.0';
 $hostname               						= exec('cat /etc/hostname');
@@ -29,5 +32,5 @@ if($hostname == 'cluster-master')
     $cluster['machine']['type'] 				= 'slave';
 }
 $cluster['machine']['ip_address'] 				= exec('sh /mcp_cluster/lan_ip.sh');
-$cluster['machine']['cpu_usage']				= exec('print `top -n 1 | tr -s " " | cut -d$" " -f10 | tail -n +8 | head -n -1 | paste -sd+ | bc`/ `nproc` | python');
+$cluster['machine']['cpu_usage']				= $cpu_load[0];
 json_output($cluster);
