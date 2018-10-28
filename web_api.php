@@ -69,7 +69,9 @@ function system_memory_usage()
 // system uptime
 function system_uptime()
 {
-	$uptime = floor(preg_replace ('/\.[0-9]+/', '', file_get_contents('/proc/uptime')) / 86400);
+	$uptime = exec('uptime -p');
+
+	$uptime = str_replace("up ", "", $uptime);
 	
 	return $uptime;
 }
