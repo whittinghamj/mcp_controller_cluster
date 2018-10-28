@@ -35,6 +35,8 @@ if($hostname == 'cluster-master')
 }
 $cluster['machine']['ip_address'] = exec('sh /mcp_cluster/lan_ip.sh');
 
+
+
 $runs                   = $argv[1];
 $forced_lag             = $argv[2];
 $forced_lag_counter     = 0;
@@ -52,7 +54,6 @@ if(isset($miners['miners']))
     $count 				= count($miner_ids);
 
     console_output("Polling " . $count . " miners.");
-
 
     console_output("Stopped for dev.");
     die();
