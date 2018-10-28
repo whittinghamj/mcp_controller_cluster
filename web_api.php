@@ -96,7 +96,7 @@ if($hostname == 'cluster-master')
 }else{
     $cluster['type'] 				= 'slave';
 }
-$cluster['stats']['hardware'] 				= $hardware;
+$cluster['stats']['hardware'] 				= str_replace('\u0000', '', $hardware);
 $cluster['stats']['temp'] 					= number_format($cpu_temp, 2);
 $cluster['stats']['ip_address'] 			= $ip_address;
 $cluster['stats']['mac_address'] 			= strtoupper($mac_address);
