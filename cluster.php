@@ -60,7 +60,7 @@ if($task == "node_scanner")
 	}
 
 	// run multi threaded network scan for cluster nodes
-	exec('sh /mcp_cluster/node_scanner.sh '.$config['api_key']);
+	// exec('sh /mcp_cluster/node_scanner.sh '.$config['api_key']);
 
 	// get node_ip_address
 	$ip_file = file('/mcp_cluster/node_ip_addresses.txt');
@@ -86,6 +86,7 @@ if($task == "node_scanner")
 		    echo "cluster node FOUND. \n";
 		    $node = @file_get_contents($cluster_api_url);
 		    $node = json_decode($node, true);
+		    print_r($node);
 		    $cluster['nodes'][] = $node;
 		}
 	}
