@@ -26,7 +26,7 @@ if($hostname == 'cluster-master')
 {
     $cluster['machine']['type'] 				= 'master';
 }else{
-    $cluster['machine']['type'] 				= 'node';
+    $cluster['machine']['type'] 				= 'slave';
 }
 $cluster['machine']['ip_address'] 				= exec('sh /mcp_cluster/lan_ip.sh');
 

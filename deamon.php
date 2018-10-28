@@ -2,7 +2,27 @@
 
 // version 1.3
 
+// check to see if we have any nodes available
+$nodes_file = @file_get_contents('/mcp_cluster/nodes.txt');
+$cluster['nodes'] = json_decode($nodes_file, TRUE);
+
+$cluster['total_master'] = 0;
+$cluster['total_slave'] = 0;
+foreach($cluster['nodes'] as $node)
+{
+    if($node['type'] == 'master')
+    {
+        $cluster['total_master']++;
+    }else{
+        $cluster['total_slave']++;
+    }
+}
+
+$cluster['total_nodes'] = count($cluster['nodes']);
+
+
 $api_url = 'http://dashboard.miningcontrolpanel.com';
+
 
 $global_vars = '/mcp_cluster/global_vars.php';
 if(!file_exists($global_vars))
@@ -21,7 +41,11 @@ if(!file_exists($functions))
 include('/mcp_cluster/global_vars.php');
 include('/mcp_cluster/functions.php');
 
-// console_output("Building deamon. May take up to 30 seconds.");
+console_output("MCP Controller Cluster");
+
+console_output("Total Nodes: ".$cluster['total_nodes']);
+console_output(" - Master: ".$cluster['total_master']);
+console_output(" - Slaves: ".$cluster['total_slave']);
 
 // sleep(30);
 
