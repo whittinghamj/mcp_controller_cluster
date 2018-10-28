@@ -71,6 +71,8 @@ if($task == "node_scanner")
 		$ip 						= trim($ip, " \n.");
 		$ip 						= trim($ip, " \r.");
 
+		echo $ip."\n";
+
 		$ips[]						= $ip;
 	}
 
