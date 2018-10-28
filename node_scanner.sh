@@ -9,10 +9,10 @@ then
 fi
 
 ## remove files from last run
-rm -rf /mcp_cluster/node_ip_address.txt
+rm -rf /mcp_cluster/node_ip_addresses.txt
 
 ## create new files for this run
-touch /mcp_cluster/node_ip_address.txt
+touch /mcp_cluster/node_ip_addresses.txt
 
 SITE_API_KEY="$1"
 
@@ -33,11 +33,11 @@ for row in $(echo "${IP_RANGES}" | jq -r '.[] | @base64'); do
     }
 
    ## echo "Scanning " $(_jq '.ip_range')"0/24"
-   nmap -p80 $(_jq '.ip_range')"0/24" -oG - | grep 80/open | awk '{ print $2 }' >> /mcp_cluster/node_ip_address.txt
+   nmap -p80 $(_jq '.ip_range')"0/24" -oG - | grep 80/open | awk '{ print $2 }' >> /mcp_cluster/node_ip_addresses.txt
 done
 
 # echo ""
 
-active_miners=`cat /mcp_cluster/node_ip_address.txt | wc -l`
+active_miners=`cat /mcp_cluster/node_ip_addresses.txt | wc -l`
 
 # echo "Found $active_miners miners on subnet $ip_range"
