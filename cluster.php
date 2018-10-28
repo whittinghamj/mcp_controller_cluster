@@ -39,7 +39,7 @@ if(isset($argv[3]))
 	$silent = $argv[3];
 }
 
-if($task == "network_scan")
+if($task == "node_scanner")
 {
 	$lockfile = dirname(__FILE__) . "/console.cluster_scan.loc";
 	if(file_exists($lockfile)){
