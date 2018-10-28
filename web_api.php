@@ -29,5 +29,5 @@ if($hostname == 'cluster-master')
     $cluster['machine']['type'] 				= 'slave';
 }
 $cluster['machine']['ip_address'] 				= exec('sh /mcp_cluster/lan_ip.sh');
-$cluster['machine']['cpu_usage']				= exec('echo print `top -n 1 | tr -s " " | cut -d$" " -f10 | tail -n +8 | head -n -1 | paste -sd+ | bc`/ `nproc` | python');
+$cluster['machine']['cpu_usage']				= exec('print `top -n 1 | tr -s " " | cut -d$" " -f10 | tail -n +8 | head -n -1 | paste -sd+ | bc`/ `nproc` | python');
 json_output($cluster);
