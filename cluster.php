@@ -62,9 +62,9 @@ if($task == "node_scanner")
 
 	// get node_ip_address
 
-	$ip_addresses = exec('cat /mcp_cluster/node_ip_addresses.txt');
+	$ips_array = exec('cat /mcp_cluster/node_ip_addresses.txt');
 
-	$ip_addreses = preg_split('/\r\n|\r|\n/', $ip_addresses);
+	$ip_addresses = explode(PHP_EOL, $ips_array);
 
 	print_r($ip_addresses);
 
