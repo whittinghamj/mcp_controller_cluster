@@ -66,6 +66,7 @@ if($task == "node_scanner")
 	// Loop through our array, show HTML source as HTML source; and line numbers too.
 	foreach ($ip_file as $line_num => $line) {
 	    $ips[] = $line;
+	    echo $line."\n";
 	}
 
 	print_r($ips, true);
