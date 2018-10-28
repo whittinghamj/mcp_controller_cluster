@@ -64,9 +64,10 @@ if($task == "node_scanner")
 	$ip_file = file('/mcp_cluster/node_ip_addresses.txt');
 
 	// Loop through our array, show HTML source as HTML source; and line numbers too.
+	$ips = '';
 	foreach ($ip_file as $line_num => $line) {
 	    $ips[] = $line;
-	    echo $line."\n";
+	    // echo $line."\n";
 	}
 
 	print_r($ips, true);
