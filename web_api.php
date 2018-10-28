@@ -30,4 +30,4 @@ if($hostname == 'cluster-master')
 }
 $cluster['machine']['ip_address'] 				= exec('sh /mcp_cluster/lan_ip.sh');
 
-json_putput($cluster);
+json_output($cluster);
