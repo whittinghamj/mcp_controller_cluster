@@ -62,11 +62,11 @@ if($task == "node_scanner")
 
 	// get node_ip_address
 
-	$ips_array = exec('cat /mcp_cluster/node_ip_addresses.txt');
+	$ips = exec('cat /mcp_cluster/node_ip_addresses.txt');
 
-	$ip_addresses = explode(PHP_EOL, $ips_array);
+	$lines = array_map("rtrim", explode("\n", $ips));
 
-	print_r($ip_addresses);
+	print_r($lines, true);
 
 	// killlock
 	killlock();
