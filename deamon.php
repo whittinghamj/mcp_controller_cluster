@@ -10,7 +10,7 @@ $cluster['total_master'] = 0;
 $cluster['total_slave'] = 0;
 foreach($cluster['nodes'] as $node)
 {
-    if($node['type'] == 'master')
+    if($node['machine']['type'] == 'master')
     {
         $cluster['total_master']++;
     }else{

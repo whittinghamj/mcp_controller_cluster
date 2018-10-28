@@ -92,16 +92,16 @@ $cluster['version']								= '1.0.0.0';
 $hostname               						= exec('cat /etc/hostname');
 if($hostname == 'cluster-master')
 {
-    $cluster['machine']['type'] 				= 'master';
+    $cluster['type'] 				= 'master';
 }else{
-    $cluster['machine']['type'] 				= 'slave';
+    $cluster['type'] 				= 'slave';
 }
-$cluster['machine']['hardware'] 				= $hardware;
-$cluster['machine']['temp'] 					= $cpu_temp;
-$cluster['machine']['ip_address'] 				= $ip_address;
-$cluster['machine']['mac_address'] 				= $mac_address;
-// $cluster['machine']['cpu_cores']				= $cpu_cores;
-// $cluster['machine']['cpu_load']					= $cpu_load;
-$cluster['machine']['memory_usage']				= $memory_usage;
-$cluster['machine']['uptime']					= $uptime;
+$cluster['stats']['hardware'] 				= $hardware;
+$cluster['stats']['temp'] 					= number_format($cpu_temp, 2);
+$cluster['stats']['ip_address'] 			= $ip_address;
+$cluster['stats']['mac_address'] 			= strtoupper($mac_address);
+// $cluster['stats']['cpu_cores']				= $cpu_cores;
+// $cluster['stats']['cpu_load']					= $cpu_load;
+$cluster['stats']['memory_usage']			= number_format($memory_usage, 2);
+$cluster['stats']['uptime']					= $uptime;
 json_output($cluster);
