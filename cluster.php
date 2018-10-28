@@ -91,7 +91,7 @@ if($task == "node_scanner")
 	$nodes = json_encode($cluster['nodes']);
 
 	// write nodes to file
-	file_put_contents('/mcp_cluster/nodes.txt', $nodes)
+	file_put_contents('/mcp_cluster/nodes.txt', $nodes);
 
 	// killlock
 	killlock();
