@@ -2,12 +2,14 @@
 
 ## MCP Controller Cluster - Update Script (git pull)
 
-# mv /mcp/global_vars.php /mcp/global_vars.tmp
+mv /mcp_cluster/global_vars.php /mcp_cluster/global_vars.tmp
 
 cd /mcp_cluster && git --git-dir=/mcp_cluster/.git pull origin master
 
 # crontab /mcp_cluster/crontab.txt
 
-# mv /mcp/global_vars.tmp /mcp/global_vars.php
+mv /mcp_cluster/global_vars.tmp /mcp_cluster/global_vars.php
 
-# chmod 777 /mcp/global_vars.php
+chmod 777 /mcp_cluster/global_vars.php
+
+cp /mcp_cluster/web_api.php /var/www/html/
