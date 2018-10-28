@@ -3,7 +3,16 @@
 // MCP Controller Cluster - Web API
 
 // includes
-include('/mcp_cluster/functions.php');
+// include('/mcp_cluster/functions.php');
+
+// local functions
+function json_output($data)
+{
+	$data['timestamp']		= time();
+	$data 					= json_encode($data);
+	echo $data;
+	die();
+}
 
 // build $cluster vars
 $hostname               						= exec('cat /etc/hostname');
