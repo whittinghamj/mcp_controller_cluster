@@ -1,6 +1,11 @@
 <?php
-
 // MCP Controller Cluster - Web API
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('error_reporting', E_ALL); 
+
+header("Content-Type:application/json; charset=utf-8");
 
 // includes
 // include('/mcp_cluster/functions.php');
@@ -15,6 +20,7 @@ function json_output($data)
 }
 
 // build $cluster vars
+$cluster['version']								= '1.0.0.0';
 $hostname               						= exec('cat /etc/hostname');
 if($hostname == 'cluster-master')
 {
