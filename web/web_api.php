@@ -155,5 +155,8 @@ function web_cluster_details_table()
 	$node_data 			= file('/mcp_cluster/nodes.txt');
 	$node_data			= json_decode($node_data, true);
 
+	echo '<pre>';
+	print_r($node_data);
+
 	json_output($node_data);
 }
