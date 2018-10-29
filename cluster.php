@@ -52,13 +52,19 @@ if($task == "node_scanner")
 	
 	console_output("Getting site IP ranges");
 
+	/*
 	$ip_ranges_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_ip_ranges");
 	$ip_ranges = json_decode($ip_ranges_raw, true);
 
 	foreach($ip_ranges['ip_ranges'] as $ip_range){
 		$subnets[] = $ip_range['ip_range'];
 	}
+	*/
 
+	// clean up from last run
+	exec('rm -rf /mcp_cluster/node_ip_addresses.txt');
+	exec('touch /mcp_cluster/node_ip_addresses.txt');
+	
 	// run multi threaded network scan for cluster nodes
 	exec('sh /mcp_cluster/node_scanner.sh '.$config['api_key']);
 

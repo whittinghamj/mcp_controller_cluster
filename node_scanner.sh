@@ -8,12 +8,6 @@ then
   exit 1
 fi
 
-## remove files from last run
-rm -rf /mcp_cluster/node_ip_addresses.txt
-
-## create new files for this run
-touch /mcp_cluster/node_ip_addresses.txt
-
 SITE_API_KEY="$1"
 
 JSON_DATA=$(curl -sS "http://dashboard.miningcontrolpanel.com/api/?key=$SITE_API_KEY&c=site_ip_ranges")
@@ -25,7 +19,7 @@ SITE_NAME=`echo "$JSON_DATA" | jq -r .site.name`
 
 IP_RANGES=`echo "$JSON_DATA" | jq -r .ip_ranges`
 
-#echo $IP_RANGES
+echo "Scanning "$IP_RANGES
 
 for row in $(echo "${IP_RANGES}" | jq -r '.[] | @base64'); do
     _jq() {
