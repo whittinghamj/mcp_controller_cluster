@@ -419,7 +419,7 @@ desired effect
 
                     var trHTML = '';
                     $.each(nodes, function (i, node) {
-                        trHTML += '<tr><td>' + node.type + '</td><td>' + node.stats.hardware + '</td><td>' + node.stats.ip_address + '</td><td>' + node.stats.cpu_load + '</td><td>' + node.stats.temp + ' °C</td><td>' + node.stats.uptime + '</td></tr>';
+                        trHTML += '<tr><td>' + node.type + '</td><td>' + node.stats.hardware + '</td><td>' + node.stats.ip_address + '</td><td>' + node.stats.cpu_load + '%</td><td>' + node.stats.temp + ' °C</td><td>' + node.stats.uptime + '</td></tr>';
                     });
                     $('#cluster_nodes').html(trHTML);
                 },
