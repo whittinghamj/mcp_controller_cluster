@@ -213,6 +213,8 @@ if($this_node['type'] == 'slave')
 
     $count              = count($miners);
 
+    print_r($miners);
+
     if(is_array($miners))
     {
         foreach($miners as $miner)
