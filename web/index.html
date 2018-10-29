@@ -457,7 +457,21 @@ desired effect
 
                     // get the size of the cluster
                     // $('#show_cluster_size').html(nodes.size());
-                    document.getElementById("show_cluster_size").innerHTML = nodes.length;
+                    // document.getElementById("show_cluster_size").innerHTML = nodes.length;
+
+                    // chart for cluster size
+                    $("#show_cluster_size").html('');
+                    var gg1 = new JustGage({
+                        id: "show_ghs5s",
+                        value: nodes.length,
+                        min: 0,
+                        max: 16,
+                        gaugeWidthScale: 1,
+                        counter: false,
+                        relativeGaugeSize: true,
+                        formatNumber: true,
+                        label: "Nodes"
+                    });
 
                     // build the table for nodes
                     var trHTML = '';
