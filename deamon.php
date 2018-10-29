@@ -96,10 +96,13 @@ if(isset($miners['miners']))
         }
     }
 
-    print_r($postdata);
-
     // post data to slave node
     $poststring = json_encode($postdata);
+    print_r($postdata);
+    print_r($poststring);
+    $post_url = 'http://'.$cluster['slaves'][0]['ip_address'].':1372/web_api.php?c=process_miners');
+    echo $post_url."\n";
+    
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, 'http://'.$cluster['slaves'][0]['ip_address'].':1372/web_api.php?c=process_miners');
     curl_setopt($ch, CURLOPT_POST, 1);
