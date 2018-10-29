@@ -99,7 +99,7 @@ if($this_node['type'] == 'master')
         // post data to slave node
         post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
         unset($postdata);
-        
+
         // reset the slave and get ready for the next slave inline
         unset($cluster['slaves'][0]);
 
@@ -175,8 +175,6 @@ if($this_node['type'] == 'slave')
     $miner_ids          = json_decode($miners_raw, true);
 
     $count              = count($miner_ids);
-
-    print_r($miners);
 
     if(is_array($miner_ids))
     {
