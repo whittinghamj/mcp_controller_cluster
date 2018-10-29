@@ -237,12 +237,22 @@ desired effect
                         </div>
                     </div>
 
-                    <span id="loading_content">
-                        <hr><hr><hr>
-                        <center>
-                            <img src="widget-loader-lg-en.gif" height="250px">
-                        </center>
-                    </span>
+                    <div id="loading_content" class="">
+                        <div class="row">
+                            <div class="col-lg-12 col-xs-12">
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        <strong>Loading</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <center>
+                                            <img src="widget-loader-lg-en.gif" height="250px">
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div id="node_slave" class="hidden">
                         <div class="row">
@@ -456,7 +466,7 @@ desired effect
                     $('#ip_address').html(node.stats.ip_address);
                     $('#uptime').html(node.stats.uptime);
 
-                    $('#loading_content').removeClass("hidden");
+                    $('#loading_content').addClass("hidden");
 
                     if(node.type == 'master')
                     {
