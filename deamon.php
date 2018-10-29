@@ -89,7 +89,7 @@ if(isset($miners['miners']))
     {
         if($key <= $jobs_per_node)
         {
-            echo "Slave: " . $cluster['slaves'][0]['ip_address']."\n";
+            echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
         }
     }
 
