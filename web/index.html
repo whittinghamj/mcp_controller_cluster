@@ -237,6 +237,13 @@ desired effect
                         </div>
                     </div>
 
+                    <span id="loading_content">
+                        <hr><hr><hr>
+                        <center>
+                            <img src="widget-loader-lg-en.gif" height="250px">
+                        </center>
+                    </span>
+
                     <div id="node_slave" class="hidden">
                         <div class="row">
                             <div class="col-lg-12 col-xs-12">
@@ -270,7 +277,7 @@ desired effect
                         </div>
                     </div>
 
-                    <div id="node_master">
+                    <div id="node_master" class="hidden">
                         <div class="row">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
@@ -449,10 +456,14 @@ desired effect
                     $('#ip_address').html(node.stats.ip_address);
                     $('#uptime').html(node.stats.uptime);
 
-                    if(node.type == 'slave')
+                    $('#loading_content').removeClass("hidden");
+
+                    if(node.type == 'master')
+                    {
+                        $('#node_master').removeClass("hidden");
+                    }else if(node.type == 'slave')
                     {
                         $('#node_slave').removeClass("hidden");
-                        $('#node_master').addClass("hidden");
                     }
                 },
                 error: function() {
