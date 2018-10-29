@@ -51,7 +51,7 @@ function node_info()
 {
 	// get system stats
 	$cpu_cores 				= system_cores();
-	$cpu_load 				= exec("grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage '%'}'");
+	$cpu_load 				= system_load();
 	$memory_usage 			= system_memory_usage();
 	$uptime 				= system_uptime();
 
@@ -73,8 +73,8 @@ function node_info()
 	$cluster['stats']['temp'] 					= number_format($cpu_temp, 2);
 	$cluster['stats']['ip_address'] 			= $ip_address;
 	$cluster['stats']['mac_address'] 			= strtoupper($mac_address);
-	// $cluster['stats']['cpu_cores']				= $cpu_cores;
-	$cluster['stats']['cpu_load']					= $cpu_load;
+	// $cluster['stats']['cpu_cores']			= $cpu_cores;
+	$cluster['stats']['cpu_load']				= $cpu_load['sys'];
 	$cluster['stats']['memory_usage']			= number_format($memory_usage, 2);
 	$cluster['stats']['uptime']					= $uptime;
 	json_output($cluster);
