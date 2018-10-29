@@ -170,7 +170,7 @@ function test()
 {
 	$node_json 			= file('/mcp_cluster/nodes.txt');
 
-	echo $node_json;
+	var_dump($node_json);
 
 	echo '<hr>';
 	$node_data			= json_decode($node_json, true);
