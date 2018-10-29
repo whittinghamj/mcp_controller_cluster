@@ -237,23 +237,15 @@ desired effect
                         </div>
                     </div>
 
-                    <div id="miner_offline" class="hidden">
+                    <div id="node_slave" class="hidden">
                         <div class="row">
                             <div class="col-lg-12 col-xs-12">
                                 <div class="panel panel-danger">
                                     <div class="panel-heading">
-                                        <strong>Miner Offline</strong>
+                                        <strong>Slave Noce</strong>
                                     </div>
                                     <div class="panel-body">
-                                        The miner is currently offline. This means one of the following: <br>
-                                        <br>
-                                        1. The miner is still in the middle of its boot sequence. <br>
-                                        2. There might be an error with your configuration settings, please double check them. <br>
-                                        3. The miner does not have an active internet connection. <br>
-                                        4. One or more of your pools may be having technical issues right now. <br>
-                                        <br>
-                                        <br>
-                                        Once mining has restarted, this page will auto update.
+                                        This node is a slave and unable to display cluster information
                                     </div>
                                 </div>
                             </div>
@@ -278,7 +270,7 @@ desired effect
                         </div>
                     </div>
 
-                    <div id="dashboard_content">
+                    <div id="node_master">
                         <div class="row">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
@@ -456,6 +448,12 @@ desired effect
                     $('#hardware').html(node.stats.hardware);
                     $('#ip_address').html(node.stats.ip_address);
                     $('#uptime').html(node.stats.uptime);
+
+                    if(node.type == 'slave')
+                    {
+                        $('#node_slave').removeClass("hidden");
+                        $('#node_master').addClass("hidden");
+                    }
                 },
                 error: function() {
                     // console.log(data);
