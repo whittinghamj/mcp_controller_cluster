@@ -504,9 +504,9 @@ desired effect
                 timeout: 30000,
                 cache: false,
                 success: function(node) {                    
-                    $('#hardware').append(node.stats.hardware);
-                    $('#ip_address').append(node.stats.ip_address);
-                    $('#uptime').append(node.stats.uptime);
+                    $('#hardware').html(node.stats.hardware);
+                    $('#ip_address').html(node.stats.ip_address);
+                    $('#uptime').html(node.stats.uptime);
                 },
                 error: function() {
                     // console.log(data);
@@ -540,8 +540,7 @@ desired effect
 
         $(document).ready(function()
         {
-            get_network_settings();
-            get_mcp_site_data();
+            // run something once the page is done loading.
         });
 	</script>
 </body>
