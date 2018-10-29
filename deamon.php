@@ -98,7 +98,8 @@ if($this_node['type'] == 'master')
 
         // post data to slave node
         post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
-
+        unset($postdata);
+        
         // reset the slave and get ready for the next slave inline
         unset($cluster['slaves'][0]);
 
