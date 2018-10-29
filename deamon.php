@@ -95,9 +95,9 @@ if(isset($miners['miners']))
             echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
         }
 
-        unset($miner_ids[$key])
+        unset($miner_ids[$key]);
     }
-    unset($cluster['slaves'][0])
+    unset($cluster['slaves'][0]);
 
 
     $miner_ids = array_values($miner_ids);
@@ -112,9 +112,9 @@ if(isset($miners['miners']))
             echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
         }
 
-        unset($miner_ids[$key])
+        unset($miner_ids[$key]);
     }
-    unset($cluster['slaves'][0])
+    unset($cluster['slaves'][0]);
 
     console_output("Stopped for dev.");
     die();
