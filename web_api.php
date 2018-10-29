@@ -76,32 +76,71 @@ function system_uptime()
 	return $uptime;
 }
 
-// get system stats
-$cpu_cores 				= system_cores();
-$cpu_load 				= system_load($cpu_cores, 1);
-$memory_usage 			= system_memory_usage();
-$uptime 				= system_uptime();
+$c = addslashes($_GET['c']);
+switch ($c){
+		
+	// node info
+	case "node_info":
+		node_info();
+		break;
 
-$hardware 			= exec("cat /sys/firmware/devicetree/base/model");
-$mac_address		= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
-$ip_address 		= exec("sh /mcp_cluster/lan_ip.sh");
-$cpu_temp			= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
+	// process miner ids from master
+	case "process_miners":
+		process_miners();
+		break;
 
-// build $cluster vars
-$cluster['version']								= '1.0.0.0';
-$hostname               						= exec('cat /etc/hostname');
-if($hostname == 'cluster-master')
-{
-    $cluster['type'] 				= 'master';
-}else{
-    $cluster['type'] 				= 'slave';
+	// home
+	default:
+		home();
+		break;
 }
-$cluster['stats']['hardware'] 				= str_replace('\u0000', '', $hardware);
-$cluster['stats']['temp'] 					= number_format($cpu_temp, 2);
-$cluster['stats']['ip_address'] 			= $ip_address;
-$cluster['stats']['mac_address'] 			= strtoupper($mac_address);
-// $cluster['stats']['cpu_cores']				= $cpu_cores;
-// $cluster['stats']['cpu_load']					= $cpu_load;
-$cluster['stats']['memory_usage']			= number_format($memory_usage, 2);
-$cluster['stats']['uptime']					= $uptime;
-json_output($cluster);
+       
+function home()
+{
+	$data['status']				= 'success';
+	// $data['message']			= '';
+	json_output($data);
+}
+
+function node_info()
+{
+	// get system stats
+	$cpu_cores 				= system_cores();
+	$cpu_load 				= system_load($cpu_cores, 1);
+	$memory_usage 			= system_memory_usage();
+	$uptime 				= system_uptime();
+
+	$hardware 			= exec("cat /sys/firmware/devicetree/base/model");
+	$mac_address		= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
+	$ip_address 		= exec("sh /mcp_cluster/lan_ip.sh");
+	$cpu_temp			= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
+
+	// build $cluster vars
+	$cluster['version']								= '1.0.0.0';
+	$hostname               						= exec('cat /etc/hostname');
+	if($hostname == 'cluster-master')
+	{
+	    $cluster['type'] 				= 'master';
+	}else{
+	    $cluster['type'] 				= 'slave';
+	}
+	$cluster['stats']['hardware'] 				= str_replace('\u0000', '', $hardware);
+	$cluster['stats']['temp'] 					= number_format($cpu_temp, 2);
+	$cluster['stats']['ip_address'] 			= $ip_address;
+	$cluster['stats']['mac_address'] 			= strtoupper($mac_address);
+	// $cluster['stats']['cpu_cores']				= $cpu_cores;
+	// $cluster['stats']['cpu_load']					= $cpu_load;
+	$cluster['stats']['memory_usage']			= number_format($memory_usage, 2);
+	$cluster['stats']['uptime']					= $uptime;
+	json_output($cluster);
+}
+
+function process_miners()
+{
+	$data['status']				= 'success';
+	$data['message']			= 'miner ids have been saved to slave for processing.';
+	$miner_ids					= $_POST;
+
+	file_put_contents('/var/www/html/ids.txt', $miner_ids);
+	json_output($data);
+}

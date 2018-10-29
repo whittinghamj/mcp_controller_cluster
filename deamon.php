@@ -107,9 +107,28 @@ if(isset($miners['miners']))
         // first run
         if($key <= $jobs_per_node)
         {
-            echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
+            $postdata[] = $miner_id;
+            // echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
             unset($miner_ids[$key]);
         }
+
+        // post data to slave node
+        $poststring = json_encode($postdata);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://'.$cluster['slaves'][0]['ip_address'].':1372/web_api.php?c=process_miners');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 300);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSLVERSION,3);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $poststring);
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        $results = json_decode($data, true);
+
+        print_r($results);
     }
     unset($cluster['slaves'][0]);
 
