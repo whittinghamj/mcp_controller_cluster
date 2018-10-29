@@ -26,6 +26,7 @@ foreach($cluster['nodes'] as $node)
         $cluster['total_master']++;
     }else{
         $cluster['total_slave']++;
+        $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
     }
 }
 $cluster['total_nodes'] = count($cluster['nodes']);
@@ -80,6 +81,15 @@ if(isset($miners['miners']))
     // calculate how many jobs per slave node
     $jobs_per_node = round($total_miners / $cluster['total_slave']);
     console_output("Jobs Per Slave: " . $jobs_per_node);
+
+    print_r($cluster['slaves']);
+
+    // break jobs up for slave nodes
+    foreach($miner_ids as $key => $miner_id)
+    {
+
+    }
+
 
     console_output("Stopped for dev.");
     die();
