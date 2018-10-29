@@ -82,7 +82,7 @@ if($this_node['type'] == 'master')
 
         // break jobs up for slave nodes
         // first run
-        console_output("First Slave Run.");
+        // console_output("First Slave Run.");
         foreach($miner_ids as $key => $miner_id)
         {
             // first run
@@ -110,7 +110,7 @@ if($this_node['type'] == 'master')
         if(isset($cluster['slaves'][0]))
         {
             // second run
-            console_output("Second Slave Run.");
+            // console_output("Second Slave Run.");
             foreach($miner_ids as $key => $miner_id)
             {
                 // first run
