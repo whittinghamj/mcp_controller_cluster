@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('error_reporting', E_ALL); 
 
-header("Content-Type:application/json; charset=utf-8");
+// header("Content-Type:application/json; charset=utf-8");
 
 // includes
 // include('/mcp_cluster/functions.php');
@@ -94,6 +94,11 @@ switch ($c){
 		web_cluster_details_table();
 		break;
 
+	// test function
+	case "test":
+		test();
+		break;
+
 	// home
 	default:
 		home();
@@ -159,4 +164,19 @@ function web_cluster_details_table()
 	print_r($node_data);
 
 	json_output($node_data);
+}
+
+function test()
+{
+	$node_json 			= file('/mcp_cluster/nodes.txt');
+
+	echo $node_json;
+
+	echo '<hr>';
+	$node_data			= json_decode($node_json, true);
+
+	echo '<pre>';
+	print_r($node_data);
+
+	
 }
