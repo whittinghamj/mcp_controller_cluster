@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('error_reporting', E_ALL); 
 
-// header("Content-Type:application/json; charset=utf-8");
+header("Content-Type:application/json; charset=utf-8");
 
 // includes
 // include('/mcp_cluster/functions.php');
