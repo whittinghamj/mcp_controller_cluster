@@ -477,7 +477,7 @@ desired effect
                     $.each(nodes, function (i, node) {
                         trHTML += '<tr><td>' + node.stats.type + '</td><td>' + node.stats.hardware + '</td><td>' + node.stats.ip_address + '</td><td>' + node.stats.cpu_load + '</td><td>' + node.stats.temp + '</td><td>' + node.stats.uptime + '</td></tr>';
                     });
-                    $('#cluster_nodes').append(trHTML);
+                    $('#cluster_nodes').html(trHTML);
                 },
                 error: function() {
                     // console.log(data);
