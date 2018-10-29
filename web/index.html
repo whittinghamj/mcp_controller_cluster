@@ -282,63 +282,9 @@ desired effect
                         <div class="row">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">Dashboard</h3>
+                                    <h3 class="box-title">Cluster Nodes</h3>
                                 </div>
                                 <div class="box-body">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-xs-6" id="dashboard_1">
-                                            <div class="panel panel-primary">
-                                                <div class="panel-heading text-center">
-                                                    Hashrate
-                                                </div>
-                                                <div class="panel-body text-center">
-                                                    <span id="show_ghs5s" class="gauge_none text-center">
-                                                        <img src="widget-loader-lg-en.gif" height="50px">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-3 col-xs-6" id="dashboard_3">
-                                            <div class="panel panel-primary">
-                                                <div class="panel-heading text-center">
-                                                    Temp
-                                                </div>
-                                                <div class="panel-body text-center">
-                                                    <span id="show_acg_pcb_temp" class="gauge_none text-center">
-                                                        <img src="widget-loader-lg-en.gif" height="50px">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-3 col-xs-6" id="dashboard_2">
-                                            <div class="panel panel-primary">
-                                                <div class="panel-heading text-center">
-                                                    Front Fan Speed
-                                                </div>
-                                                <div class="panel-body text-center">
-                                                    <span id="show_front_fan_speed" class="gauge_none text-center">
-                                                        <img src="widget-loader-lg-en.gif" height="50px">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-3 col-xs-6" id="dashboard_2">
-                                            <div class="panel panel-primary">
-                                                <div class="panel-heading text-center">
-                                                    Read Fan Speed
-                                                </div>
-                                                <div class="panel-body text-center">
-                                                    <span id="show_rear_fan_speed" class="gauge_none text-center">
-                                                        <img src="widget-loader-lg-en.gif" height="50px">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
                                     <div class="row">
                                         <table class="table">
                                             <thead>
@@ -351,16 +297,14 @@ desired effect
                                                     <th>Uptime</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <span id="cluster_nodes">
-                                                    <tr>
-                                                        <td colspan="6">
-                                                            <center>
-                                                                Loading cluster nodes ...
-                                                            </center>
-                                                        </td>
-                                                    </tr>
-                                                </span>
+                                            <tbody id='cluster_nodes'>
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <center>
+                                                            Loading cluster nodes ...
+                                                        </center>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -452,8 +396,8 @@ desired effect
             // return numdays + "d, " + numhours + "hrs, " + numminutes + "m, " + numseconds + "s";
         }
 
-        // every 10 seconds in milliseconds
-        var refreshTime = 10000;
+        // every 1 seconds in milliseconds
+        var refreshTime = 1000;
 
         window.setInterval( function()
         {
