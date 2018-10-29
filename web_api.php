@@ -89,6 +89,11 @@ switch ($c){
 		process_miners();
 		break;
 
+	// build the cluster details for showing on the website
+	case "web_cluster_details_table":
+		web_cluster_details_table();
+		break;
+
 	// home
 	default:
 		home();
@@ -110,10 +115,10 @@ function node_info()
 	$memory_usage 			= system_memory_usage();
 	$uptime 				= system_uptime();
 
-	$hardware 			= exec("cat /sys/firmware/devicetree/base/model");
-	$mac_address		= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
-	$ip_address 		= exec("sh /mcp_cluster/lan_ip.sh");
-	$cpu_temp			= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
+	$hardware 				= exec("cat /sys/firmware/devicetree/base/model");
+	$mac_address			= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
+	$ip_address 			= exec("sh /mcp_cluster/lan_ip.sh");
+	$cpu_temp				= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
 
 	// build $cluster vars
 	$cluster['version']								= '1.0.0.0';
@@ -143,4 +148,12 @@ function process_miners()
 
 	file_put_contents('/var/www/html/ids.txt', $ids);
 	json_output($data);
+}
+
+function web_cluster_details_table()
+{
+	$node_data 			= file('/mcp_cluster/nodes.txt');
+	// $node_data			= json_decode($node_data, true);
+
+	json_output($node_data);
 }

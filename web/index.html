@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MCP Controller - Cluster Edition</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    
+    <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+
+<body class="hold-transition skin-blue layout-boxed sidebar-mini">  
+    <div class="wrapper">
+        <header class="main-header">
+            <a href="" class="logo">
+                <span class="logo-mini"><b>MCP</b></span>
+                <span class="logo-lg">MCP <b>Controller</b></span>
+            </a>
+
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <!-- <img src="<?php echo $account_details['avatar']; ?>" class="user-image" alt="User Image"> -->
+                                <span class="hidden-xs">
+									Options
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- 
+                                <li class="user-header">
+                                    <img src="<?php echo $account_details['avatar']; ?>" class="img-circle" alt="User Image">
+                                    <p>
+                                        <?php echo $account_details['firstname']; ?> <?php echo $account_details['lastname']; ?>
+                                        <small><?php echo $account_details['email']; ?></small>
+                                    </p>
+                                </li>
+                                -->
+                                <!-- Menu Body -->
+                                
+                                <!--
+                                <li class="user-body">
+                                    <div class="col-xs-6 text-center">
+                                        <a href="#" onclick="access_remote_url('/cgi-bin/kill_bmminer.cgi');" class="btn btn-default btn-flat">Restart Mining</a>
+                                    </div>
+                                    <div class="col-xs-6 text-center">
+                                        <a href="#" onclick="access_remote_url('/cgi-bin/reboot.cgi');" class="btn btn-default btn-flat">Reboot Miner</a>
+                                    </div>
+                                </li>
+                                -->
+                                
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="https://dashboard.miningcontrolpanel.com" target="_blank" class="btn btn-default btn-flat">MCP Dashboard</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <!-- <a href="<?php echo $site['url']; ?>/logout" class="btn btn-default btn-flat">Logout</a> -->
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <ul class="sidebar-menu">
+                    <li class="active">
+                    	<a href="#" onclick="toggle_content('content_dashboard');">
+                        	<i class="fa fa-home"></i> 
+                        	<span>Dashboard</span>
+                        </a>
+                    </li>
+                    
+                    <!--
+                    <li class="active">
+                    	<a href="#" onclick="toggle_content('content_settings');">
+                        	<i class="fa fa-gear"></i> 
+                        	<span>Miner Settings</span>
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a href="#" onclick="toggle_content('content_logs');">
+                            <i class="fa fa-file"></i> 
+                            <span>Logs</span>
+                        </a>
+                    </li>
+                    
+                    <li class="active">
+                        <a href="#" onclick="toggle_content('content_mcp_dashboard');">
+                            <i class="fa fa-cloud"></i> 
+                            <span>MCP Dashboard (beta)</span>
+                        </a>
+                    </li>
+                    -->
+
+                    <!--
+                    <li class="treeview">
+                        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
+                        <ul class="treeview-menu">
+                            <li><a href="#">Link in level 2</a></li>
+                            <li><a href="#">Link in level 2</a></li>
+                        </ul>
+                    </li>
+                    -->
+                </ul>
+            </section>
+        </aside>
+		
+        <div class="content-wrapper">
+			
+            <div id="status_message"></div>
+
+            <div class="modal fade" id="saving_config" tabindex="-1" role="dialog" aria-labelledby="saving_config" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <img src="widget-loader-lg-en.gif" height="250px"> <br>
+                            <br>
+                            <h4>Your changes are being saved and applied.</h4>
+                            <small>Please note that mining will stop and can take up to 10 minutes to restart.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="processing_modal" tabindex="-1" role="dialog" aria-labelledby="processing_modal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!--
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">Processing</h4>
+                        </div>
+                        -->
+                        <div class="modal-body text-center">
+                            <img src="widget-loader-lg-en.gif" height="250px"> <br>
+                            <br>
+                            <h4>Your changes are being applied.</h4>
+                            <!-- <small>Please note that mining will stop and can take up to 10 minutes to restart.</small> -->
+                        </div>
+                        <!--
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+                        	
+            <!--
+            <section class="content-header">
+                <h1>Dashboard </h1>
+                <ol class="breadcrumb">
+                    <li class="active"><a href="<?php echo $site['url']; ?>/dashboard">Dashboard</a></li>
+                </ol>
+            </section>
+            -->
+
+            <section class="content">
+                <div id="content_dashboard" class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <strong>Hardware:</strong> <span id="ant_minertype"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <strong>Uptime:</strong> <span id="show_elapsed"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <strong>IP Address:</strong> <span id="dashboard_ip_address"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <strong>Version:</strong> V1.0.0
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="miner_pending_status" class="row">
+                        <div class="col-lg-12">
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <div class="text-center">
+                                        <img src="widget-loader-lg-en.gif" height="250px">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="miner_offline" class="hidden">
+                        <div class="row">
+                            <div class="col-lg-12 col-xs-12">
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        <strong>Miner Offline</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        The miner is currently offline. This means one of the following: <br>
+                                        <br>
+                                        1. The miner is still in the middle of its boot sequence. <br>
+                                        2. There might be an error with your configuration settings, please double check them. <br>
+                                        3. The miner does not have an active internet connection. <br>
+                                        4. One or more of your pools may be having technical issues right now. <br>
+                                        <br>
+                                        <br>
+                                        Once mining has restarted, this page will auto update.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="internet_connect" class="hidden">
+                        <div class="row">
+                            <div class="col-lg-12 col-xs-12">
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        <strong>Internet Error</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        This miner is unable to reach the public internet. Once your internet connection has been restored then mining will restart as normal. Until then your miner will idle to save power.<br><br>
+
+                                        <strong>Normal Power Usage:</strong> ~1,400 Watts <br>
+                                        <strong>Idle Power Usage:</strong> ~140 Watts
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="miner_online" class="hidden">
+                        <div class="row">
+                            <div class="box box-primary">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Dashboard</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-xs-6" id="dashboard_1">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading text-center">
+                                                    Hashrate
+                                                </div>
+                                                <div class="panel-body text-center">
+                                                    <span id="show_ghs5s" class="gauge_none text-center">
+                                                        <img src="widget-loader-lg-en.gif" height="50px">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-xs-6" id="dashboard_3">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading text-center">
+                                                    Temp
+                                                </div>
+                                                <div class="panel-body text-center">
+                                                    <span id="show_acg_pcb_temp" class="gauge_none text-center">
+                                                        <img src="widget-loader-lg-en.gif" height="50px">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-xs-6" id="dashboard_2">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading text-center">
+                                                    Front Fan Speed
+                                                </div>
+                                                <div class="panel-body text-center">
+                                                    <span id="show_front_fan_speed" class="gauge_none text-center">
+                                                        <img src="widget-loader-lg-en.gif" height="50px">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-xs-6" id="dashboard_2">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading text-center">
+                                                    Read Fan Speed
+                                                </div>
+                                                <div class="panel-body text-center">
+                                                    <span id="show_rear_fan_speed" class="gauge_none text-center">
+                                                        <img src="widget-loader-lg-en.gif" height="50px">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Hardware</th>
+                                                    <th>IP Address</th>
+                                                    <th>CPU Load</th>
+                                                    <th>Temp</th>
+                                                    <th>Uptime</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <span id="cluster_nodes">
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <center>
+                                                                Loading cluster nodes ...
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                </span>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <!-- Anything you want -->
+            </div>
+            <strong>Copyright &copy; <a href="http://miningcontrolpanel.com">MCP</a>.</strong> All rights reserved.
+        </footer>
+    </div>
+
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/app.min.js"></script>
+
+    <script src="raphael-2.1.4.min.js"></script>
+    <script src="justgage.js"></script>
+
+    <script>
+        function show_additional_options(elem)
+        {
+            if(elem.value == 'DHCP'){
+                $('#static_ip_settings').addClass("hidden");
+            }else{
+                $('#static_ip_settings').removeClass("hidden");
+            }
+        }
+
+        function detectmob()
+        {
+            if( navigator.userAgent.match(/Android/i)
+                || navigator.userAgent.match(/webOS/i)
+                || navigator.userAgent.match(/iPhone/i)
+                || navigator.userAgent.match(/iPad/i)
+                || navigator.userAgent.match(/iPod/i)
+                || navigator.userAgent.match(/BlackBerry/i)
+                || navigator.userAgent.match(/Windows Phone/i)
+            )
+            {
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        function secondsTotime(seconds)
+        {
+            var numyears = Math.floor(seconds / 31536000);
+            var numdays = Math.floor((seconds % 31536000) / 86400); 
+            var numhours = Math.floor(((seconds % 31536000) % 86400) / 3600);
+            var numminutes = Math.floor((((seconds % 31536000) % 86400) % 3600) / 60);
+            var numseconds = (((seconds % 31536000) % 86400) % 3600) % 60;
+
+            if(numdays == 0 || numdays == 1 || numdays == 2 || numdays == 3 || numdays == 4 || numdays == 5 || numdays == 6 || numdays == 7 || numdays == 8 || numdays == 9)
+            {
+                var numdays = '0' + numdays;
+            }
+
+            if(numhours == 0 || numhours == 1 || numhours == 2 || numhours == 3 || numhours == 4 || numhours == 5 || numhours == 6 || numhours == 7 || numhours == 8 || numhours == 9)
+            {
+                var numhours = '0' + numhours;
+            }
+
+            if(numminutes == 0 || numminutes == 1 || numminutes == 2 || numminutes == 3 || numminutes == 4 || numminutes == 5 || numminutes == 6 || numminutes == 7 || numminutes == 8 || numminutes == 9)
+            {
+                var numminutes = '0' + numminutes;
+            }
+            
+            var results = '';
+
+            if(numdays == 0)
+            {
+                var results = numhours + ":" + numminutes + ":" + numseconds;
+            }else{
+                var results = numdays + "d, " + numhours + ":" + numminutes;
+            }
+            return results;
+            // return numdays + "d, " + numhours + "hrs, " + numminutes + "m, " + numseconds + "s";
+        }
+
+        // every 10 seconds in milliseconds
+        var refreshTime = 10000;
+
+        window.setInterval( function()
+        {
+            // get btc price
+            $.ajax({
+                url: '/web_api.php?c=web_cluster_details_table',
+                type: 'GET',
+                dataType: 'json',
+                timeout: 30000,
+                cache: false,
+                success: function(nodes) {
+
+                    /*
+                    for (i in nodes)
+                    {
+                        miners[i].status_raw
+                    }
+                    */
+
+                    var trHTML = '';
+                    $.each(nodes, function (i, node) {
+                        trHTML += '<tr><td>' + node.stats.type + '</td><td>' + node.stats.hardware + '</td><td>' + node.stats.ip_address + '</td><td>' + node.stats.cpu_load + '</td><td>' + node.stats.temp + '</td><td>' + node.stats.uptime + '</td></tr>';
+                    });
+                    $('#cluster_nodes').append(trHTML);
+                },
+                error: function() {
+                    // console.log(data);
+                }
+            });
+
+            // check internet connection
+            /*
+            if(check_internet()==true){
+                // alert("Internet Connection Exists");
+                $('#internet_connection').addClass("hidden");
+            }else{
+                access_remote_url('/cgi-bin/kill_bmminer.cgi');
+                $('#internet_connection').removeClass("hidden");
+            }
+            */
+
+        }, refreshTime );
+
+        function check_internet(){
+            jQuery.ajaxSetup({async:false});
+            re="";
+            r=Math.round(Math.random() * 10000);
+            $.get("http://dashboard.miningcontrolpanel.com/check_internet.png",{subins:r},function(d){
+                re=true;
+            }).error(function(){
+                re=false;
+            });
+            return re;
+        }
+
+        $(document).ready(function()
+        {
+            get_network_settings();
+            get_mcp_site_data();
+        });
+	</script>
+</body>
+</html>

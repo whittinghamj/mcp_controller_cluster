@@ -12,4 +12,4 @@ mv /mcp_cluster/global_vars.tmp /mcp_cluster/global_vars.php
 
 chmod 777 /mcp_cluster/global_vars.php
 
-cp /mcp_cluster/web_api.php /var/www/html/
+cp -R /mcp_cluster/web /var/www/html
