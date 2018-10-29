@@ -82,10 +82,7 @@ if(isset($miners['miners']))
     $jobs_per_node = round($total_miners / $cluster['total_slave']);
     console_output("Jobs Per Slave: " . $jobs_per_node);
 
-    print_r($cluster['slaves']);
-
     // break jobs up for slave nodes
-
     // first run
     console_output("First Slave Run.");
     foreach($miner_ids as $key => $miner_id)
@@ -99,11 +96,9 @@ if(isset($miners['miners']))
     }
     unset($cluster['slaves'][0]);
 
-
+    // rearrange for next run
     $miner_ids = array_values($miner_ids);
     $cluster['slaves'] = array_values($cluster['slaves']);
-
-    print_r($miner_ids);
 
     // second run
     console_output("Second Slave Run.");
@@ -117,6 +112,8 @@ if(isset($miners['miners']))
         }
     }
     unset($cluster['slaves'][0]);
+
+    console_output("Remaining Miners: " . count($miner_ids));
 
     console_output("Stopped for dev.");
     die();
