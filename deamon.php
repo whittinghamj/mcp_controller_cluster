@@ -104,6 +104,8 @@ if(isset($miners['miners']))
     $miner_ids = array_values($miner_ids);
     $cluster['slaves'] = array_values($cluster['slaves']);
 
+    print_r($cluster['slaves']);
+    
     // second run
     console_output("Second Slave Run.");
     foreach($miner_ids as $key => $miner_id)
