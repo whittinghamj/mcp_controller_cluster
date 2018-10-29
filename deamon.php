@@ -107,9 +107,65 @@ if($this_node['type'] == 'master')
         $miner_ids = array_values($miner_ids);
         $cluster['slaves'] = array_values($cluster['slaves']);
 
+        // second run
         if(isset($cluster['slaves'][0]))
         {
-            // second run
+            // console_output("Second Slave Run.");
+            foreach($miner_ids as $key => $miner_id)
+            {
+                // first run
+                if($key <= $jobs_per_node)
+                {
+                    $postdata[] = $miner_id;
+                    // echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
+                    unset($miner_ids[$key]);
+                }
+            }
+
+            console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
+
+            // post data to slave node
+            post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
+
+            // reset the slave and get ready for the next slave inline
+            unset($cluster['slaves'][0]);
+
+            // rearrange for next run
+            $miner_ids = array_values($miner_ids);
+            $cluster['slaves'] = array_values($cluster['slaves']);
+        }
+
+        // third run
+        if(isset($cluster['slaves'][0]))
+        {
+            // console_output("Second Slave Run.");
+            foreach($miner_ids as $key => $miner_id)
+            {
+                // first run
+                if($key <= $jobs_per_node)
+                {
+                    $postdata[] = $miner_id;
+                    // echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
+                    unset($miner_ids[$key]);
+                }
+            }
+
+            console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
+
+            // post data to slave node
+            post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
+
+            // reset the slave and get ready for the next slave inline
+            unset($cluster['slaves'][0]);
+
+            // rearrange for next run
+            $miner_ids = array_values($miner_ids);
+            $cluster['slaves'] = array_values($cluster['slaves']);
+        }
+
+        // forth run
+        if(isset($cluster['slaves'][0]))
+        {
             // console_output("Second Slave Run.");
             foreach($miner_ids as $key => $miner_id)
             {
