@@ -29,6 +29,11 @@ switch ($c){
 		web_cluster_details_table();
 		break;
 
+	// find master on cluster
+	case "find_master":
+		find_master();
+		break;
+
 	// test function
 	case "test":
 		test();
@@ -95,12 +100,23 @@ function web_cluster_details_table()
 	$node_json 			= file_get_contents('/mcp_cluster/nodes.txt');
 
 	echo $node_json;
-	// $node_data			= json_decode($node_json, true);
+}
 
-	// echo '<pre>';
-	// print_r($node_data);
+function find_master()
+{
+	$node_json 			= file_get_contents('/mcp_cluster/nodes.txt');
 
-	// json_output($node_json);
+	$node_data			= json_decode($node_json, true);
+
+	foreach($node_data as $node)
+	{
+		if($node['type'] == 'master')
+		{
+			$data['master']['ip_address'] = $node['stats']['ip_address'];
+		}
+	}
+
+	json_output($data);
 }
 
 function test()
