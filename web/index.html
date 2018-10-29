@@ -472,7 +472,7 @@ desired effect
                         {
                             trHTML += '<tr bgcolor="#a1f29f"><td>' + ucwords(node.type) + '</td><td>' + node.stats.hardware + '</td><td><a href="http://'+node.stats.ip_address+':4200" target="_blank">' + node.stats.ip_address + '</a></td><td>' + node.stats.cpu_load + '%</td><td>' + node.stats.temp + ' °C</td><td>' + node.stats.uptime + '</td><td>' + node.stats.total_miners + '</td></tr>';
 
-                            var total_miners = total_miners + +node.stats.total_miners;
+                            // var total_miners = total_miners + +node.stats.total_miners;
                         }
                     });
                     $('#cluster_nodes').html(trHTML);
@@ -491,19 +491,7 @@ desired effect
                         label: "Nodes"
                     });
 
-                    // chart for cluster size
-                    $("#show_total_miners").html('');
-                    var gg1 = new JustGage({
-                        id: "show_total_miners",
-                        value: total_miners,
-                        min: 0,
-                        max: total_miners,
-                        gaugeWidthScale: 1,
-                        counter: false,
-                        relativeGaugeSize: true,
-                        formatNumber: true,
-                        label: "Total Miners"
-                    });
+                    
                 },
                 error: function() {
                     // console.log(data);
