@@ -51,7 +51,7 @@ function node_info()
 {
 	// get system stats
 	$cpu_cores 				= system_cores();
-	$cpu_load 				= system_load($cpu_cores, 1);
+	$cpu_load 				= exec("grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage '%'}'");
 	$memory_usage 			= system_memory_usage();
 	$uptime 				= system_uptime();
 

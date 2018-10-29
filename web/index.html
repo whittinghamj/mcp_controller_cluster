@@ -285,7 +285,7 @@ desired effect
                                     <h3 class="box-title">Cluster Nodes</h3>
                                 </div>
                                 <div class="box-body">
-                                    <div class="row">
+                                    <div class="">
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -419,7 +419,7 @@ desired effect
 
                     var trHTML = '';
                     $.each(nodes, function (i, node) {
-                        trHTML += '<tr><td>' + node.type + '</td><td>' + node.stats.hardware + '</td><td>' + node.stats.ip_address + '</td><td>' + node.stats.cpu_load + '</td><td>' + node.stats.temp + '</td><td>' + node.stats.uptime + '</td></tr>';
+                        trHTML += '<tr><td>' + node.type + '</td><td>' + node.stats.hardware + '</td><td>' + node.stats.ip_address + '</td><td>' + node.stats.cpu_load + '</td><td>' + node.stats.temp + ' °C</td><td>' + node.stats.uptime + '</td></tr>';
                     });
                     $('#cluster_nodes').html(trHTML);
                 },
