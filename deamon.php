@@ -90,6 +90,7 @@ if(isset($miners['miners']))
         // first run
         if($key <= $jobs_per_node)
         {
+            $postdata[] = $miner_id;
             echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
             unset($miner_ids[$key]);
         }
@@ -121,6 +122,16 @@ if(isset($miners['miners']))
     $miner_ids = array_values($miner_ids);
     $cluster['slaves'] = array_values($cluster['slaves']);
 
+
+
+
+
+
+
+
+
+
+
     // second run
     console_output("Second Slave Run.");
     foreach($miner_ids as $key => $miner_id)
@@ -128,8 +139,8 @@ if(isset($miners['miners']))
         // first run
         if($key <= $jobs_per_node)
         {
-            $postdata[] = $miner_id;
-            // echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
+            
+            echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
             unset($miner_ids[$key]);
         }
     }
