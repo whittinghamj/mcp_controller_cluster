@@ -89,10 +89,12 @@ if($this_node['type'] == 'master')
             if($key <= $jobs_per_node)
             {
                 $postdata[] = $miner_id;
-                echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
+                // echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
                 unset($miner_ids[$key]);
             }
         }
+
+        console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
 
         // post data to slave node
         post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
@@ -112,10 +114,12 @@ if($this_node['type'] == 'master')
             if($key <= $jobs_per_node)
             {
                 $postdata[] = $miner_id;
-                echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
+                // echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
                 unset($miner_ids[$key]);
             }
         }
+
+        console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
 
         // post data to slave node
         post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
@@ -129,48 +133,6 @@ if($this_node['type'] == 'master')
 
         console_output("Remaining Miners: " . count($miner_ids));
 
-        console_output("Stopped for dev.");
-        die();
-
-
-
-
-
-
-
-
-
-        for ($i=0; $i<$runs; $i++) {
-            console_output("Spawning children.");
-            for ($j=0; $j<$count; $j++) {
-            	// echo "Checking Miner: ".$miner_ids[$j]."\n";
-
-                $pipe[$j] = popen("php -q /mcp/deamon_update_miner_stats.php -p='".$miner_ids[$j]."'", 'w');
-
-                if(isset($argv[2]))
-                {
-                    $forced_lag_counter = $forced_lag_counter + 1;
-                    // console_output($forced_lag_counter);
-                    if($forced_lag_counter == $forced_lag)
-                    {
-                        // console_output("forced_lag_counter = " . $forced_lag_counter);
-                        sleep(1);
-                        // console_output("done sleeping");
-                        $forced_lag_counter = 0;
-                    }
-                }
-            }
-
-            // console_output("Killing children.");
-            
-            // wait for them to finish
-            for ($j=0; $j<$count; ++$j) {
-                pclose($pipe[$j]);
-            }
-
-            // console_output("Sleeping.");
-            // sleep(1);
-        }
     }else{
         console_output("No ASIC miners.");
     }
@@ -209,18 +171,14 @@ if($this_node['type'] == 'slave')
     $forced_lag_counter     = 0;
 
     $miners_raw         = file_get_contents('/var/www/html/ids.txt');
-    $miners             = json_decode($miners_raw, true);
+    $miner_ids          = json_decode($miners_raw, true);
 
-    $count              = count($miners);
+    $count              = count($miner_ids);
 
     print_r($miners);
 
-    if(is_array($miners))
+    if(is_array($miner_ids))
     {
-        foreach($miners as $miner)
-        {
-            $miner_ids[] = $miner;
-        }
 
         for ($i=0; $i<$runs; $i++) {
             console_output("Spawning children.");
