@@ -65,6 +65,10 @@ function node_info()
 	$ip_address 			= exec("sh /mcp_cluster/lan_ip.sh");
 	$cpu_temp				= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
 
+	$miners_json 			= exec("cat /var/www/html/ids.txt");
+	$miners					= json_decode($miners_json, true);
+	$total_miners			= count($miners);
+
 	// build $cluster vars
 	$cluster['version']								= '1.0.0.0';
 	$hostname               						= exec('cat /etc/hostname');
@@ -78,10 +82,11 @@ function node_info()
 	$cluster['stats']['temp'] 					= number_format($cpu_temp, 2);
 	$cluster['stats']['ip_address'] 			= $ip_address;
 	$cluster['stats']['mac_address'] 			= strtoupper($mac_address);
-	$cluster['stats']['cpu_cores']			= $cpu_cores;
+	$cluster['stats']['cpu_cores']				= $cpu_cores;
 	$cluster['stats']['cpu_load']				= $cpu_load['sys'];
 	$cluster['stats']['memory_usage']			= number_format($memory_usage, 2);
 	$cluster['stats']['uptime']					= $uptime;
+	$cluster['stats']['total_miners']			= $total_miners;
 	json_output($cluster);
 }
 
