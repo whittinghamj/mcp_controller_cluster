@@ -126,6 +126,7 @@ if($this_node['type'] == 'master')
 
             // post data to slave node
             post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
+            unset($postdata);
 
             // reset the slave and get ready for the next slave inline
             unset($cluster['slaves'][0]);
@@ -138,7 +139,6 @@ if($this_node['type'] == 'master')
         // third run
         if(isset($cluster['slaves'][0]))
         {
-            // console_output("Second Slave Run.");
             foreach($miner_ids as $key => $miner_id)
             {
                 // first run
@@ -154,6 +154,7 @@ if($this_node['type'] == 'master')
 
             // post data to slave node
             post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
+            unset($postdata);
 
             // reset the slave and get ready for the next slave inline
             unset($cluster['slaves'][0]);
@@ -166,7 +167,6 @@ if($this_node['type'] == 'master')
         // forth run
         if(isset($cluster['slaves'][0]))
         {
-            // console_output("Second Slave Run.");
             foreach($miner_ids as $key => $miner_id)
             {
                 // first run
@@ -182,6 +182,7 @@ if($this_node['type'] == 'master')
 
             // post data to slave node
             post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
+            unset($postdata);
 
             // reset the slave and get ready for the next slave inline
             unset($cluster['slaves'][0]);
