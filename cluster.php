@@ -86,7 +86,7 @@ if($task == "node_scanner")
 		    echo "cluster node FOUND. \n";
 		    $node = @file_get_contents($cluster_api_url);
 		    $node = json_decode($node, true);
-		    print_r($node);
+		    // print_r($node);
 		    $cluster['nodes'][] = $node;
 		}
 	}
