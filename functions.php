@@ -17,7 +17,7 @@ function post_to_slave($postdata, $ip_address)
 
     $results = json_decode($data, true);
 
-    return $results
+    return $results;
 }
 
 function c_to_f($temp)
