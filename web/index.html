@@ -272,10 +272,10 @@ desired effect
                             <div class="col-lg-3 col-xs-6" id="dashboard_3">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading text-center">
-                                        Temp
+                                        Total Miners
                                     </div>
                                     <div class="panel-body text-center">
-                                        <span id="show_acg_pcb_temp" class="gauge_none text-center">
+                                        <span id="show_total_miners" class="gauge_none text-center">
                                             <img src="widget-loader-lg-en.gif" height="50px">
                                         </span>
                                     </div>
@@ -455,9 +455,27 @@ desired effect
                     }
                     */
 
-                    // get the size of the cluster
-                    // $('#show_cluster_size').html(nodes.size());
-                    // document.getElementById("show_cluster_size").innerHTML = nodes.length;
+                    // set some vars
+                    var trHTML = '';
+                    var total_miners = '';
+
+                    // build the table for nodes
+                    $.each(nodes, function (i, node) {
+                        if(node.type == 'master')
+                        {
+                            trHTML += '<tr bgcolor="#9ab5ed"><td>' + ucwords(node.type) + '</td><td>' + node.stats.hardware + '</td><td><a href="http://'+node.stats.ip_address+':4200" target="_blank">' + node.stats.ip_address + '</a></td><td>' + node.stats.cpu_load + '%</td><td>' + node.stats.temp + ' °C</td><td>' + node.stats.uptime + '</td><td>N/A</td></tr>';
+                        }
+                    });
+
+                    $.each(nodes, function (i, node) {
+                        if(node.type == 'slave')
+                        {
+                            trHTML += '<tr bgcolor="#a1f29f"><td>' + ucwords(node.type) + '</td><td>' + node.stats.hardware + '</td><td><a href="http://'+node.stats.ip_address+':4200" target="_blank">' + node.stats.ip_address + '</a></td><td>' + node.stats.cpu_load + '%</td><td>' + node.stats.temp + ' °C</td><td>' + node.stats.uptime + '</td><td>' + node.stats.total_miners + '</td></tr>';
+
+                            var total_miners = total_miners + +node.stats.total_miners;
+                        }
+                    });
+                    $('#cluster_nodes').html(trHTML);
 
                     // chart for cluster size
                     $("#show_cluster_size").html('');
@@ -473,22 +491,19 @@ desired effect
                         label: "Nodes"
                     });
 
-                    // build the table for nodes
-                    var trHTML = '';
-                    $.each(nodes, function (i, node) {
-                        if(node.type == 'master')
-                        {
-                            trHTML += '<tr bgcolor="#9ab5ed"><td>' + ucwords(node.type) + '</td><td>' + node.stats.hardware + '</td><td><a href="http://'+node.stats.ip_address+':4200" target="_blank">' + node.stats.ip_address + '</a></td><td>' + node.stats.cpu_load + '%</td><td>' + node.stats.temp + ' °C</td><td>' + node.stats.uptime + '</td><td>N/A</td></tr>';
-                        }
+                    // chart for cluster size
+                    $("#show_total_miners").html('');
+                    var gg1 = new JustGage({
+                        id: "show_total_miners",
+                        value: total_miners,
+                        min: 0,
+                        max: total_miners,
+                        gaugeWidthScale: 1,
+                        counter: false,
+                        relativeGaugeSize: true,
+                        formatNumber: true,
+                        label: "Total Miners"
                     });
-
-                    $.each(nodes, function (i, node) {
-                        if(node.type == 'slave')
-                        {
-                            trHTML += '<tr bgcolor="#a1f29f"><td>' + ucwords(node.type) + '</td><td>' + node.stats.hardware + '</td><td><a href="http://'+node.stats.ip_address+':4200" target="_blank">' + node.stats.ip_address + '</a></td><td>' + node.stats.cpu_load + '%</td><td>' + node.stats.temp + ' °C</td><td>' + node.stats.uptime + '</td><td>' + node.stats.total_miners + '</td></tr>';
-                        }
-                    });
-                    $('#cluster_nodes').html(trHTML);
                 },
                 error: function() {
                     // console.log(data);
