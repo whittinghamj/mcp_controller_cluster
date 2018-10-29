@@ -210,21 +210,21 @@ desired effect
                         <div class="col-lg-3">
                             <div class="box box-primary">
                                 <div class="box-body">
-                                    <strong>Hardware:</strong> <span id="ant_minertype"></span>
+                                    <strong>Hardware:</strong> <span id="hardware"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="box box-primary">
                                 <div class="box-body">
-                                    <strong>Uptime:</strong> <span id="show_elapsed"></span>
+                                    <strong>Uptime:</strong> <span id="uptime"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="box box-primary">
                                 <div class="box-body">
-                                    <strong>IP Address:</strong> <span id="dashboard_ip_address"></span>
+                                    <strong>IP Address:</strong> <span id="ip_address"></span>
                                 </div>
                             </div>
                         </div>
@@ -469,7 +469,7 @@ desired effect
 
         window.setInterval( function()
         {
-            // get btc price
+            // get cluster details
             $.ajax({
                 url: '/web_api.php?c=web_cluster_details_table',
                 type: 'GET',
@@ -490,6 +490,23 @@ desired effect
                         trHTML += '<tr><td>' + node.stats.type + '</td><td>' + node.stats.hardware + '</td><td>' + node.stats.ip_address + '</td><td>' + node.stats.cpu_load + '</td><td>' + node.stats.temp + '</td><td>' + node.stats.uptime + '</td></tr>';
                     });
                     $('#cluster_nodes').append(trHTML);
+                },
+                error: function() {
+                    // console.log(data);
+                }
+            });
+
+            // get local node details
+            $.ajax({
+                url: '/web_api.php?c=node_info',
+                type: 'GET',
+                dataType: 'json',
+                timeout: 30000,
+                cache: false,
+                success: function(node) {                    
+                    $('#hardware').append(node.stats.hardware);
+                    $('#ip_address').append(node.stats.ip_address);
+                    $('#uptime').append(node.stats.uptime);
                 },
                 error: function() {
                     // console.log(data);
