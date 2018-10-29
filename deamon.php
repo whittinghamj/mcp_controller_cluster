@@ -87,6 +87,7 @@ if(isset($miners['miners']))
     // break jobs up for slave nodes
 
     // first run
+    console_output("First Slave Run.");
     foreach($miner_ids as $key => $miner_id)
     {
         // first run
@@ -104,6 +105,7 @@ if(isset($miners['miners']))
     $cluster['slaves'] = array_values($cluster['slaves']);
 
     // second run
+    console_output("Second Slave Run.");
     foreach($miner_ids as $key => $miner_id)
     {
         // first run
