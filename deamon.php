@@ -87,7 +87,10 @@ if(isset($miners['miners']))
     // break jobs up for slave nodes
     foreach($miner_ids as $key => $miner_id)
     {
-
+        if($key <= $jobs_per_node)
+        {
+            echo "Slave: " . $cluster['slaves'][0]['ip_address']."\n";
+        }
     }
 
 
