@@ -74,7 +74,7 @@ function node_info()
 	$cluster['stats']['ip_address'] 			= $ip_address;
 	$cluster['stats']['mac_address'] 			= strtoupper($mac_address);
 	// $cluster['stats']['cpu_cores']				= $cpu_cores;
-	// $cluster['stats']['cpu_load']					= $cpu_load;
+	$cluster['stats']['cpu_load']					= $cpu_load;
 	$cluster['stats']['memory_usage']			= number_format($memory_usage, 2);
 	$cluster['stats']['uptime']					= $uptime;
 	json_output($cluster);
