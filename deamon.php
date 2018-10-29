@@ -85,14 +85,36 @@ if(isset($miners['miners']))
     print_r($cluster['slaves']);
 
     // break jobs up for slave nodes
+
+    // first run
     foreach($miner_ids as $key => $miner_id)
     {
+        // first run
         if($key <= $jobs_per_node)
         {
             echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
         }
-    }
 
+        unset($miner_ids[$key])
+    }
+    unset($cluster['slaves'][0])
+
+
+    $miner_ids = array_values($miner_ids);
+    $cluster['slaves'] = array_values($cluster['slaves']);
+
+    // second run
+    foreach($miner_ids as $key => $miner_id)
+    {
+        // first run
+        if($key <= $jobs_per_node)
+        {
+            echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
+        }
+
+        unset($miner_ids[$key])
+    }
+    unset($cluster['slaves'][0])
 
     console_output("Stopped for dev.");
     die();
