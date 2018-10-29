@@ -139,8 +139,8 @@ function process_miners()
 {
 	$data['status']				= 'success';
 	$data['message']			= 'miner ids have been saved to slave for processing.';
-	$miner_ids					= $_POST;
+	$ids 						= json_decode(file_get_contents('php://input'), true);
 
-	file_put_contents('/var/www/html/ids.txt', $miner_ids);
+	file_put_contents('/var/www/html/ids.txt', $ids);
 	json_output($data);
 }
