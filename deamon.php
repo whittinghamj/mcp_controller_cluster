@@ -97,38 +97,14 @@ if(isset($miners['miners']))
     }
 
     // post data to slave node
-    $poststring = json_encode($postdata);
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://'.$cluster['slaves'][0]['ip_address'].':1372/web_api.php?c=process_miners');
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 300);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_SSLVERSION,3);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $poststring);
-    $data = curl_exec($ch);
-    curl_close($ch);
+    post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
 
-    $results = json_decode($data, true);
-
-    print_r($results);
-
+    // reset the slave and get ready for the next slave inline
     unset($cluster['slaves'][0]);
 
     // rearrange for next run
     $miner_ids = array_values($miner_ids);
     $cluster['slaves'] = array_values($cluster['slaves']);
-
-
-
-
-
-
-
-
-
-
 
     // second run
     console_output("Second Slave Run.");
@@ -137,12 +113,21 @@ if(isset($miners['miners']))
         // first run
         if($key <= $jobs_per_node)
         {
-            
+            $postdata[] = $miner_id;
             echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
             unset($miner_ids[$key]);
         }
     }
+
+    // post data to slave node
+    post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
+
+    // reset the slave and get ready for the next slave inline
     unset($cluster['slaves'][0]);
+
+    // rearrange for next run
+    $miner_ids = array_values($miner_ids);
+    $cluster['slaves'] = array_values($cluster['slaves']);
 
     console_output("Remaining Miners: " . count($miner_ids));
 

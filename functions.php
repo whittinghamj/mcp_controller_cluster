@@ -1,5 +1,25 @@
 <?php
 
+function post_to_slave($postdata, $ip_address)
+{
+    $poststring = json_encode($postdata);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://'.$ip_address.':1372/web_api.php?c=process_miners');
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 300);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_SSLVERSION,3);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $poststring);
+    $data = curl_exec($ch);
+    curl_close($ch);
+
+    $results = json_decode($data, true);
+
+    return $results
+}
+
 function c_to_f($temp)
 {
     $fahrenheit=$temp*9/5+32;
