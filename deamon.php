@@ -211,6 +211,8 @@ if($this_node['type'] == 'slave')
     $miners_raw         = file_get_contents('/var/www/html/ids.txt');
     $miners             = json_decode($miners_raw, true);
 
+    $count              = count($miners);
+
     if(is_array($miners))
     {
         foreach($miners as $miner)
