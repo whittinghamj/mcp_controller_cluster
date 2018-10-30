@@ -553,7 +553,7 @@ desired effect
 
             // get total miners
             $.ajax({
-                url: '/web_api.php?c=total_miners',
+                url: '/web_api.php?c=cluster_totals',
                 type: 'GET',
                 dataType: 'json',
                 timeout: 30000,
@@ -574,6 +574,19 @@ desired effect
                         label: "Miners"
                     });
                     
+                    // chart for total cluster load
+                    $("#show_cluster_load").html('');
+                    var gg1 = new JustGage({
+                        id: "show_cluster_load",
+                        value: data.total_cluster_load,
+                        min: 0,
+                        max: 100,
+                        gaugeWidthScale: 1,
+                        counter: false,
+                        relativeGaugeSize: true,
+                        formatNumber: true,
+                        label: "Load"
+                    });
                 },
                 error: function() {
                     // console.log(data);

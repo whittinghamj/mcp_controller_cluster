@@ -34,9 +34,9 @@ switch ($c){
 		find_master();
 		break;
 
-	// count total miners
-	case "total_miners":
-		total_miners();
+	// cluter totals
+	case "cluster_totals":
+		cluster_totals();
 		break;
 
 	// test function
@@ -129,11 +129,13 @@ function find_master()
 	json_output($data);
 }
 
-function total_miners()
+function cluster_totals()
 {
 	$node_json 				= file_get_contents('/mcp_cluster/nodes.txt');
 
 	$node_data				= json_decode($node_json, true);
+
+	$data['total_nodes']	= count($node_data);
 
 	$data['total_miners'] 	= 0;
 
@@ -141,6 +143,15 @@ function total_miners()
 	{
 		$data['total_miners'] = $data['total_miners'] + $node['stats']['total_miners'];
 	}
+
+	$data['total_cluster_load'] 	= 0;
+
+	foreach($node_data as $node)
+	{
+		$data['total_cluster_load'] = $data['total_cluster_load'] + $node['stats']['cpu_load'];
+	}
+
+	$data['max_cluster_load']		= $data['total_cluster_load'] / $data['total_nodes'];
 
 	json_output($data);
 }
