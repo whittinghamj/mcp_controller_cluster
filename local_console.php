@@ -8,7 +8,7 @@ include('php_colors.php');
 
 $colors = new Colors();
 
-$data['controller']['ip_address']['lan'] 		= exec("ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'");
+$data['controller']['ip_address']['lan'] 		= exec("sh /mcp_cluster/lan_ip.sh");
 $data['controller']['ip_address']['wan'] 		= json_decode(file_get_contents('https://api.ipify.org?format=json'), true);
 $data['controller']['ip_address']['wan'] 		= $data['controller']['ip_address']['wan']['ip'];
 
