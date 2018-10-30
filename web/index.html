@@ -450,8 +450,8 @@ desired effect
             });
         }
 
-        // every 1 seconds in milliseconds
-        var refreshTime = 1000;
+        // every 10 seconds in milliseconds
+        var refreshTime = 10000;
 
         window.setInterval( function()
         {
@@ -487,8 +487,6 @@ desired effect
                         if(node.type == 'slave')
                         {
                             trHTML += '<tr bgcolor="#a1f29f"><td>' + ucwords(node.type) + '</td><td>' + node.stats.hardware + '</td><td><a href="http://'+node.stats.ip_address+':4200" target="_blank">' + node.stats.ip_address + '</a></td><td>' + node.stats.cpu_load + '%</td><td>' + node.stats.temp + ' °C</td><td>' + node.stats.uptime + '</td><td>' + node.stats.total_miners + '</td></tr>';
-
-                            total_miners = total_miners + +node.stats.total_miners;
                         }
                     });
                     $('#cluster_nodes').html(trHTML);
@@ -506,22 +504,6 @@ desired effect
                         formatNumber: true,
                         label: "Nodes"
                     });
-
-                    // chart for total miners
-                    var fake_total_miners = show_total_miners + +25
-                    $("#show_total_miners").html('');
-                    var gg1 = new JustGage({
-                        id: "show_total_miners",
-                        value: total_miners,
-                        min: 0,
-                        max: fake_total_miners,
-                        gaugeWidthScale: 1,
-                        counter: false,
-                        relativeGaugeSize: true,
-                        formatNumber: true,
-                        label: "Nodes"
-                    });
-                    
                 },
                 error: function() {
                     // console.log(data);
@@ -568,6 +550,34 @@ desired effect
             }
             */
 
+            $.ajax({
+                url: '/web_api.php?c=total_miners',
+                type: 'GET',
+                dataType: 'json',
+                timeout: 30000,
+                cache: false,
+                success: function(data) {
+                    // chart for total miners
+                    var fake_total_miners = data + +25
+                    $("#show_total_miners").html('');
+                    var gg1 = new JustGage({
+                        id: "show_total_miners",
+                        value: total_miners,
+                        min: 0,
+                        max: fake_total_miners,
+                        gaugeWidthScale: 1,
+                        counter: false,
+                        relativeGaugeSize: true,
+                        formatNumber: true,
+                        label: "Nodes"
+                    });
+                    
+                },
+                error: function() {
+                    // console.log(data);
+                }
+            });
+
         }, refreshTime );
 
         function go_to_master_node()
@@ -607,6 +617,11 @@ desired effect
             evt.preventDefault(); 
             return false;
         };
+
+        function get_total_miners()
+        {
+
+        }
 
         $(document).ready(function()
         {

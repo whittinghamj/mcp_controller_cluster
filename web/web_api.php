@@ -34,6 +34,11 @@ switch ($c){
 		find_master();
 		break;
 
+	// count total miners
+	case "total_miners":
+		total_miners();
+		break;
+
 	// test function
 	case "test":
 		test();
@@ -119,6 +124,22 @@ function find_master()
 		{
 			$data['master']['ip_address'] = $node['stats']['ip_address'];
 		}
+	}
+
+	json_output($data);
+}
+
+function total_miners()
+{
+	$node_json 				= file_get_contents('/mcp_cluster/nodes.txt');
+
+	$node_data				= json_decode($node_json, true);
+
+	$data['total_miners'] 	= 0;
+
+	foreach($node_data as $node)
+	{
+		$data['total_miners'] = $data['total_miners'] + $node['stats']['total_miners'];
 	}
 
 	json_output($data);
