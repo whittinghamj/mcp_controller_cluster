@@ -65,7 +65,7 @@ function node_info()
 	$memory_usage 			= system_memory_usage();
 	$uptime 				= system_uptime();
 
-    if(!file_exists('/sys/firmware/devicetree/base/model'))
+    if(file_exists('/sys/firmware/devicetree/base/model'))
     {
         $hardware 				= exec("cat /sys/firmware/devicetree/base/model");
     }else{
