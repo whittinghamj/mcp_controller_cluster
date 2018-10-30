@@ -1,7 +1,7 @@
 #!/bin/bash
 
-## MCP Controller - Install Script
-echo "MCP Controller - Install Script"
+## MCP Cluster - Install Script
+echo "MCP Cluster - Install Script"
 
 
 ## set base folder
@@ -20,17 +20,15 @@ apt-get --force-yes -qq upgrade > /dev/null
 
 ## install dependencies
 echo "Installing Dependencies"
-apt-get install --force-yes -qq htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php php-dev php-curl dnsutils sshpass fping > /dev/null
+apt-get install --force-yes -qq htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php5 php5-dev php5-curl dnsutils sshpass fping > /dev/null
 updatedb >> /dev/null
-
-cd /root
 
 ## download custom scripts
 echo "Downloading custom scripts"
-wget -q http://deltacolo.com/scripts/speedtest.sh
+wget -q http://miningcontrolpanel.com/scripts/speedtest.sh
 rm -rf /root/.bashrc
-wget -q http://deltacolo.com/scripts/.bashrc
-wget -q http://deltacolo.com/scripts/myip.sh
+wget -q http://miningcontrolpanel.com/scripts/.bashrc
+wget -q http://miningcontrolpanel.com/scripts/myip.sh
 rm -rf /etc/skel/.bashrc
 cp /root/.bashrc /etc/skel
 chmod 777 /etc/skel/.bashrc
@@ -73,18 +71,22 @@ sed -i 's/#AddressFamily any/AddressFamily inet/' /etc/ssh/sshd_config
 
 ## set controller hostname
 echo "Setting hostname"
-echo 'controller' > /etc/hostname
-echo "127.0.0.1       controller" >> /etc/hosts
+echo 'cluster-node' > /etc/hostname
+echo "127.0.0.1       cluster-node" >> /etc/hosts
 
 
 ## make zeus folders
-echo "Installing MCP Controller"
-mkdir /mcp
-cd /mcp
+echo "Installing MCP Cluster"
+mkdir /mcp_cluster
+cd /mcp_cluster
+
+
+## get the zeus files
+git clone https://github.com/whittinghamj/mcp_controller_cluster.git . --quiet
 
 
 ## build the config file with site api key
-touch /mcp/global_vars.php
+touch /mcp_cluster/global_vars.php
 echo "\n\n"
 echo "Please enter your MCP Site API Key:"
 
@@ -95,10 +97,8 @@ echo '<?php
 $config['"'"api_key"'"'] = '"'$site_api_key';" > /mcp/global_vars.php
 
 
-## get the zeus files
-git clone ssh://git@github.com/whittinghamj/deltacolo_zeus_controller.git . --quiet
-
-crontab /mcp/crontab.txt
+## install the cron
+crontab /mcp_cluster/crontab.txt
 
 ## reboot
 reboot

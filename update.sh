@@ -1,12 +1,12 @@
 #!/bin/bash
 
-## MCP Controller Cluster - Update Script (git pull)
+## MCP Cluster - Update Script (git pull)
 
 mv /mcp_cluster/global_vars.php /mcp_cluster/global_vars.tmp
 
 cd /mcp_cluster && git --git-dir=/mcp_cluster/.git pull origin master
 
-# crontab /mcp_cluster/crontab.txt
+crontab /mcp_cluster/crontab.txt
 
 mv /mcp_cluster/global_vars.tmp /mcp_cluster/global_vars.php
 
