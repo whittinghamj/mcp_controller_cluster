@@ -315,8 +315,7 @@ desired effect
                         <div class="row">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">Cluster Nodes</h3>
-                                    Refresh in <span id="timer" class="pull-right"></span> seconds.
+                                    <h3 class="box-title">Cluster Nodes</h3> <small>Refresh in <span id="timer"></span> seconds.</small>
                                 </div>
                                 <div class="box-body">
                                     <div class="">
@@ -624,6 +623,7 @@ desired effect
             setInterval( function() {
                 time--;
                 $('#timer').html(time);
+                console.log(time);
                 if (time === 0) {
                     // location.reload();
                     var time = 60
