@@ -558,11 +558,11 @@ desired effect
                 cache: false,
                 success: function(data) {
                     // chart for total miners
-                    var fake_total_miners = data + +25
+                    var fake_total_miners = data.total_miners + +25
                     $("#show_total_miners").html('');
                     var gg1 = new JustGage({
                         id: "show_total_miners",
-                        value: total_miners,
+                        value: data.total_miners,
                         min: 0,
                         max: fake_total_miners,
                         gaugeWidthScale: 1,
