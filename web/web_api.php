@@ -151,7 +151,7 @@ function cluster_totals()
 		$data['total_cluster_load'] = $data['total_cluster_load'] + $node['stats']['cpu_load'];
 	}
 
-	$data['max_cluster_load']		= number_format($data['total_cluster_load'] / $data['total_nodes'], 2);
+	$data['max_cluster_load']		= percentage($data['total_cluster_load'], $data['total_nodes']);
 
 	json_output($data);
 }
