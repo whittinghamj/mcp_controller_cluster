@@ -77,7 +77,7 @@ function system_uptime()
 	return $uptime;
 }
 
-function percentage($val1, $val2, $precision)
+function percentage($val1, $val2, $precision = 2)
 {
 	$division = $val1 / $val2;
 	$res = $division * 100;
