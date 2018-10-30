@@ -577,7 +577,8 @@ desired effect
             });
         }
 
-        function check_internet(){
+        function check_internet()
+        {
             jQuery.ajaxSetup({async:false});
             re="";
             r=Math.round(Math.random() * 10000);
@@ -591,7 +592,7 @@ desired effect
 
         function run_webssh()
         {
-            $('#modal-discord-chat').modal('toggle');
+            $('#webssh').modal('toggle');
             evt.preventDefault(); 
             return false;
         };
