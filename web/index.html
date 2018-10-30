@@ -610,6 +610,40 @@ desired effect
 
         }
 
+        // countdown timer
+        var CCOUNT = 60;
+        var t, count;
+
+        function cddisplay() {
+            // displays time in span
+            document.getElementById('timer').innerHTML = count;
+            console.log(count);
+        };
+        
+        function countdown() {
+            // starts countdown
+            cddisplay();
+            if (count == 0) {
+                // time is up
+                cdreset();
+            } else {
+                count--;
+                t = setTimeout("countdown()", 1000);
+            }
+        };
+        
+        function cdpause() {
+            // pauses countdown
+            clearTimeout(t);
+        };
+        
+        function cdreset() {
+            // resets countdown
+            cdpause();
+            count = CCOUNT;
+            cddisplay();
+        };
+
         $(document).ready(function()
         {
             // run something once the page is done loading.
@@ -618,54 +652,7 @@ desired effect
             poll_cluster_data();
 
             // countdown timer
-            var CCOUNT = 60;
-    
-            var t, count;
-            
-            function cddisplay() {
-                // displays time in span
-                document.getElementById('timer').innerHTML = count;
-            };
-            
-            function countdown() {
-                // starts countdown
-                cddisplay();
-                if (count == 0) {
-                    // time is up
-                    cdreset();
-                } else {
-                    count--;
-                    t = setTimeout("countdown()", 1000);
-                }
-            };
-            
-            function cdpause() {
-                // pauses countdown
-                clearTimeout(t);
-            };
-            
-            function cdreset() {
-                // resets countdown
-                cdpause();
-                count = CCOUNT;
-                cddisplay();
-            };
-
-
-
-
-
-            var time = 60
-
-            setInterval( function() {
-                time--;
-                $('#timer').html(time);
-                console.log(time);
-                if (time === 0) {
-                    // location.reload();
-                    var time = 60
-                }    
-            }, 1000 );
+            cddisplay();
         });
 	</script>
 </body>
