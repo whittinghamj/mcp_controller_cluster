@@ -631,7 +631,7 @@ desired effect
         function cdpause()
         {
             // pauses countdown
-            clearTimeout(t);
+            // clearTimeout(t);
         };
         
         function cdreset()
@@ -640,6 +640,7 @@ desired effect
             // cdpause();
             count = CCOUNT;
             cddisplay();
+            countdown()
         };
 
         $(document).ready(function()
