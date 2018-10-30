@@ -507,6 +507,20 @@ desired effect
                         label: "Nodes"
                     });
 
+                    // chart for total miners
+                    var fake_total_miners = show_total_miners + +25
+                    $("#show_total_miners").html('');
+                    var gg1 = new JustGage({
+                        id: "show_total_miners",
+                        value: total_miners,
+                        min: 0,
+                        max: fake_total_miners,
+                        gaugeWidthScale: 1,
+                        counter: false,
+                        relativeGaugeSize: true,
+                        formatNumber: true,
+                        label: "Nodes"
+                    });
                     
                 },
                 error: function() {
