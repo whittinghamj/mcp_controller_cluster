@@ -551,6 +551,7 @@ desired effect
             }
             */
 
+            // get total miners
             $.ajax({
                 url: '/web_api.php?c=total_miners',
                 type: 'GET',
@@ -570,7 +571,7 @@ desired effect
                         counter: false,
                         relativeGaugeSize: true,
                         formatNumber: true,
-                        label: "Nodes"
+                        label: "Miners"
                     });
                     
                 },
