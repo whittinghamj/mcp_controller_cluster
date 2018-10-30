@@ -329,6 +329,7 @@ desired effect
                             <div class="box box-primary">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Cluster Nodes</h3>
+                                    Refresh in <span id="timer" class="pull-right"></span> seconds.
                                 </div>
                                 <div class="box-body">
                                     <div class="">
@@ -450,8 +451,8 @@ desired effect
             });
         }
 
-        // every 10 seconds in milliseconds
-        var refreshTime = 10000;
+        // every 60 seconds in milliseconds
+        var refreshTime = 60000;
 
         window.setInterval( function()
         {
@@ -626,6 +627,18 @@ desired effect
         $(document).ready(function()
         {
             // run something once the page is done loading.
+
+            // countdown timer
+            var time = 60
+
+            setInterval( function() {
+                time--;
+                $('#timer').html(time);
+                if (time === 0) {
+                    // location.reload();
+                    var time = 60
+                }    
+            }, 1000 );
         });
 	</script>
 </body>
