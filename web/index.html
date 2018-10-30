@@ -48,7 +48,7 @@ desired effect
 |---------------------------------------------------------|
 -->
 
-<body class="hold-transition skin-blue layout-boxed sidebar-mini">  
+<body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="cdreset()">  
     <div class="wrapper">
         <header class="main-header">
             <a href="" class="logo">
@@ -639,7 +639,7 @@ desired effect
         
         function cdreset() {
             // resets countdown
-            cdpause();
+            // cdpause();
             count = CCOUNT;
             cddisplay();
         };
