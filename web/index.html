@@ -315,7 +315,7 @@ desired effect
                         <div class="row">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">Cluster Nodes</h3> <small>Refresh in <span id="timer"></span> seconds.</small>
+                                    <h3 class="box-title">Cluster Nodes</h3> <small>(Auto update in <span id="timer"></span> seconds.)</small>
                                 </div>
                                 <div class="box-body">
                                     <div class="">
@@ -618,6 +618,43 @@ desired effect
             poll_cluster_data();
 
             // countdown timer
+            var CCOUNT = 60;
+    
+            var t, count;
+            
+            function cddisplay() {
+                // displays time in span
+                document.getElementById('timer').innerHTML = count;
+            };
+            
+            function countdown() {
+                // starts countdown
+                cddisplay();
+                if (count == 0) {
+                    // time is up
+                    cdreset();
+                } else {
+                    count--;
+                    t = setTimeout("countdown()", 1000);
+                }
+            };
+            
+            function cdpause() {
+                // pauses countdown
+                clearTimeout(t);
+            };
+            
+            function cdreset() {
+                // resets countdown
+                cdpause();
+                count = CCOUNT;
+                cddisplay();
+            };
+
+
+
+
+
             var time = 60
 
             setInterval( function() {
