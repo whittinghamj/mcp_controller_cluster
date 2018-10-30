@@ -231,6 +231,14 @@ if($this_node['type'] == 'slave')
     $forced_lag             = $argv[2];
     $forced_lag_counter     = 0;
 
+    // sanity check
+    $miner_ids_file = '/var/www/html/ids.txt';
+    if(!file_exists($miner_ids_file))
+    {
+        console_output("Cluster is currently building its matrix, try again.");
+        die();
+    }
+
     $miners_raw         = file_get_contents('/var/www/html/ids.txt');
     $miner_ids          = json_decode($miners_raw, true);
 
