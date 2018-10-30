@@ -158,6 +158,23 @@ desired effect
 			
             <div id="status_message"></div>
 
+            <div class="modal fade" id="webssh">
+                <div class="modal-dialog" style="width: 80%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Cluster Web Console</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!-- <iframe src="https://discordapp.com/widget?id=425050749399990272&theme=dark&username=<?php echo $_SESSION['account']['email']; ?>" width="350" height="500" allowtransparency="true" frameborder="0"></iframe> -->
+                            <iframe src="http://192.168.1.241:4200" height="600" width="100%" frameborder="0"></iframe>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="modal fade" id="saving_config" tabindex="-1" role="dialog" aria-labelledby="saving_config" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -315,6 +332,8 @@ desired effect
                                     <h3 class="box-title">Cluster Nodes</h3>
                                 </div>
                                 <div class="box-body">
+                                    <a href="#" onclick="run_webssh();">Web SSH</a>
+                                    <hr>
                                     <div class="">
                                         <table class="table">
                                             <thead>
@@ -569,6 +588,13 @@ desired effect
             });
             return re;
         }
+
+        function run_webssh()
+        {
+            $('#modal-discord-chat').modal('toggle');
+            evt.preventDefault(); 
+            return false;
+        };
 
         $(document).ready(function()
         {
