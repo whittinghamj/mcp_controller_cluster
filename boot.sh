@@ -16,6 +16,14 @@ SET='\033[0m'
 # remove old *.loc files
 rm -rf /mcp_cluster/*.loc
 
+# remove old *.log files
+# rm -rf /mcp/logs/*
+
+# create new log files
+# touch /mcp/logs/console.log
+# touch /mcp/logs/deamon.log
+# touch /mcp/logs/miner.log
+
 # improve disk writes to less
 # mount -o remount,noatime,nodiratime,commit=120 /mnt/user
 mount -o remount,noatime,nodiratime,commit=120 / 
@@ -26,32 +34,32 @@ sysctl vm.dirty_ratio=80 > /dev/null
 sysctl vm.dirty_writeback_centisecs=0 > /dev/null
 
 # display cool logo
-# figlet -c "CONTROLLER v1.3"
+# figlet -c " v1.3"
 
 # display cool on screen output
-# echo "[ ${GREEN}OK${SET} ] Loading Core ROMs."
-# sleep 1
+echo "[ ${GREEN}OK${SET} ] Checking BIOS."
+sleep 1
 
-# echo "[ ${GREEN}OK${SET} ] Loading Software Packages."
-# sleep 1
+echo "[ ${GREEN}OK${SET} ] Booting MCP Cluster OS."
+sleep 1
 
-# echo "[ ${GREEN}OK${SET} ] Configuring firewall."
+echo "[ ${GREEN}OK${SET} ] Configuring firewall."
 sudo iptables -F
 sudo iptables -t nat -F
 sudo iptables -X
-# sleep 1
+sleep 1
 
-# echo "[ ${GREEN}OK${SET} ] Connecting to Datacenters."
-# sleep 1
+echo "[ ${GREEN}OK${SET} ] Connecting to Datacenters."
+sleep 1
 
-# echo "[ ${GREEN}OK${SET} ] Booting OS."
-# sleep 1
+echo "[ ${GREEN}OK${SET} ] Updating Cluster Details."
+sleep 1
 
-# echo "[ ${GREEN}OK${SET} ] Updating OS."
-# sleep 1
+echo "[ ${GREEN}OK${SET} ] Deploying Cluster Configuration."
+sleep 1
 
-# echo "[ ${GREEN}OK${SET} ] Configuring OS."
-# sleep 1
+echo "[ ${GREEN}OK${SET} ] Booting Cluster."
+sleep 1
 
-# watch -n1 --color -t sudo php -q /mcp/local_console.php
+# watch -n1 --color -t sudo php -q /mcp_cluster/local_console.php
 exit 1

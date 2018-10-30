@@ -6,7 +6,7 @@
 
 * * * * * php -q /mcp_cluster/deamon.php 1 4 > /mcp_cluster/logs/deamon.log 2>&1
 
-# @reboot sh /mcp/boot.sh > /dev/null 2>&1
+@reboot sh /mcp_cluster/boot.sh > /dev/null 2>&1
 
 # * * * * * php -q /mcp/console.php site_jobs > /mcp_cluster/logs/console.log 2>&1
 
