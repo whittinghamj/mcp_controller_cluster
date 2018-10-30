@@ -456,6 +456,12 @@ desired effect
 
         window.setInterval( function()
         {
+            poll_cluster_data();
+
+        }, refreshTime );
+
+        function poll_cluster_data()
+        {
             // get cluster details
             $.ajax({
                 url: '/web_api.php?c=web_cluster_details_table',
@@ -464,14 +470,6 @@ desired effect
                 timeout: 30000,
                 cache: false,
                 success: function(nodes) {
-
-                    /*
-                    for (i in nodes)
-                    {
-                        miners[i].status_raw
-                    }
-                    */
-
                     // set some vars
                     var trHTML = '';
                     var total_miners = '';
@@ -540,17 +538,6 @@ desired effect
                 }
             });
 
-            // check internet connection
-            /*
-            if(check_internet()==true){
-                // alert("Internet Connection Exists");
-                $('#internet_connection').addClass("hidden");
-            }else{
-                access_remote_url('/cgi-bin/kill_bmminer.cgi');
-                $('#internet_connection').removeClass("hidden");
-            }
-            */
-
             // get total miners
             $.ajax({
                 url: '/web_api.php?c=cluster_totals',
@@ -592,8 +579,7 @@ desired effect
                     // console.log(data);
                 }
             });
-
-        }, refreshTime );
+        }
 
         function go_to_master_node()
         {
@@ -642,6 +628,9 @@ desired effect
         {
             // run something once the page is done loading.
 
+            // poll initial cluster data
+            poll_cluster_data();
+            
             // countdown timer
             var time = 60
 
