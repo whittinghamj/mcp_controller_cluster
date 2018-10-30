@@ -74,6 +74,7 @@ function node_info()
 	$mac_address			= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
 	$ip_address 			= exec("sh /mcp_cluster/lan_ip.sh");
 	$cpu_temp				= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
+	$cpu 					= eexec("sed -n 's/^model name[ \t]*: *//p' /proc/cpuinfo | head -n 1");
 
 	$miners_json 			= exec("cat /var/www/html/ids.txt");
 	$miners					= json_decode($miners_json, true);
@@ -92,6 +93,7 @@ function node_info()
 	$cluster['stats']['temp'] 					= number_format($cpu_temp, 2);
 	$cluster['stats']['ip_address'] 			= $ip_address;
 	$cluster['stats']['mac_address'] 			= strtoupper($mac_address);
+	$cluster['stats']['cpu']					= $cpu;
 	$cluster['stats']['cpu_cores']				= $cpu_cores;
 	$cluster['stats']['cpu_load']				= $cpu_load['sys'];
 	$cluster['stats']['memory_usage']			= number_format($memory_usage, 2);
