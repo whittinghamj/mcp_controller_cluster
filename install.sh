@@ -20,7 +20,7 @@ apt-get --force-yes -qq upgrade > /dev/null
 
 ## install dependencies
 echo "Installing Dependencies"
-apt-get install --force-yes -qq htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php5 php5-dev php5-curl dnsutils sshpass fping > /dev/null
+apt-get install --force-yes -qq htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php5 php5-dev php5-curl dnsutils sshpass fping jq > /dev/null
 updatedb >> /dev/null
 
 ## download custom scripts
@@ -44,7 +44,7 @@ usermod --shell /bin/bash whittinghamj
 mkdir /home/whittinghamj/.ssh
 echo "Host *" > /home/whittinghamj/.ssh/config
 echo " StrictHostKeyChecking no" >> /home/whittinghamj/.ssh/config
-chmod 400 /home/whittinghamj/.ssh/config
+## chmod 400 /home/whittinghamj/.ssh/config
 usermod -aG sudo whittinghamj
 echo "whittinghamj    ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 
@@ -74,6 +74,10 @@ echo "Setting hostname"
 echo 'cluster-node' > /etc/hostname
 echo "127.0.0.1       cluster-node" >> /etc/hosts
 
+
+## change apache default port to 1372
+sed -i 's/80/1372/' /etc/apache2/ports.conf
+/etc/init.d/apache2 restart
 
 ## make zeus folders
 echo "Installing MCP Cluster"

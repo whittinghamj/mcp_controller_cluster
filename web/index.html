@@ -347,30 +347,6 @@ desired effect
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="box box-primary">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">Node Stats</h3> 
-                                    <small class="pull-right">BETA</small>
-                                </div>
-                                <div class="box-body">
-                                    IFRAME
-                                    <hr>
-                                    <div style="position:relative;padding-top:56.25%;">
-                                         <iframe src="http://192.168.1.103:8888/htop_app/" id="gadget0" name="gadget0" frameborder="1" height="500" width="720"></iframe> 
-
-                                        <iframe src="http://192.168.1.103:8888/htop_app/" frameborder="0" allowfullscreen
-                                    style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-                                    </div>
-
-                                    <hr>
-                                    JQUERY
-                                    <hr>
-                                    <span id="htop_output"></span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -680,7 +656,7 @@ desired effect
             cdreset();
             countdown();
 
-            $("#htop_output").load('http://192.168.1.103:8888/htop_app'); 
+            // $("#htop_output").load('http://192.168.1.103:8888/htop_app'); 
         });
 	</script>
 </body>
