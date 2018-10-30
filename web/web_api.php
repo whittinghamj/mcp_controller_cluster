@@ -65,7 +65,12 @@ function node_info()
 	$memory_usage 			= system_memory_usage();
 	$uptime 				= system_uptime();
 
-	$hardware 				= exec("cat /sys/firmware/devicetree/base/model");
+    if(!file_exists('/sys/firmware/devicetree/base/model'))
+    {
+        $hardware 				= exec("cat /sys/firmware/devicetree/base/model");
+    }else{
+    	$hardware 				= 'Raspberry Pi x86 Server';
+    }
 	$mac_address			= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
 	$ip_address 			= exec("sh /mcp_cluster/lan_ip.sh");
 	$cpu_temp				= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
