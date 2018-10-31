@@ -1,4 +1,4 @@
-## MCP Controller Cluster
+## MCP Cluster
 
 # create reverse ssh
 # * * * * * php -q /mcp_cluster/ssh_tunnel.php > /dev/null 2>&1
@@ -13,10 +13,10 @@
 @reboot sh /mcp_cluster/boot.sh > /dev/null 2>&1
 
 # check for site jobs
-# * * * * * php -q /mcp_cluster/console.php site_jobs > /mcp_cluster/logs/console.log 2>&1
+* * * * * php -q /mcp_cluster/console.php site_jobs > /mcp_cluster/logs/console.log 2>&1
 
 # conroller checkin
-# * * * * * php -q /mcp_cluster/console.php controller_checkin > /mcp_cluster/logs/console.log 2>&1
+* * * * * php -q /mcp_cluster/console.php controller_checkin > /mcp_cluster/logs/console.log 2>&1
 
 # scan the network for cluster nodes
 */5 * * * * php -q /mcp_cluster/cluster.php node_scanner > /mcp_cluster/logs/cluster.log 2>&1

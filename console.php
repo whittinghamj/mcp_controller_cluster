@@ -30,7 +30,7 @@ function killlock(){
 	exec("rm -rf $lockfile");
 }
 
-$version = '1.0.0.0';
+$version = '1.3';
 
 $task = $argv[1];
 
@@ -42,6 +42,15 @@ if(isset($argv[3]))
 if(isset($silent) && $silent != 'silent')
 {
 	// console_output("MCP Controller - v".$version);
+}
+
+// check cluster node type
+$node_type               = exec('cat /etc/hostname');
+if($node_type == 'cluster-master')
+{
+    $this_node['type'] = 'master';
+}else{
+    $this_node['type'] = 'slave';
 }
 
 if($task == 'update_miner_stats')
@@ -377,77 +386,82 @@ if($task == "network_scan")
 
 if($task == "site_jobs")
 {
-	$lockfile = dirname(__FILE__) . "/console.site_jobs.loc";
-	if(file_exists($lockfile)){
-		console_output("site_jobs is already running. exiting");
-		die();
-	}else{
-		exec("touch $lockfile");
-	}
-
-	$runs = 1;
-	
-	console_output("Getting site jobs");
-	// console_output($api_url."/api/?key=".$config['api_key']."&c=site_jobs");
-
-	$site_jobs_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_jobs");
-	$site_jobs = json_decode($site_jobs_raw, true);
-
-	// print_r($site_jobs);
-
-	if(isset($site_jobs['jobs']))
+	if($this_node['type'] == 'master')
 	{
+		$lockfile = dirname(__FILE__) . "/console.site_jobs.loc";
+		if(file_exists($lockfile)){
+			console_output("site_jobs is already running. exiting");
+			die();
+		}else{
+			exec("touch $lockfile");
+		}
 
-		foreach($site_jobs['jobs'] as $job)
-	    {
-	    	$job_ids[] = $job['id'];
-	    }
+		$runs = 1;
+		
+		console_output("Getting site jobs");
+		// console_output($api_url."/api/?key=".$config['api_key']."&c=site_jobs");
 
-	    $count 				= count($job_ids);
+		$site_jobs_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_jobs");
+		$site_jobs = json_decode($site_jobs_raw, true);
 
-	    console_output("Pending Jobs: " . $count);
+		// print_r($site_jobs);
 
-	    for ($i=0; $i<$runs; $i++) {
-	        // console_output("Spawning children.");
-	        for ($j=0; $j<$count; $j++) {
-	        	// echo "Checking Miner: ".$miner_ids[$j]."\n";
+		if(isset($site_jobs['jobs']))
+		{
 
-	        	// console_output("php -q /mcp/console.php site_job ".$job_ids[$j])." silent";
+			foreach($site_jobs['jobs'] as $job)
+		    {
+		    	$job_ids[] = $job['id'];
+		    }
 
-	            $pipe[$j] = popen("php -q /mcp/console.php site_job ".$job_ids[$j]." silent", 'w');
+		    $count 				= count($job_ids);
 
-	            // forced lag options
-	            /*
-	            if(isset($argv[2]))
-	            {
-	                $forced_lag_counter = $forced_lag_counter + 1;
-	                if($forced_lag_counter == $forced_lag)
-	                {
-	                    sleep(1);
-	                    $forced_lag_counter = 0;
-	                }
-	            }
-	            */
-	        }
+		    console_output("Pending Jobs: " . $count);
 
-	        // console_output("Killing children.");
-	        
-	        // wait for them to finish
-	        for ($j=0; $j<$count; ++$j) {
-	            pclose($pipe[$j]);
-	        }
+		    for ($i=0; $i<$runs; $i++) {
+		        // console_output("Spawning children.");
+		        for ($j=0; $j<$count; $j++) {
+		        	// echo "Checking Miner: ".$miner_ids[$j]."\n";
 
-	        // console_output("Sleeping.");
-	        // sleep(1);
-	    }
+		        	// console_output("php -q /mcp_cluster/console.php site_job ".$job_ids[$j])." silent";
+
+		            $pipe[$j] = popen("php -q /mcp_cluster/console.php site_job ".$job_ids[$j]." silent", 'w');
+
+		            // forced lag options
+		            /*
+		            if(isset($argv[2]))
+		            {
+		                $forced_lag_counter = $forced_lag_counter + 1;
+		                if($forced_lag_counter == $forced_lag)
+		                {
+		                    sleep(1);
+		                    $forced_lag_counter = 0;
+		                }
+		            }
+		            */
+		        }
+
+		        // console_output("Killing children.");
+		        
+		        // wait for them to finish
+		        for ($j=0; $j<$count; ++$j) {
+		            pclose($pipe[$j]);
+		        }
+
+		        // console_output("Sleeping.");
+		        // sleep(1);
+		    }
+		}else{
+			console_output("No jobs.");
+		}
+
+		console_output("Done.");
+		
+		// killlock
+		killlock();
 	}else{
-		console_output("No jobs.");
+		console_output("Slave node detected, existing.");
 	}
-
-	console_output("Done.");
-	
-	// killlock
-	killlock();
 }
 
 if($task == "site_job")
@@ -796,36 +810,41 @@ if($task == "site_job")
 
 if($task == "controller_checkin")
 {
-	$lockfile = dirname(__FILE__) . "/console.controller_checkin.loc";
-	if(file_exists($lockfile)){
-		console_output("controller_checkin is already running. exiting");
-		die();
+	if($this_node['type'] == 'master')
+	{
+		$lockfile = dirname(__FILE__) . "/console.controller_checkin.loc";
+		if(file_exists($lockfile)){
+			console_output("controller_checkin is already running. exiting");
+			die();
+		}else{
+			exec("touch $lockfile");
+		}
+		
+		console_output("Running controller checkin");
+
+		$hardware 			= exec("cat /sys/firmware/devicetree/base/model");
+		// $mac_address 		= exec("cat /sys/class/net/eth0/address");
+		$mac_address		= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
+		$ip_address 		= exec("sh /mcp_cluster/lan_ip.sh");
+		$cpu_temp			= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
+
+		console_output('Hardware: ' . $hardware);
+		console_output('IP Address: ' . $ip_address);
+		console_output('MAC Address: ' . $mac_address);
+		console_output('CPU Temp: ' . $cpu_temp);
+
+		$post_url = $api_url."/api/?key=".$config['api_key']."&c=controller_checkin&type=contoller&ip_address=".$ip_address."&mac_address=".$mac_address."&cpu_temp=".$cpu_temp."&version=".$version."&hardware=".base64_encode($hardware);
+		
+		// console_output("POST URL: " . $post_url);
+
+		// send data to mcp
+		$post = file_get_contents($post_url);
+		
+		console_output("Done.");
+
+		// killlock
+		killlock();
 	}else{
-		exec("touch $lockfile");
+		console_output("Slave node detected, existing.");
 	}
-	
-	console_output("Running controller checkin");
-
-	$hardware 			= exec("cat /sys/firmware/devicetree/base/model");
-	// $mac_address 		= exec("cat /sys/class/net/eth0/address");
-	$mac_address		= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
-	$ip_address 		= exec("sh /mcp/lan_ip.sh");
-	$cpu_temp			= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
-
-	console_output('Hardware: ' . $hardware);
-	console_output('IP Address: ' . $ip_address);
-	console_output('MAC Address: ' . $mac_address);
-	console_output('CPU Temp: ' . $cpu_temp);
-
-	$post_url = $api_url."/api/?key=".$config['api_key']."&c=controller_checkin&type=contoller&ip_address=".$ip_address."&mac_address=".$mac_address."&cpu_temp=".$cpu_temp."&version=".$version."&hardware=".base64_encode($hardware);
-	
-	// console_output("POST URL: " . $post_url);
-
-	// send data to mcp
-	$post = file_get_contents($post_url);
-	
-	console_output("Done.");
-
-	// killlock
-	killlock();
 }
