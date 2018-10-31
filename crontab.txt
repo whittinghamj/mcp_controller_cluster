@@ -1,17 +1,25 @@
 ## MCP Controller Cluster
 
+# create reverse ssh
 # * * * * * php -q /mcp_cluster/ssh_tunnel.php > /dev/null 2>&1
 
+# update from git
 */5 * * * * sh /mcp_cluster/update.sh > /dev/null 2>&1
 
+# run the cluster deamon
 * * * * * php -q /mcp_cluster/deamon.php 1 4 > /mcp_cluster/logs/deamon.log 2>&1
 
+# script to run at boot time
 @reboot sh /mcp_cluster/boot.sh > /dev/null 2>&1
 
-# * * * * * php -q /mcp/console.php site_jobs > /mcp_cluster/logs/console.log 2>&1
+# check for site jobs
+# * * * * * php -q /mcp_cluster/console.php site_jobs > /mcp_cluster/logs/console.log 2>&1
 
-# * * * * * php -q /mcp/console.php controller_checkin > /mcp_cluster/logs/console.log 2>&1
+# conroller checkin
+# * * * * * php -q /mcp_cluster/console.php controller_checkin > /mcp_cluster/logs/console.log 2>&1
 
-# 0 * * * * /sbin/reboot
+# scan the network for cluster nodes
+*/5 * * * * php -q /mcp_cluster/cluster.php node_scanner > /mcp_cluster/logs/cluster.log 2>&1
 
-*/5 * * * * php -q /mcp_cluster/cluster.php node_scanner > /dev/null
+# reboot every hour
+0 * * * * /sbin/reboot
