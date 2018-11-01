@@ -144,6 +144,8 @@ if($task == "controller_checkin")
 
 if($task == "test")
 {
+	$runs = 1;
+	
 	$lockfile = dirname(__FILE__) . "/cluster.test.loc";
 	if(file_exists($lockfile)){
 		console_output("test is already running. exiting");
