@@ -380,7 +380,7 @@ if($task == "apt_upgrade")
 	killlock();
 }
 
-if($task == "apt_update_process")
+if($task == "apt_upgrade_process")
 {
 	$ip_address = $argv[2];
 	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo apt-get upgrade -y | sudo tee /dev/pts/0' 2>/dev/null";
