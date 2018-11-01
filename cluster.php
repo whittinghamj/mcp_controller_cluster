@@ -212,7 +212,7 @@ if($task == "reboot")
 
     foreach($cluster['slaves'] as $slave)
     {
-    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'sudo reboot' ";
+    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'sudo reboot' 2>/dev/null";
 		exec($cmd);
 
 		console_output("Rebooting: ".$slave['ip_address']);
