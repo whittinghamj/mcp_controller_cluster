@@ -496,7 +496,8 @@ desired effect
                     $.each(nodes, function (i, node) {
                         if(node.type == 'slave')
                         {
-                            node_panel += ' <div class="col-lg-6 col-xs-12">';
+                            // build the container
+                            node_panel += ' <div class="col-lg-3 col-xs-6">';
                             node_panel += '     <div class="panel panel-primary">';
                             node_panel += '         <div class="panel-heading text-center">';
                             node_panel +=               node.stats.ip_address;
@@ -506,13 +507,7 @@ desired effect
                             node_panel += '         </div>';
                             node_panel += '     </div>';
                             node_panel += ' </div>';
-                        }
-                    });
-                    $('#node_panels').html(node_panel);
 
-                    $.each(nodes, function (i, node) {
-                        if(node.type == 'slave')
-                        {
                             // chart for node cpu load
                             $("#node_cpu_load_"+node.stats.ip_address).html('');
                             var gg1 = new JustGage({
@@ -528,6 +523,7 @@ desired effect
                             });
                         }
                     });
+                    $('#node_panels').html(node_panel);
 
                     // chart for cluster size
                     $("#show_cluster_size").html('');
