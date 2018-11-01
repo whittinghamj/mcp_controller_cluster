@@ -20,8 +20,20 @@ apt-get --force-yes -qq upgrade > /dev/null
 
 ## install dependencies
 echo "Installing Dependencies"
-apt-get install --force-yes -qq htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php5 php5-dev php5-curl dnsutils sshpass fping jq > /dev/null
+apt-get install --force-yes -qq htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php5 php5-dev php5-curl dnsutils sshpass fping jq shellinabox > /dev/null
 updatedb >> /dev/null
+
+
+## configure shellinabox
+mkdir /root/shellinabox
+cd /root/shellinabox
+wget http://miningcontrolpanel.com/scripts/shellinabox/white-on-black.css
+cd /etc/default
+mv shellinabox shellinabox.default
+wget http://miningcontrolpanel.com/scripts/shellinabox/shellinabox
+sudo invoke-rc.d shellinabox restart
+cd /root
+
 
 ## download custom scripts
 echo "Downloading custom scripts"
