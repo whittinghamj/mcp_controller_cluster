@@ -251,6 +251,7 @@ if($task == "reboot")
 	killlock();
 }
 
+## update apt for all slaves
 if($task == "apt_update")
 {
 	$runs = 1;
@@ -321,6 +322,7 @@ if($task == "apt_update_process")
 	killlock();
 }
 
+## upgrade core os for all slaves
 if($task == "apt_upgrade")
 {
 	$runs = 1;
@@ -390,6 +392,7 @@ if($task == "apt_update_process")
 	killlock();
 }
 
+## update mcp cluster software for all slaves
 if($task == "mcp_update")
 {
 	$runs = 1;
@@ -456,6 +459,73 @@ if($task == "mcp_update_process")
 
 	console_output("Node: ".$ip_address." updating MCP Cluster Software.");
 	
+	// killlock
+	killlock();
+}
+
+## configure all nodes to use mcp site_key from master
+if($task == "mcp_configure_site_key")
+{
+	$runs = 1;
+	
+	$lockfile = dirname(__FILE__) . "/cluster.mcp_configure_site_key.loc";
+	if(file_exists($lockfile)){
+		console_output("mcp_configure_site_key is already running. exiting");
+		die();
+	}else{
+		exec("touch $lockfile");
+	}
+	
+	console_output("Updating MCP API Key");
+
+	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
+    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
+
+   	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
+
+   	$site_api_key 			= @file_get_contents('/mcp_cluster/global_vars.php');
+
+   	print_r($site_api_key);
+
+   	killlock();
+   	die();
+
+
+   	$cluster['total_master'] = 0;
+    $cluster['total_slave'] = 0;
+    foreach($cluster['nodes'] as $node)
+    {
+        if($node['type'] == 'master')
+        {
+            $cluster['total_master']++;
+        }else{
+            $cluster['total_slave']++;
+            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+        }
+    }
+
+   	foreach($cluster['slaves'] as $slave)
+    {
+    	if($slave['ip_address'] != $myip)
+    	{
+	    	$slaves[] = $slave['ip_address'];
+	    }
+    }
+
+    $count 				= count($slaves);
+
+    for ($i=0; $i<$runs; $i++) {
+        for ($j=0; $j<$count; $j++) {
+            $pipe[$j] = popen("php -q /mcp_cluster/cluster.php apt_update_process ".$slaves[$j], 'w');
+        }
+        
+        // wait for them to finish
+        for ($j=0; $j<$count; ++$j) {
+            pclose($pipe[$j]);
+        }
+
+    }
+
 	// killlock
 	killlock();
 }
