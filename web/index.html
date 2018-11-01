@@ -347,6 +347,20 @@ desired effect
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="box box-primary">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Cluster Nodes</h3> 
+                                    <small class="pull-right">(Auto update in <span id="timer"></span> seconds.)</small>
+                                </div>
+                                <div class="box-body">
+                                    <div class="">
+                                        <span id="node_panels"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -461,6 +475,7 @@ desired effect
                     // set some vars
                     var trHTML = '';
                     var total_miners = '';
+                    var node_panel = '';
 
                     // build the table for nodes
                     $.each(nodes, function (i, node) {
@@ -477,6 +492,26 @@ desired effect
                         }
                     });
                     $('#cluster_nodes').html(trHTML);
+
+                    $.each(nodes, function (i, node) {
+                        if(node.type == 'slave')
+                        {
+                            node_panel += ' <div class="col-lg-6 col-xs-12">';
+                            node_panel += '     <div class="panel panel-primary">';
+                            node_panel += '         <div class="panel-heading text-center">';
+                            node_panel +=               node.stats.ip_address;
+                            node_panel += '         </div>';
+                            node_panel += '         <div class="panel-body text-center">';
+                            node_panel += '             <span id="show_cluster_size" class="gauge_none text-center">';
+                            node_panel += '                 <img src="widget-loader-lg-en.gif" height="50px">';
+                            node_panel += '             </span>';
+                            node_panel += '         </div>';
+                            node_panel += '     </div>';
+                            node_panel += ' </div>';
+                        }
+                    });
+                    $('#node_panels').html(node_panel);
+
 
                     // chart for cluster size
                     $("#show_cluster_size").html('');

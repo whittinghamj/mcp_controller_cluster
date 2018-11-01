@@ -86,7 +86,8 @@ echo " StrictHostKeyChecking no" >> /root/.ssh/config
 
 ## change SSH port to 33077 and only listen to IPv4
 echo "Updating SSHd details"
-sed -i 's/#Port 22/Port 33077/' /etc/ssh/sshd_config
+sed -i 's/#Port/Port/' /etc/ssh/sshd_config
+sed -i 's/22/33077/' /etc/ssh/sshd_config
 sed -i 's/#AddressFamily any/AddressFamily inet/' /etc/ssh/sshd_config
 /etc/init.d/ssh restart > /dev/null
 
@@ -113,6 +114,17 @@ git clone https://github.com/whittinghamj/mcp_controller_cluster.git . --quiet
 
 ## install the cron
 crontab /mcp_cluster/crontab.txt
+
+
+## run update.sh to publish HTML files
+sh /mcp_cluster/update.sh
+
+
+## set permissions
+chmod 777 /var/www/html
+chmod 777 /var/www/html/
+chmod 777 /var/www/html/*
+
 
 ## reboot
 reboot
