@@ -483,14 +483,6 @@ if($task == "mcp_configure_site_key")
 
    	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
 
-   	$site_api_key 			= include('/mcp_cluster/global_vars.php');
-
-   	print_r($site_api_key);
-
-   	killlock();
-   	die();
-
-
    	$cluster['total_master'] = 0;
     $cluster['total_slave'] = 0;
     foreach($cluster['nodes'] as $node)
@@ -516,7 +508,7 @@ if($task == "mcp_configure_site_key")
 
     for ($i=0; $i<$runs; $i++) {
         for ($j=0; $j<$count; $j++) {
-            $pipe[$j] = popen("php -q /mcp_cluster/cluster.php apt_update_process ".$slaves[$j], 'w');
+            $pipe[$j] = popen("php -q /mcp_cluster/cluster.php mcp_configure_site_key_process ".$slaves[$j], 'w');
         }
         
         // wait for them to finish
@@ -526,6 +518,19 @@ if($task == "mcp_configure_site_key")
 
     }
 
+	// killlock
+	killlock();
+}
+
+if($task == "mcp_configure_site_key_process")
+{
+	$ip_address = $argv[2];
+
+	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'echo \"<?php\" > /mcp_cluster/global_vars.php; echo \"$config['api_key'] = \"".$config['api_key']."\";\" >> /mcp_cluster/global_vars.php; echo 'Upgrading MCP Site Key' | sudo tee /dev/pts/0' 2>/dev/null";
+	exec($cmd);
+
+	console_output("Node: ".$ip_address." updating MCP Site Key.");
+	
 	// killlock
 	killlock();
 }
