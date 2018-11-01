@@ -257,7 +257,7 @@ if($task == "apt_update")
     	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'sudo apt-get update | sudo tee /dev/pts/0' 2>/dev/null";
 		exec($cmd);
 
-		console_output("Rebooting: ".$slave['ip_address']);
+		console_output("Updating APT: ".$slave['ip_address']);
     }
 	
 	console_output("Done.");
