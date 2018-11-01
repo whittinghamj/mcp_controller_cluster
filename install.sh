@@ -44,9 +44,19 @@ usermod --shell /bin/bash whittinghamj
 mkdir /home/whittinghamj/.ssh
 echo "Host *" > /home/whittinghamj/.ssh/config
 echo " StrictHostKeyChecking no" >> /home/whittinghamj/.ssh/config
-## chmod 400 /home/whittinghamj/.ssh/config
 usermod -aG sudo whittinghamj
 echo "whittinghamj    ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+## setup mcp account
+echo "Adding mcp linux user account"
+useradd -m -p eioruvb9eu839ub3rv mcp
+echo "mcp:"'mcp' | chpasswd > /dev/null
+usermod --shell /bin/bash mcp
+mkdir /home/mcp/.ssh
+echo "Host *" > /home/mcp/.ssh/config
+echo " StrictHostKeyChecking no" >> /home/mcp/.ssh/config
+usermod -aG sudo mcp
+echo "mcp    ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 
 ## lock pi account
@@ -87,18 +97,6 @@ cd /mcp_cluster
 
 ## get the zeus files
 git clone https://github.com/whittinghamj/mcp_controller_cluster.git . --quiet
-
-
-## build the config file with site api key
-touch /mcp_cluster/global_vars.php
-echo "\n\n"
-echo "Please enter your MCP Site API Key:"
-
-read site_api_key
-
-echo '<?php
-
-$config['"'"api_key"'"'] = '"'$site_api_key';" > /mcp/global_vars.php
 
 
 ## install the cron
