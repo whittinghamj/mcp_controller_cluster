@@ -279,7 +279,7 @@ if($task == "apt_update_process")
 	killlock();
 }
 
-if($task == "apt_upgrad")
+if($task == "apt_upgrade")
 {
 	$lockfile = dirname(__FILE__) . "/cluster.apt_upgrade.loc";
 	if(file_exists($lockfile)){
