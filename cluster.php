@@ -226,9 +226,9 @@ if($task == "reboot")
 
 if($task == "apt_update")
 {
-	$lockfile = dirname(__FILE__) . "/cluster.reboot.loc";
+	$lockfile = dirname(__FILE__) . "/cluster.apt_update.loc";
 	if(file_exists($lockfile)){
-		console_output("reboot is already running. exiting");
+		console_output("apt_update is already running. exiting");
 		die();
 	}else{
 		exec("touch $lockfile");
@@ -258,7 +258,7 @@ if($task == "apt_update")
 		// $cmd = "seq 1 | parallel -N0 -j 4 php -q /mcp_cluster/cluster.php apt_update_process ".$slave['ip_address'];
 		exec($cmd);
 
-		console_output("Updating APT: ".$slave['ip_address']);
+		console_output("Node: ".$slave['ip_address']." > Updating APT.");
     }
 	
 	console_output("Done.");
@@ -275,6 +275,49 @@ if($task == "apt_update_process")
 
 	console_output("Node: ".$ip_address." updating apt.");
 	
+	// killlock
+	killlock();
+}
+
+if($task == "apt_upgrad")
+{
+	$lockfile = dirname(__FILE__) . "/cluster.apt_upgrade.loc";
+	if(file_exists($lockfile)){
+		console_output("apt_upgrade is already running. exiting");
+		die();
+	}else{
+		exec("touch $lockfile");
+	}
+	
+	console_output("Upgrading OS for Cluster");
+
+	$nodes_file = @file_get_contents('/mcp_cluster/nodes.txt');
+    $cluster['nodes'] = json_decode($nodes_file, TRUE);
+
+    $cluster['total_master'] = 0;
+    $cluster['total_slave'] = 0;
+    foreach($cluster['nodes'] as $node)
+    {
+        if($node['type'] == 'master')
+        {
+            $cluster['total_master']++;
+        }else{
+            $cluster['total_slave']++;
+            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+        }
+    }
+
+    foreach($cluster['slaves'] as $slave)
+    {
+    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'sudo apt-get upgrade -y | sudo tee /dev/pts/0' 2>/dev/null";
+		// $cmd = "seq 1 | parallel -N0 -j 4 php -q /mcp_cluster/cluster.php apt_update_process ".$slave['ip_address'];
+		exec($cmd);
+
+		console_output("Node: ".$slave['ip_address']." > Upgrading OS.");
+    }
+	
+	console_output("Done.");
+
 	// killlock
 	killlock();
 }
