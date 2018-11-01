@@ -234,7 +234,7 @@ if($task == "apt_update")
 		exec("touch $lockfile");
 	}
 	
-	console_output("Rebooting Cluster");
+	console_output("Updating APT for Cluster");
 
 	$nodes_file = @file_get_contents('/mcp_cluster/nodes.txt');
     $cluster['nodes'] = json_decode($nodes_file, TRUE);
@@ -254,14 +254,27 @@ if($task == "apt_update")
 
     foreach($cluster['slaves'] as $slave)
     {
-    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'sudo apt-get update | sudo tee /dev/pts/0' 2>/dev/null";
+    	// $cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'sudo apt-get update | sudo tee /dev/pts/0' 2>/dev/null";
+		$cmd = "seq 1 | parallel -N0 -j 4 php -q /mcp_cluster/cluster.php apt_update_process ".$slave['ip_address'];
 		exec($cmd);
 
-		console_output("Updating APT: ".$slave['ip_address']);
+		// console_output("Updating APT: ".$slave['ip_address']);
     }
 	
-	console_output("Done.");
+	// console_output("Done.");
 
+	// killlock
+	killlock();
+}
+
+if($task == "apt_update_process")
+{
+	$ip_address = $argv[2];
+	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo apt-get update | sudo tee /dev/pts/0' 2>/dev/null";
+	exec($cmd);
+
+	console_output("Node: ".$slave['ip_address']." updating apt.");
+	
 	// killlock
 	killlock();
 }
