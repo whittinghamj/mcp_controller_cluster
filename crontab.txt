@@ -22,4 +22,4 @@
 */5 * * * * php -q /mcp_cluster/cluster.php node_scanner > /mcp_cluster/logs/cluster.log 2>&1
 
 # reboot every hour
-0 * * * * /sbin/reboot
+# 0 * * * * /sbin/reboot
