@@ -669,7 +669,7 @@ if($task == "mcp_enable")
 	killlock();
 }
 
-if($task == "mcp_emable_process")
+if($task == "mcp_enable_process")
 {
 	$ip_address = $argv[2];
 
