@@ -483,7 +483,7 @@ if($task == "mcp_configure_site_key")
 
    	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
 
-   	$site_api_key 			= @file_get_contents('/mcp_cluster/global_vars.php');
+   	$site_api_key 			= include('/mcp_cluster/global_vars.php');
 
    	print_r($site_api_key);
 
