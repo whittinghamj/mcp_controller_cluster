@@ -321,3 +321,46 @@ if($task == "apt_upgrad")
 	// killlock
 	killlock();
 }
+
+if($task == "update")
+{
+	$lockfile = dirname(__FILE__) . "/cluster.update.loc";
+	if(file_exists($lockfile)){
+		console_output("update is already running. exiting");
+		die();
+	}else{
+		exec("touch $lockfile");
+	}
+	
+	console_output("Updating MCP Cluster Software");
+
+	$nodes_file = @file_get_contents('/mcp_cluster/nodes.txt');
+    $cluster['nodes'] = json_decode($nodes_file, TRUE);
+
+    $cluster['total_master'] = 0;
+    $cluster['total_slave'] = 0;
+    foreach($cluster['nodes'] as $node)
+    {
+        if($node['type'] == 'master')
+        {
+            $cluster['total_master']++;
+        }else{
+            $cluster['total_slave']++;
+            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+        }
+    }
+
+    foreach($cluster['slaves'] as $slave)
+    {
+    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'sudo sh /mcp_cluster/update.sh | sudo tee /dev/pts/0' 2>/dev/null";
+		// $cmd = "seq 1 | parallel -N0 -j 4 php -q /mcp_cluster/cluster.php apt_update_process ".$slave['ip_address'];
+		exec($cmd);
+
+		console_output("Node: ".$slave['ip_address']." > Updating MCP Cluster software.");
+    }
+	
+	console_output("Done.");
+
+	// killlock
+	killlock();
+}
