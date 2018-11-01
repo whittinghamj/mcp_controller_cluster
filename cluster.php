@@ -152,12 +152,14 @@ if($task == "test")
 		exec("touch $lockfile");
 	}
 	
-	console_output("SSHing into all nodes and posting message on screen");
+	console_output("Updating APT for Cluster");
 
-	$nodes_file = @file_get_contents('/mcp_cluster/nodes.txt');
-    $cluster['nodes'] = json_decode($nodes_file, TRUE);
+	$nodes_file 			= @file_get_contents('node_ip_addresses.txt');
+    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
 
-    $cluster['total_master'] = 0;
+   	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
+
+   	$cluster['total_master'] = 0;
     $cluster['total_slave'] = 0;
     foreach($cluster['nodes'] as $node)
     {
@@ -170,13 +172,36 @@ if($task == "test")
         }
     }
 
-    foreach($cluster['slaves'] as $slave)
+   	foreach($cluster['slaves'] as $slave)
     {
-    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'echo \"Log out now \n\" | sudo tee /dev/pts/0' ";
-		exec($cmd);
+    	if($slave['ip_address'] != $myip)
+    	{
+	    	$slaves[] = $slave['ip_address'];
+	    }
     }
-	
-	console_output("Done.");
+
+    $count 				= count($slaves);
+
+    console_output("Polling " . $count . " nodes.");
+
+    for ($i=0; $i<$runs; $i++) {
+        console_output("Spawning children.");
+        for ($j=0; $j<$count; $j++) {
+        	// echo "Checking Miner: ".$miner_ids[$j]."\n";
+
+            $pipe[$j] = popen("php -q /mcp_cluster/cluster.php apt_update_process ".$slaves[$j], 'w');
+        }
+
+        // console_output("Killing children.");
+        
+        // wait for them to finish
+        for ($j=0; $j<$count; ++$j) {
+            pclose($pipe[$j]);
+        }
+
+        // console_output("Sleeping.");
+        // sleep(1);
+    }
 
 	// killlock
 	killlock();
