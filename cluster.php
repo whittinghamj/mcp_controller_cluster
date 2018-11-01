@@ -526,7 +526,10 @@ if($task == "mcp_configure_site_key_process")
 {
 	$ip_address = $argv[2];
 
-	$cmd = "sshpass -pmcp scp -P 33077/mcp_cluster/global_vars.php mcp@".$ip_address.":/mcp_cluster/ 2>/dev/null";
+	$cmd = "sshpass -pmcp scp -P 33077 /mcp_cluster/global_vars.php mcp@".$ip_address.":/home/mcp/ 2>/dev/null";
+	exec($cmd);
+
+	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo mv /home/mcp/global_vars.php /mcp_cluster; echo 'Updating MCP Site Key' | sudo tee /dev/pts/0' 2>/dev/null";
 	exec($cmd);
 
 	console_output("Node: ".$ip_address." updating MCP Site Key.");
