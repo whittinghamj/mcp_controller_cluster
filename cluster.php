@@ -145,7 +145,7 @@ if($task == "controller_checkin")
 if($task == "test")
 {
 	$runs = 1;
-	
+
 	$lockfile = dirname(__FILE__) . "/cluster.test.loc";
 	if(file_exists($lockfile)){
 		console_output("test is already running. exiting");
@@ -253,6 +253,8 @@ if($task == "reboot")
 
 if($task == "apt_update")
 {
+	$runs = 1;
+	
 	$lockfile = dirname(__FILE__) . "/cluster.apt_update.loc";
 	if(file_exists($lockfile)){
 		console_output("apt_update is already running. exiting");
@@ -263,10 +265,12 @@ if($task == "apt_update")
 	
 	console_output("Updating APT for Cluster");
 
-	$nodes_file = @file_get_contents('/mcp_cluster/nodes.txt');
-    $cluster['nodes'] = json_decode($nodes_file, TRUE);
+	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
+    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
 
-    $cluster['total_master'] = 0;
+   	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
+
+   	$cluster['total_master'] = 0;
     $cluster['total_slave'] = 0;
     foreach($cluster['nodes'] as $node)
     {
@@ -279,16 +283,27 @@ if($task == "apt_update")
         }
     }
 
-    foreach($cluster['slaves'] as $slave)
+   	foreach($cluster['slaves'] as $slave)
     {
-    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'sudo apt-get update | sudo tee /dev/pts/0' 2>/dev/null";
-		// $cmd = "seq 1 | parallel -N0 -j 4 php -q /mcp_cluster/cluster.php apt_update_process ".$slave['ip_address'];
-		exec($cmd);
-
-		console_output("Node: ".$slave['ip_address']." > Updating APT.");
+    	if($slave['ip_address'] != $myip)
+    	{
+	    	$slaves[] = $slave['ip_address'];
+	    }
     }
-	
-	console_output("Done.");
+
+    $count 				= count($slaves);
+
+    for ($i=0; $i<$runs; $i++) {
+        for ($j=0; $j<$count; $j++) {
+            $pipe[$j] = popen("php -q /mcp_cluster/cluster.php apt_update_process ".$slaves[$j], 'w');
+        }
+        
+        // wait for them to finish
+        for ($j=0; $j<$count; ++$j) {
+            pclose($pipe[$j]);
+        }
+
+    }
 
 	// killlock
 	killlock();
@@ -308,6 +323,8 @@ if($task == "apt_update_process")
 
 if($task == "apt_upgrade")
 {
+	$runs = 1;
+	
 	$lockfile = dirname(__FILE__) . "/cluster.apt_upgrade.loc";
 	if(file_exists($lockfile)){
 		console_output("apt_upgrade is already running. exiting");
@@ -316,12 +333,14 @@ if($task == "apt_upgrade")
 		exec("touch $lockfile");
 	}
 	
-	console_output("Upgrading OS for Cluster");
+	console_output("Upgrading Cluster Core OS");
 
-	$nodes_file = @file_get_contents('/mcp_cluster/nodes.txt');
-    $cluster['nodes'] = json_decode($nodes_file, TRUE);
+	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
+    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
 
-    $cluster['total_master'] = 0;
+   	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
+
+   	$cluster['total_master'] = 0;
     $cluster['total_slave'] = 0;
     foreach($cluster['nodes'] as $node)
     {
@@ -334,26 +353,50 @@ if($task == "apt_upgrade")
         }
     }
 
-    foreach($cluster['slaves'] as $slave)
+   	foreach($cluster['slaves'] as $slave)
     {
-    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'sudo apt-get upgrade -y | sudo tee /dev/pts/0' 2>/dev/null";
-		// $cmd = "seq 1 | parallel -N0 -j 4 php -q /mcp_cluster/cluster.php apt_update_process ".$slave['ip_address'];
-		exec($cmd);
-
-		console_output("Node: ".$slave['ip_address']." > Upgrading OS.");
+    	if($slave['ip_address'] != $myip)
+    	{
+	    	$slaves[] = $slave['ip_address'];
+	    }
     }
-	
-	console_output("Done.");
+
+    $count 				= count($slaves);
+
+    for ($i=0; $i<$runs; $i++) {
+        for ($j=0; $j<$count; $j++) {
+            $pipe[$j] = popen("php -q /mcp_cluster/cluster.php apt_upgrade_process ".$slaves[$j], 'w');
+        }
+        
+        // wait for them to finish
+        for ($j=0; $j<$count; ++$j) {
+            pclose($pipe[$j]);
+        }
+    }
 
 	// killlock
 	killlock();
 }
 
-if($task == "update")
+if($task == "apt_update_process")
 {
-	$lockfile = dirname(__FILE__) . "/cluster.update.loc";
+	$ip_address = $argv[2];
+	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo apt-get upgrade -y | sudo tee /dev/pts/0' 2>/dev/null";
+	exec($cmd);
+
+	console_output("Node: ".$ip_address." upgrading OS.");
+	
+	// killlock
+	killlock();
+}
+
+if($task == "mcp_update")
+{
+	$runs = 1;
+	
+	$lockfile = dirname(__FILE__) . "/cluster.mcp_update.loc";
 	if(file_exists($lockfile)){
-		console_output("update is already running. exiting");
+		console_output("mcp_update is already running. exiting");
 		die();
 	}else{
 		exec("touch $lockfile");
@@ -361,10 +404,12 @@ if($task == "update")
 	
 	console_output("Updating MCP Cluster Software");
 
-	$nodes_file = @file_get_contents('/mcp_cluster/nodes.txt');
-    $cluster['nodes'] = json_decode($nodes_file, TRUE);
+	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
+    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
 
-    $cluster['total_master'] = 0;
+   	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
+
+   	$cluster['total_master'] = 0;
     $cluster['total_slave'] = 0;
     foreach($cluster['nodes'] as $node)
     {
@@ -377,17 +422,40 @@ if($task == "update")
         }
     }
 
-    foreach($cluster['slaves'] as $slave)
+   	foreach($cluster['slaves'] as $slave)
     {
-    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'sudo sh /mcp_cluster/update.sh | sudo tee /dev/pts/0' 2>/dev/null";
-		// $cmd = "seq 1 | parallel -N0 -j 4 php -q /mcp_cluster/cluster.php apt_update_process ".$slave['ip_address'];
-		exec($cmd);
-
-		console_output("Node: ".$slave['ip_address']." > Updating MCP Cluster software.");
+    	if($slave['ip_address'] != $myip)
+    	{
+	    	$slaves[] = $slave['ip_address'];
+	    }
     }
-	
-	console_output("Done.");
 
+    $count 				= count($slaves);
+
+    for ($i=0; $i<$runs; $i++) {
+        for ($j=0; $j<$count; $j++) {
+            $pipe[$j] = popen("php -q /mcp_cluster/cluster.php mcp_update_process ".$slaves[$j], 'w');
+        }
+
+        // wait for them to finish
+        for ($j=0; $j<$count; ++$j) {
+            pclose($pipe[$j]);
+        }
+
+    }
+
+	// killlock
+	killlock();
+}
+
+if($task == "mcp_update_process")
+{
+	$ip_address = $argv[2];
+	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo sh /mcp_cluster/update.sh | sudo tee /dev/pts/0' 2>/dev/null";
+	exec($cmd);
+
+	console_output("Node: ".$ip_address." updating MCP Cluster Software.");
+	
 	// killlock
 	killlock();
 }
