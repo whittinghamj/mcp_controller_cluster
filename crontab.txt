@@ -4,7 +4,7 @@
 # * * * * * php -q /mcp_cluster/ssh_tunnel.php > /dev/null 2>&1
 
 # update from git
-*/5 * * * * sh /mcp_cluster/update.sh > /dev/null 2>&1
+0 0 * * * sh /mcp_cluster/update.sh > /dev/null 2>&1
 
 # run the cluster deamon
 * * * * * php -q /mcp_cluster/deamon.php 1 4 > /mcp_cluster/logs/deamon.log 2>&1
