@@ -172,7 +172,7 @@ if($task == "test")
 
     foreach($cluster['slaves'] as $slave)
     {
-    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'echo \"Log out now\" | sudo tee /dev/pts/0' ";
+    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'echo \"Log out now \n\" | sudo tee /dev/pts/0' ";
 		exec($cmd);
     }
 	
