@@ -154,7 +154,7 @@ if($task == "test")
 	
 	console_output("Updating APT for Cluster");
 
-	$nodes_file 			= @file_get_contents('node_ip_addresses.txt');
+	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
     $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
 
    	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
