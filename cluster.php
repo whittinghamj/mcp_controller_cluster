@@ -42,7 +42,7 @@ $cluster = '';
 
 if($task == "node_scanner")
 {
-	$lockfile = dirname(__FILE__) . "/console.cluster_scan.loc";
+	$lockfile = dirname(__FILE__) . "/cluster.cluster_scan.loc";
 	if(file_exists($lockfile)){
 		console_output("cluster_scan is already running. exiting");
 		die();
@@ -108,7 +108,7 @@ if($task == "node_scanner")
 
 if($task == "controller_checkin")
 {
-	$lockfile = dirname(__FILE__) . "/console.controller_checkin.loc";
+	$lockfile = dirname(__FILE__) . "/cluster.controller_checkin.loc";
 	if(file_exists($lockfile)){
 		console_output("controller_checkin is already running. exiting");
 		die();
@@ -135,6 +135,46 @@ if($task == "controller_checkin")
 
 	// send data to mcp
 	$post = file_get_contents($post_url);
+	
+	console_output("Done.");
+
+	// killlock
+	killlock();
+}
+
+if($task == "test")
+{
+	$lockfile = dirname(__FILE__) . "/cluster.test.loc";
+	if(file_exists($lockfile)){
+		console_output("test is already running. exiting");
+		die();
+	}else{
+		exec("touch $lockfile");
+	}
+	
+	console_output("SSHing into all nodes and posting message on screen");
+
+	$nodes_file = @file_get_contents('/mcp_cluster/nodes.txt');
+    $cluster['nodes'] = json_decode($nodes_file, TRUE);
+
+    $cluster['total_master'] = 0;
+    $cluster['total_slave'] = 0;
+    foreach($cluster['nodes'] as $node)
+    {
+        if($node['type'] == 'master')
+        {
+            $cluster['total_master']++;
+        }else{
+            $cluster['total_slave']++;
+            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+        }
+    }
+
+    foreach($cluster['slaves'] as $slave)
+    {
+    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." 'sudo echo \"test message\" > /dev/pts/0' ";
+		exec($cmd);
+    }
 	
 	console_output("Done.");
 
