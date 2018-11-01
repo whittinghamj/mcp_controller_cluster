@@ -519,7 +519,7 @@ desired effect
                             $("#node_cpu_load_"+node.stats.ip_address).html('');
                             var gg1 = new JustGage({
                                 id: "#node_cpu_load_"+node.stats.ip_address,
-                                value: nodes.stats.cpu_load,
+                                value: node.stats.cpu_load,
                                 min: 0,
                                 max: 100,
                                 gaugeWidthScale: 1,
