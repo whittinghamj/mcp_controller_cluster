@@ -525,6 +525,25 @@ desired effect
                     });
                     $('#node_panels').html(node_panel);
 
+                    $.each(nodes, function (i, node) {
+                        if(node.type == 'slave')
+                        {
+                            // chart for node cpu load
+                            $("#node_cpu_load_"+node.stats.ip_address).html('');
+                            var gg1 = new JustGage({
+                                id: 'node_cpu_load_'+node.stats.ip_address,
+                                value: node.stats.cpu_load,
+                                min: 0,
+                                max: 100,
+                                gaugeWidthScale: 1,
+                                counter: false,
+                                relativeGaugeSize: true,
+                                formatNumber: true,
+                                label: "CPU Load"
+                            });
+                        }
+                    });
+
                     // chart for cluster size
                     $("#show_cluster_size").html('');
                     var gg1 = new JustGage({
