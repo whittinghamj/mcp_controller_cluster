@@ -172,7 +172,7 @@ if($task == "test")
 
     foreach($cluster['slaves'] as $slave)
     {
-    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." 'sudo echo \"test message\" > /dev/pts/0' ";
+    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'sudo echo \"test message\" > /dev/pts/0' ";
 		exec($cmd);
     }
 	
