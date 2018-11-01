@@ -537,3 +537,147 @@ if($task == "mcp_configure_site_key_process")
 	// killlock
 	killlock();
 }
+
+## disable mcp cluster
+if($task == "mcp_disable")
+{
+	$runs = 1;
+	
+	$lockfile = dirname(__FILE__) . "/cluster.mcp_disable.loc";
+	if(file_exists($lockfile)){
+		console_output("mcp_disable is already running. exiting");
+		die();
+	}else{
+		exec("touch $lockfile");
+	}
+	
+	console_output("Turning off MCP Cluster");
+
+	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
+    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
+
+   	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
+
+   	$cluster['total_master'] = 0;
+    $cluster['total_slave'] = 0;
+    foreach($cluster['nodes'] as $node)
+    {
+        if($node['type'] == 'master')
+        {
+            $cluster['total_master']++;
+        }else{
+            $cluster['total_slave']++;
+            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+        }
+    }
+
+   	foreach($cluster['slaves'] as $slave)
+    {
+    	if($slave['ip_address'] != $myip)
+    	{
+	    	$slaves[] = $slave['ip_address'];
+	    }
+    }
+
+    $count 				= count($slaves);
+
+    for ($i=0; $i<$runs; $i++) {
+        for ($j=0; $j<$count; $j++) {
+            $pipe[$j] = popen("php -q /mcp_cluster/cluster.php mcp_disable_process ".$slaves[$j], 'w');
+        }
+        
+        // wait for them to finish
+        for ($j=0; $j<$count; ++$j) {
+            pclose($pipe[$j]);
+        }
+
+    }
+
+	// killlock
+	killlock();
+}
+
+if($task == "mcp_disable_process")
+{
+	$ip_address = $argv[2];
+
+	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo service cron stop; echo 'MCP Cluster disabled.' | sudo tee /dev/pts/0' 2>/dev/null";
+	exec($cmd);
+
+	console_output("Node: ".$ip_address." MCP Cluster is disabled.");
+	
+	// killlock
+	killlock();
+}
+
+## enable mcp cluster
+if($task == "mcp_enable")
+{
+	$runs = 1;
+	
+	$lockfile = dirname(__FILE__) . "/cluster.mcp_enable.loc";
+	if(file_exists($lockfile)){
+		console_output("mcp_enable is already running. exiting");
+		die();
+	}else{
+		exec("touch $lockfile");
+	}
+	
+	console_output("Turning on MCP Cluster");
+
+	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
+    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
+
+   	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
+
+   	$cluster['total_master'] = 0;
+    $cluster['total_slave'] = 0;
+    foreach($cluster['nodes'] as $node)
+    {
+        if($node['type'] == 'master')
+        {
+            $cluster['total_master']++;
+        }else{
+            $cluster['total_slave']++;
+            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+        }
+    }
+
+   	foreach($cluster['slaves'] as $slave)
+    {
+    	if($slave['ip_address'] != $myip)
+    	{
+	    	$slaves[] = $slave['ip_address'];
+	    }
+    }
+
+    $count 				= count($slaves);
+
+    for ($i=0; $i<$runs; $i++) {
+        for ($j=0; $j<$count; $j++) {
+            $pipe[$j] = popen("php -q /mcp_cluster/cluster.php mcp_enable_process ".$slaves[$j], 'w');
+        }
+        
+        // wait for them to finish
+        for ($j=0; $j<$count; ++$j) {
+            pclose($pipe[$j]);
+        }
+
+    }
+
+	// killlock
+	killlock();
+}
+
+if($task == "mcp_emable_process")
+{
+	$ip_address = $argv[2];
+
+	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo service cron start; echo 'MCP Cluster enabled.' | sudo tee /dev/pts/0' 2>/dev/null";
+	exec($cmd);
+
+	console_output("Node: ".$ip_address." MCP Cluster is enabled.");
+	
+	// killlock
+	killlock();
+}
