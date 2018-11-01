@@ -223,3 +223,45 @@ if($task == "reboot")
 	// killlock
 	killlock();
 }
+
+if($task == "apt_update")
+{
+	$lockfile = dirname(__FILE__) . "/cluster.reboot.loc";
+	if(file_exists($lockfile)){
+		console_output("reboot is already running. exiting");
+		die();
+	}else{
+		exec("touch $lockfile");
+	}
+	
+	console_output("Rebooting Cluster");
+
+	$nodes_file = @file_get_contents('/mcp_cluster/nodes.txt');
+    $cluster['nodes'] = json_decode($nodes_file, TRUE);
+
+    $cluster['total_master'] = 0;
+    $cluster['total_slave'] = 0;
+    foreach($cluster['nodes'] as $node)
+    {
+        if($node['type'] == 'master')
+        {
+            $cluster['total_master']++;
+        }else{
+            $cluster['total_slave']++;
+            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+        }
+    }
+
+    foreach($cluster['slaves'] as $slave)
+    {
+    	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$slave['ip_address']." -p 33077 'sudo apt-get update | sudo tee /dev/pts/0' 2>/dev/null";
+		exec($cmd);
+
+		console_output("Rebooting: ".$slave['ip_address']);
+    }
+	
+	console_output("Done.");
+
+	// killlock
+	killlock();
+}
