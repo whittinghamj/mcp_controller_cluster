@@ -8,7 +8,7 @@
 // mysql settings
 $database['username']	= "root";
 $database['password']	= "admin1372";
-$database['database']	= "mcp";
+$database['database']	= "mcp_cluster";
 $database['hostname']	= "192.168.3.136";
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // mysql connection
