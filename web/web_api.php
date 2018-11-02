@@ -141,7 +141,7 @@ function find_master()
     
     $data['master']['ip_address'] 		= $results[0]['ip_address'];
 
-	json_output($data);
+	json_output($results);
 }
 
 function cluster_totals()
