@@ -234,7 +234,7 @@ if($task == "reboot")
             $cluster['total_master']++;
         }else{
             $cluster['total_slave']++;
-            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+            $cluster['slaves'][]['ip_address'] = $node['ip_address'];
         }
     }
 
@@ -281,7 +281,7 @@ if($task == "apt_update")
             $cluster['total_master']++;
         }else{
             $cluster['total_slave']++;
-            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+            $cluster['slaves'][]['ip_address'] = $node['ip_address'];
         }
     }
 
@@ -352,7 +352,7 @@ if($task == "apt_upgrade")
             $cluster['total_master']++;
         }else{
             $cluster['total_slave']++;
-            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+            $cluster['slaves'][]['ip_address'] = $node['ip_address'];
         }
     }
 
@@ -493,7 +493,7 @@ if($task == "mcp_configure_site_key")
             $cluster['total_master']++;
         }else{
             $cluster['total_slave']++;
-            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+            $cluster['slaves'][]['ip_address'] = $node['ip_address'];
         }
     }
 
@@ -568,7 +568,7 @@ if($task == "mcp_disable")
             $cluster['total_master']++;
         }else{
             $cluster['total_slave']++;
-            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+            $cluster['slaves'][]['ip_address'] = $node['ip_address'];
         }
     }
 
@@ -640,7 +640,7 @@ if($task == "mcp_enable")
             $cluster['total_master']++;
         }else{
             $cluster['total_slave']++;
-            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+            $cluster['slaves'][]['ip_address'] = $node['ip_address'];
         }
     }
 
