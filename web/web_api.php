@@ -130,7 +130,7 @@ function cluster_totals()
 	global $db;
 
 	// count nodes
-	$query = $db->query("SELECT `id`,`type` FROM `nodes` ");
+	$query = $db->query("SELECT `id`,`type`,`cpu_load` FROM `nodes` ");
     $nodes = $query->fetchAll(PDO::FETCH_ASSOC);
 
     $data['total_nodes']			= count($nodes);
