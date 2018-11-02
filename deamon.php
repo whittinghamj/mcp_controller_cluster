@@ -78,6 +78,10 @@ if($this_node['type'] == 'master')
         	$miner_ids[] = $miner['id'];
         }
 
+        foreach ($cluster['nodes'] as $node) {
+            $node_ids[] = $node['id'];
+        }
+
         // count total miners to process
         $total_miners 				= count($miner_ids);
         console_output("Total Miners: " . $total_miners);
@@ -88,14 +92,12 @@ if($this_node['type'] == 'master')
 
         $query = $db->query("TRUNCATE TABLE `miners` ");
 
-        print_r($cluster['nodes']);
-
         foreach($miner_ids as $miner_id)
         {
             $result = $db->exec("INSERT INTO `miners` 
                 (`updated`,`miner_id`, `node_id`)
                 VALUE
-                ('".time()."','".$miner_id."', '".rand(1,$cluster['total_nodes'])."')");
+                ('".time()."','".$miner_id."', '".array_rand($node_ids, 1)."')");
         }
     }else{
         console_output("No ASIC miners.");
