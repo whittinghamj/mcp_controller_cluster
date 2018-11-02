@@ -3,13 +3,13 @@
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-ini_set('error_reporting', E_ALL);
+ini_set('error_reporting', E_ALL | E_NOTICE | E_STRICT);
 ini_set('display_startup_errors', 1);
 
 header("Content-Type:application/json; charset=utf-8");
 
 // includes
-include('/var/www/html/db.php');
+// include('/var/www/html/db.php');
 include('/var/www/html/functions.php');
 
 $c = addslashes($_GET['c']);
