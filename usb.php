@@ -13,7 +13,7 @@ $task = $argv[1];
 if($task == "install_config_file")
 {
 	// set vars
-	$usb_key = '/dev/sda1';
+	$usb_keys = array('/dev/sda1','/dev/sdb1','/dev/sdc1','/dev/sdd1','/dev/sde1','/dev/sdf1');
 	$mount_point = '/mnt/mcp_key';
 	$config_file = 'global_vars.php';
 
@@ -27,15 +27,24 @@ if($task == "install_config_file")
 		exec("sudo mkdir /mnt/mcp_key");
 	}
 
-	// try and mount the usb key
-	if(file_exists($usb_key))
+	// scan and try and mount the usb key
+	foreach($usb_keys as $usb_key)
 	{
-		// try and mount the usb key
-		console_output("Attempting to mount MCP USB key.");
+		if(file_exists($usb_key))
+		{
+			// try and mount the usb key
+			console_output("Attempting to mount MCP USB key.");
 
-		exec("sudo mount ".$usb_key." ".$mount_point);
-	}else{
-		console_output("MCP USB Key not found.");
+			exec("sudo mount ".$usb_key." ".$mount_point);
+			$status = '';
+		}else{
+			$status = 'no_usb_found';
+		}
+	}
+
+	if($status == 'no_usb_found')
+	{
+		console_output("MCP USB Keys not found.");
 		fire_led('error');
 		die();
 	}
