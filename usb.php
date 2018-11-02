@@ -13,9 +13,10 @@ $task = $argv[1];
 if($task == "install_config_file")
 {
 	// set vars
-	$usb_keys = array('/dev/sda1','/dev/sdb1','/dev/sdc1','/dev/sdd1','/dev/sde1','/dev/sdf1');
-	$mount_point = '/mnt/mcp_key';
-	$config_file = 'global_vars.php';
+	$usb_keys 			= array('/dev/sda1','/dev/sdb1','/dev/sdc1','/dev/sdd1','/dev/sde1','/dev/sdf1');
+	$mount_point 		= '/mnt/mcp_key';
+	$config_file 		= 'global_vars.php';
+	$status 			= '';
 
 	// sanity checks
 	if(!file_exists("/etc/mcp"))
@@ -37,8 +38,9 @@ if($task == "install_config_file")
 
 			exec("sudo mount ".$usb_key." ".$mount_point);
 
-			break;
 			$status = '';
+
+			break;
 		}else{
 			$status = 'no_usb_found';
 		}
