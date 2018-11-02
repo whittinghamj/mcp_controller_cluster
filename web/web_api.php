@@ -199,9 +199,9 @@ function test()
 	{
 		// cant find this node, lets get it added
 		$result = $db->exec("INSERT INTO `nodes` 
-			(`updated`,`type`, `uptime`, `ip_address`, `mac_address`, `hardware`, `cpu_type`, `cpu_cores`, `cpu_temp`, `memory_usage`)
+			(`updated`,`type`, `uptime`, `ip_address`, `mac_address`, `hardware`, `cpu_type`, `cpu_load`, `cpu_cores`, `cpu_temp`, `memory_usage`)
 			VALUE
-			('".time()."','".$data['node_type']."', '".$data['uptime']."', '".$data['ip_address']."', '".$data['mac_address']."', '".$data['hardware']."', '".$data['cpu_type']."', '".$data['cpu_cores']."', '".$data['cpu_temp']."', '".$data['memory_usage']."' )");
+			('".time()."','".$data['node_type']."', '".$data['uptime']."', '".$data['ip_address']."', '".$data['mac_address']."', '".$data['hardware']."', '".$data['cpu_type']."','".$data['cpu_load']."', '".$data['cpu_cores']."', '".$data['cpu_temp']."', '".$data['memory_usage']."' )");
 		$data['node_id'] = $db->lastInsertId();	
 	}else{
 		// existing node, update details
@@ -209,6 +209,7 @@ function test()
 		$result = $db->exec("UPDATE `ty` SET `type` = '".$data['node_type']."' ");
 		$result = $db->exec("UPDATE `ty` SET `uptime` = '".$data['uptime']."' ");
 		$result = $db->exec("UPDATE `ty` SET `ip_address` = '".$data['ip_address']."' ");
+		$result = $db->exec("UPDATE `ty` SET `cpu_load` = '".$data['cpu_load']."' ");
 		$result = $db->exec("UPDATE `ty` SET `cpu_temp` = '".$data['cpu_temp']."' ");
 		$result = $db->exec("UPDATE `ty` SET `memory_usage` = '".$data['memory_usage']."' ");
 	}
