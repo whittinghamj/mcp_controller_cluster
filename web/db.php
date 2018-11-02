@@ -13,7 +13,4 @@ $database['hostname']	= "192.168.3.136";
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // mysql connection
 
-$db = @mysql_connect($database['hostname'],$database['username'],$database['password']); // DONT TOUCH THIS
-@mysql_select_db($database['database']) or die(mysql_error()); // DONT TOUCH THIS
-
-mysql_query("SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'", $db);
+$db = new PDO('mysql:host='.$database['hostname'].';dbname='.$database['database'].';charset=utf8mb4', $database['username'], $database['password']);

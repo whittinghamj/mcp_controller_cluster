@@ -9,7 +9,7 @@ ini_set('display_startup_errors', 1);
 header("Content-Type:application/json; charset=utf-8");
 
 // includes
-// include('/var/www/html/db.php');
+include('/var/www/html/db.php');
 include('/var/www/html/functions.php');
 
 $c = addslashes($_GET['c']);
@@ -197,10 +197,12 @@ function test()
 	if($does_node_exist == 0)
 	{
 		// cant find this node, lets get it added
-		$input = mysql_query("INSERT INTO `nodes` 
+		// global $db;
+		$result = $db->exec("INSERT INTO `nodes` 
 			(`updated`,`type`, `uptime`, `ip_address`, `mac_address`, `hardware`, `cpu_type`, `cpu_cores`, `cpu_temp`, `memory_usage`)
 			VALUE
-			('".time()."','".$node_type."', '".$uptime."', '".$ip_address."', '".$mac_address."', '".$hardware."', '".$cpu_type."', '".$cpu_cores."', '".$cpu_temp."', '".$memory_usage."' )") or die(mysql_error());
+			('".time()."','".$node_type."', '".$uptime."', '".$ip_address."', '".$mac_address."', '".$hardware."', '".$cpu_type."', '".$cpu_cores."', '".$cpu_temp."', '".$memory_usage."' )");
+		$event_id = $db->lastInsertId();	
 	}else{
 		// existing node, update details
 	}
