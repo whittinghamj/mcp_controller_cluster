@@ -477,22 +477,22 @@ desired effect
 
                     // build the table for nodes
                     $.each(nodes, function (i, node) {
-                        if(node.type == 'master')
+                        if(node.node_type == 'master')
                         {
-                            trHTML += '<tr bgcolor="#9ab5ed"><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.temp + ' °C</td><td>' + node.uptime + '</td></tr>';
+                            trHTML += '<tr bgcolor="#9ab5ed"><td>' + ucwords(node.node_type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.temp + ' °C</td><td>' + node.uptime + '</td></tr>';
                         }
                     });
 
                     $.each(nodes, function (i, node) {
-                        if(node.type == 'slave')
+                        if(node.node_type == 'slave')
                         {
-                            trHTML += '<tr bgcolor="#a1f29f"><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.temp + ' °C</td><td>' + node.uptime + '</td></tr>';
+                            trHTML += '<tr bgcolor="#a1f29f"><td>' + ucwords(node.node_type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.temp + ' °C</td><td>' + node.uptime + '</td></tr>';
                         }
                     });
                     $('#cluster_nodes').html(trHTML);
 
                     $.each(nodes, function (i, node) {
-                        if(node.type == 'slave')
+                        if(node.node_type == 'slave')
                         {
                             // build the container
                             node_panel += ' <div class="col-lg-3 col-xs-6">';
@@ -575,10 +575,10 @@ desired effect
 
                     $('#loading_content').addClass("hidden");
 
-                    if(node.type == 'master')
+                    if(node.node_type == 'master')
                     {
                         $('#node_master').removeClass("hidden");
-                    }else if(node.type == 'slave')
+                    }else if(node.node_type == 'slave')
                     {
                         $('#node_slave').removeClass("hidden");
 
