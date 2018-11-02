@@ -222,8 +222,8 @@ if($task == "reboot")
 	
 	console_output("Rebooting Cluster");
 
-	$nodes_file = @file_get_contents('/mcp_cluster/nodes.txt');
-    $cluster['nodes'] = json_decode($nodes_file, TRUE);
+	$query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' ");
+	$cluster['nodes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 
     $cluster['total_master'] = 0;
     $cluster['total_slave'] = 0;
@@ -267,8 +267,8 @@ if($task == "apt_update")
 	
 	console_output("Updating APT for Cluster");
 
-	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
-    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
+	$query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' ");
+	$cluster['nodes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 
    	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
 
@@ -338,8 +338,8 @@ if($task == "apt_upgrade")
 	
 	console_output("Upgrading Cluster Core OS");
 
-	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
-    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
+	$query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' ");
+	$cluster['nodes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 
    	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
 
@@ -396,8 +396,6 @@ if($task == "apt_upgrade_process")
 ## update mcp cluster software for all slaves
 if($task == "mcp_update")
 {
-	global $db;
-
 	$runs = 1;
 	
 	$lockfile = dirname(__FILE__) . "/cluster.mcp_update.loc";
@@ -412,8 +410,6 @@ if($task == "mcp_update")
 
 	$query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' ");
 	$cluster['nodes'] = $query->fetchAll(PDO::FETCH_ASSOC);
-
-	print_r($cluster['nodes']);
 
    	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
 
@@ -483,8 +479,8 @@ if($task == "mcp_configure_site_key")
 	
 	console_output("Updating MCP API Key");
 
-	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
-    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
+	$query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' ");
+	$cluster['nodes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 
    	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
 
@@ -558,8 +554,8 @@ if($task == "mcp_disable")
 	
 	console_output("Turning off MCP Cluster");
 
-	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
-    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
+	$query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' ");
+	$cluster['nodes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 
    	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
 
@@ -630,8 +626,8 @@ if($task == "mcp_enable")
 	
 	console_output("Turning on MCP Cluster");
 
-	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
-    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
+	$query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' ");
+	$cluster['nodes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 
    	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
 
