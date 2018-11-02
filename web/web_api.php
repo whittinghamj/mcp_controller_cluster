@@ -99,18 +99,18 @@ function node_info()
 		$data['node_id'] = $db->lastInsertId();	
 	}else{
 		// existing node, update details
-		$result = $db->exec("UPDATE `nodes` SET `updated` = '".time()."' ");
-		$result = $db->exec("UPDATE `nodes` SET `type` = '".$data['node_type']."' ");
-		$result = $db->exec("UPDATE `nodes` SET `uptime` = '".$data['uptime']."' ");
-		$result = $db->exec("UPDATE `nodes` SET `ip_address` = '".$data['ip_address']."' ");
-		$result = $db->exec("UPDATE `nodes` SET `cpu_load` = '".$data['cpu_load']."' ");
-		$result = $db->exec("UPDATE `nodes` SET `cpu_temp` = '".$data['cpu_temp']."' ");
-		$result = $db->exec("UPDATE `nodes` SET `memory_usage` = '".$data['memory_usage']."' ");
+		$bits = get_node_details($data['mac_address']);
+
+		$data['node_id'] = $bits['id'];
+
+		$result = $db->exec("UPDATE `nodes` SET `updated` = '".time()."' WHERE `id` = '".$data['node_id']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `type` = '".$data['node_type']."' WHERE `id` = '".$data['node_id']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `uptime` = '".$data['uptime']."' WHERE `id` = '".$data['node_id']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `ip_address` = '".$data['ip_address']."' WHERE `id` = '".$data['node_id']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `cpu_load` = '".$data['cpu_load']."' WHERE `id` = '".$data['node_id']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `cpu_temp` = '".$data['cpu_temp']."' WHERE `id` = '".$data['node_id']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `memory_usage` = '".$data['memory_usage']."' WHERE `id` = '".$data['node_id']."' ");
 	}
-
-	$bits = get_node_details($data['mac_address']);
-
-	$data['node_id'] = $bits['id'];
 
 	json_output($data);
 }
