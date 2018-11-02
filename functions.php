@@ -157,14 +157,6 @@ function cidr_to_range($cidr)
   	return $range;
 }
 
-function percentage($val1, $val2, $precision)
-{
-	$division = $val1 / $val2;
-	$res = $division * 100;
-	$res = round($res, $precision);
-	return $res;
-}
-
 function clean_string($value)
 {
     if ( get_magic_quotes_gpc() ){
