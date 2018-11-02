@@ -20,11 +20,6 @@ switch ($c){
 		node_info();
 		break;
 
-	// process miner ids from master
-	case "process_miners":
-		process_miners();
-		break;
-
 	// build the cluster details for showing on the website
 	case "web_cluster_details_table":
 		web_cluster_details_table();
@@ -112,16 +107,6 @@ function node_info()
 		$result = $db->exec("UPDATE `nodes` SET `memory_usage` = '".$data['memory_usage']."' WHERE `id` = '".$data['node_id']."' ");
 	}
 
-	json_output($data);
-}
-
-function process_miners()
-{
-	$data['status']				= 'success';
-	$data['message']			= 'miner ids have been saved to slave for processing.';
-	$ids 						= file_get_contents('php://input');
-
-	file_put_contents('/var/www/html/ids.txt', $ids);
 	json_output($data);
 }
 

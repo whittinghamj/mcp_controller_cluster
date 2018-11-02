@@ -8,7 +8,7 @@
 
 $api_url = 'http://dashboard.miningcontrolpanel.com';
 
-$global_vars = '/mcp_cluster/global_vars.php';
+$global_vars = '/etc/mcp/global_vars.php';
 if(!file_exists($global_vars))
 {
 	echo $global_vars . " is missing. git clone could be in progress. \n";
@@ -22,7 +22,7 @@ if(!file_exists($functions))
 	die();
 }
 
-include('/mcp_cluster/global_vars.php');
+include('/etc/mcp/global_vars.php');
 include('/mcp_cluster/functions.php');
 
 function killlock(){

@@ -35,7 +35,7 @@ if($this_node['type'] == 'master')
     $api_url = 'http://dashboard.miningcontrolpanel.com';
 
     // sanity check
-    $global_vars = '/mcp_cluster/global_vars.php';
+    $global_vars = '/etc/mcp/global_vars.php';
     if(!file_exists($global_vars))
     {
         echo $global_vars . " is missing. git clone could be in progress. \n";
@@ -51,7 +51,7 @@ if($this_node['type'] == 'master')
     }
 
     // includes
-    include('/mcp_cluster/global_vars.php');
+    include('/etc/mcp/global_vars.php');
     include('/mcp_cluster/functions.php');
 
     // output
@@ -111,7 +111,7 @@ if($this_node['type'] == 'slave')
     $api_url = 'http://dashboard.miningcontrolpanel.com';
 
     // sanity check
-    $global_vars = '/mcp_cluster/global_vars.php';
+    $global_vars = '/etc/mcp/global_vars.php';
     if(!file_exists($global_vars))
     {
         echo $global_vars . " is missing. git clone could be in progress. \n";
@@ -127,7 +127,7 @@ if($this_node['type'] == 'slave')
     }
 
     // includes
-    include('/mcp_cluster/global_vars.php');
+    include('/etc/mcp/global_vars.php');
     include('/mcp_cluster/functions.php');
 
     // output

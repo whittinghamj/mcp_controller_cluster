@@ -22,7 +22,7 @@ if(!file_exists($functions))
 }
 
 include('/mcp_cluster/db.php');
-include('/mcp_cluster/global_vars.php');
+include('/etc/mcp/global_vars.php');
 include('/mcp_cluster/functions.php');
 
 function killlock(){
@@ -527,7 +527,7 @@ if($task == "mcp_configure_site_key_process")
 {
 	$ip_address = $argv[2];
 
-	$cmd = "sshpass -pmcp scp -P 33077 /mcp_cluster/global_vars.php mcp@".$ip_address.":/home/mcp/ 2>/dev/null";
+	$cmd = "sshpass -pmcp scp -P 33077 /etc/mcp/global_vars.php mcp@".$ip_address.":/home/mcp/ 2>/dev/null";
 	exec($cmd);
 
 	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo mv /home/mcp/global_vars.php /mcp_cluster; echo 'Updating MCP Site Key' | sudo tee /dev/pts/0' 2>/dev/null";
@@ -681,29 +681,4 @@ if($task == "mcp_enable_process")
 	
 	// killlock
 	killlock();
-}
-
-## detech usb key and copy new config file
-if($task == "install_config_file")
-{
-	// set vars
-	$usb_key = '/dev/sda1';
-	$mount_point = '/mnt/mcp_key';
-	$config_file = 'global_vars.php';
-
-	// try and mount the usb key
-	if(file_exists($usb_key))
-	{
-		// try and mount the usb key
-		exec("sudo mount ".$usb_key." ".$mount_point);
-	}
-
-	// see if the config file exists
-	if(file_exists($mount_point.'/'.$config_file))
-	{
-		// looks like the file is there, lets copy it
-		exec("sudo cp ".$mount_point."/".$config_file." /etc/mcp/");
-	}
-
-	console_output("Copied new config file for MCP.");
 }
