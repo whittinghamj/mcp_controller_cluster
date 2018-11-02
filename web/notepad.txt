@@ -1,0 +1,89 @@
+./xmr-stak --currency cryptonight -o pool.etn.spacepools.org:3333 -u etnk5FdqVh7Y7bneZiRq7HiwmDPxRBWRqhgDdr5bWGoiRJVuDWbZispRqYU4QV9djVG5VzgyPctkQjZ1xryH1o2JAhWgmReFcq@deb_uk -p x
+
+-uri stratum://[USERNAME].[WORKER_NAME]@[SERVER]
+--currency cryptonight -o [SERVER] -u [USERNAME]@[WORKER_NAME] -p x
+
+
+279e8017e2d2d0d7d591a25e40d6cada
+
+./xmr-stak --currency cryptonight -o pool.etn.spacepools.org:3333 -u etnk5FdqVh7Y7bneZiRq7HiwmDPxRBWRqhgDdr5bWGoiRJVuDWbZispRqYU4QV9djVG5VzgyPctkQjZ1xryH1o2JAhWgmReFcq@deb_uk -p x
+./xmr-stak --currency cryptonight -o pool.etn.spacepools.org:3333 -u etnk5FdqVh7Y7bneZiRq7HiwmDPxRBWRqhgDdr5bWGoiRJVuDW -p x
+
+
+sudo /root/utils/oc_nv.sh $MINER_CORE $MINER_MEMORY $MINER_POWERLIMIT
+sudo /root/utils/oc_nv.sh 9008 2000 150
+
+$ scp root@192.168.7.86:/usr/bin/bmminer /root/
+
+scp -r root@192.168.7.63:/www/pages /Users/whittinghamj/mcp_s9_firmware/
+
+scp -r /Users/whittinghamj/Dropbox/Source\ Code/deltacolo.com/zeus/antminer_s9/web root@192.168.7.61:/www/pages/
+
+scp index.html root@192.168.7.61:/www/pages/
+		
+nmap -p4028 192.168.7.0/24 -oG - | grep -E '4028/open|MAC' | awk '{ print $2 }'
+
+Revenue: $14,945.24
+Pwr Cost: $12,166.32
+Profit: $2,778.65
+
+Miner Type	Antminer S9i
+Hostname	antMiner
+Model	GNU/Linux
+Hardware Version	16.8.1.3
+Kernel Version	Linux 3.14.0-xilinx-ge8a2f71-dirty #82 SMP PREEMPT Tue May 16 19:49:53 CST 2017
+File System Version	Tue Mar 13 10:15:18 CST 2018
+Logic Version	S9i_V2.05
+BMminer Version	2.0.0
+Uptime	11:33
+Load Average	0.13, 0.21, 0.19
+
+sshpass -padmin scp -r /mcp_firmware/antminer root@192.168.7.91:/www/pages/
+
+sed -i 's/\"650\"/\"700\"/' /config/bmminer.conf
+
+https://api.telegram.org/bot711995700:AAHHBKE05KqRYjsBQWv2pBEAddReJgau0Fg/sendMessage?chat_id=@vanguard_mining_alerts&text=test from bot
+
+nmap -p1372 "192.168.1.0/24" -oG - | grep 1372/open | awk '{ print $2 }'
+
+nmap -p1372 "192.168.1.0/24" --host-timeout 10ms -oG - | grep 1372/open | awk '{ print $2 }'
+
+wget https://tecmint.com/wp-content/scripts/tecmint_monitor.sh
+chmod 755 tecmint_monitor.sh
+./tecmint_monitor.sh -i
+monitor
+
+mkdir /root/shellinabox
+cd /root/shellinabox
+wget http://miningcontrolpanel.com/scripts/shellinabox/white-on-black.css
+cd /etc/default
+mv shellinabox shellinabox.default
+wget http://miningcontrolpanel.com/scripts/shellinabox/shellinabox
+sudo invoke-rc.d shellinabox restart
+
+
+
+
+
+shellinaboxd -t -b -p 8888 --no-beep \-s '/htop_app/:nobody:nogroup:/:htop -d 10' --css /root/shellinabox/white-on-black.css
+
+shellinaboxd -t -b -p 9999 --no-beep \-s '/mcp/:nobody:nogroup:/:watch -n1 --color -t php -q /mcp_cluster/local_console.php -d 10' --css /root/shellinabox/white-on-black.css
+
+shellinaboxd -t -b -p 9990 --no-beep \-s '/tunnel/:root:root:/:sh /root/ssh_tunnel.sh' --css=/root/shellinabox/white-on-black.css
+
+
+
+sed -i 's/80/1372/' /etc/apache2/ports.conf
+
+
+
+sshpass -padmin1372 ssh -o StrictHostKeyChecking=no test@192.168.3.225 
+
+
+
+seq 4 | parallel -N0 -j 4 php -q /mcp_cluster/cluster.php test
+
+
+
+
+sshpass -pmcp scp -P 33077 /mcp_cluster/global_vars.php mcp@192.168.1.241:/home/mcp

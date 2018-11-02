@@ -1,6 +1,6 @@
 <?php
 
-// local functions
+// convert array to json
 function json_output($data)
 {
 	$data['timestamp']		= time();

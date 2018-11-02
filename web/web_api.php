@@ -10,7 +10,7 @@ header("Content-Type:application/json; charset=utf-8");
 
 // includes
 include('/var/www/html/db.php');
-include('/var/www/html/functions.php');
+include('/mcp_cluster/functions.php');
 
 $c = addslashes($_GET['c']);
 switch ($c){
@@ -60,47 +60,59 @@ function home()
 
 function node_info()
 {
+	global $db;
+	
 	// get system stats
-	$cpu_cores 				= system_cores();
-	$cpu_load 				= system_load();
-	$memory_usage 			= system_memory_usage();
-	$uptime 				= system_uptime();
+	$data['cpu_type'] 				= exec("sed -n 's/^model name[ \t]*: *//p' /proc/cpuinfo | head -n 1");
+	$data['cpu_cores'] 				= system_cores();
+	$data['cpu_load'] 				= cpu_load($data['cpu_cores']);
+	$data['cpu_temp']				= number_format(exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000, 2);
+	$data['memory_usage'] 			= system_memory_usage();
+	$data['uptime'] 				= system_uptime();
 
     if(file_exists('/sys/firmware/devicetree/base/model'))
     {
-        $hardware 				= exec("cat /sys/firmware/devicetree/base/model");
+        $data['hardware'] 				= exec("cat /sys/firmware/devicetree/base/model");
     }else{
-    	$hardware 				= 'Raspberry Pi x86 Server';
+    	$data['hardware'] 				= 'Raspberry Pi x86 Server';
     }
-	$mac_address			= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
-	$ip_address 			= exec("sh /mcp_cluster/lan_ip.sh");
-	$cpu_temp				= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
-	$cpu 					= exec("sed -n 's/^model name[ \t]*: *//p' /proc/cpuinfo | head -n 1");
 
-	$miners_json 			= exec("cat /var/www/html/ids.txt");
-	$miners					= json_decode($miners_json, true);
-	$total_miners			= count($miners);
+	$data['ip_address'] 			= exec("sh /mcp_cluster/lan_ip.sh");
+	$data['mac_address']			= strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
+	$data['hostname']               = exec('cat /etc/hostname');
 
-	// build $cluster vars
-	$cluster['version']								= '1.0.0.0';
-	$hostname               						= exec('cat /etc/hostname');
-	if($hostname == 'cluster-master')
+	if($data['hostname'] == 'cluster-master')
 	{
-	    $cluster['type'] 				= 'master';
+		$data['node_type'] = 'master';
 	}else{
-	    $cluster['type'] 				= 'slave';
+		$data['node_type'] = 'slave';
 	}
-	$cluster['stats']['hardware'] 				= str_replace('\u0000', '', $hardware);
-	$cluster['stats']['temp'] 					= number_format($cpu_temp, 2);
-	$cluster['stats']['ip_address'] 			= $ip_address;
-	$cluster['stats']['mac_address'] 			= strtoupper($mac_address);
-	$cluster['stats']['cpu']					= $cpu;
-	$cluster['stats']['cpu_cores']				= $cpu_cores;
-	$cluster['stats']['cpu_load']				= $cpu_load['sys'];
-	$cluster['stats']['memory_usage']			= number_format($memory_usage, 2);
-	$cluster['stats']['uptime']					= $uptime;
-	$cluster['stats']['total_miners']			= $total_miners;
-	json_output($cluster);
+
+	$does_node_exist		= does_node_exist($data['mac_address']);
+	if($does_node_exist == 0)
+	{
+		// cant find this node, lets get it added
+		$result = $db->exec("INSERT INTO `nodes` 
+			(`updated`,`type`, `uptime`, `ip_address`, `mac_address`, `hardware`, `cpu_type`, `cpu_load`, `cpu_cores`, `cpu_temp`, `memory_usage`)
+			VALUE
+			('".time()."','".$data['node_type']."', '".$data['uptime']."', '".$data['ip_address']."', '".$data['mac_address']."', '".$data['hardware']."', '".$data['cpu_type']."','".$data['cpu_load']."', '".$data['cpu_cores']."', '".$data['cpu_temp']."', '".$data['memory_usage']."' )");
+		$data['node_id'] = $db->lastInsertId();	
+	}else{
+		// existing node, update details
+		$result = $db->exec("UPDATE `nodes` SET `updated` = '".time()."' ");
+		$result = $db->exec("UPDATE `nodes` SET `type` = '".$data['node_type']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `uptime` = '".$data['uptime']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `ip_address` = '".$data['ip_address']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `cpu_load` = '".$data['cpu_load']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `cpu_temp` = '".$data['cpu_temp']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `memory_usage` = '".$data['memory_usage']."' ");
+	}
+
+	$bits = get_node_details($data['mac_address']);
+
+	$data['node_id'] = $bits['id'];
+
+	json_output($data);
 }
 
 function process_miners()
