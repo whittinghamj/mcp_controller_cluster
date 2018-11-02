@@ -350,3 +350,13 @@ function get_node_details($mac_address)
     
     return $data[0];
 }
+
+function get_nodes()
+{
+    global $db;
+
+    $query = $db->query("SELECT * FROM `nodes` ");
+    $data = $query->fetchAll(PDO::FETCH_ASSOC);
+    
+    return $data;
+}

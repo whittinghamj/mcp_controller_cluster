@@ -88,6 +88,8 @@ if($this_node['type'] == 'master')
 
         $query = $db->query("TRUNCATE TABLE `miners` ");
 
+        print_r($cluster['nodes']);
+
         foreach($miner_ids as $miner_id)
         {
             $result = $db->exec("INSERT INTO `miners` 
