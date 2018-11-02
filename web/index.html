@@ -474,11 +474,7 @@ desired effect
                     var trHTML = '';
                     var total_miners = '';
                     var node_panel = '';
-                    var total_nodes = '';
-
-                    $.each(nodes, function (i, node) {
-                        total_nodes = total_nodes + +1
-                    });
+                    var total_nodes = nodes.length;
 
                     // build the table for nodes
                     $.each(nodes, function (i, node) {
