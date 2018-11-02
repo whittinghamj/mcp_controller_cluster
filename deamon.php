@@ -132,16 +132,16 @@ if($this_node['type'] == 'slave')
     $forced_lag             = $argv[2];
     $forced_lag_counter     = 0;
 
-    // sanity check
-    $miner_ids_file = '/var/www/html/ids.txt';
-    if(!file_exists($miner_ids_file))
-    {
-        console_output("Cluster is currently building its matrix, try again.");
-        die();
-    }
+    $node['mac_address']            = strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
 
-    $miners_raw         = file_get_contents('/var/www/html/ids.txt');
-    $miner_ids          = json_decode($miners_raw, true);
+    $node = get_node_details($data['mac_address']);
+
+    $node['node_id'] = $node['id'];
+
+    $query = $db->query("SELECT `miner_id` FROM `miners` WHERE `miner_id` = '".$node['node_id']."' ");
+    $miner_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    print_r($miner_ids);
 
     $count              = count($miner_ids);
 
