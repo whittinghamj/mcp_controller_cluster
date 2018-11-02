@@ -491,7 +491,70 @@ desired effect
                     });
                     $('#cluster_nodes').html(trHTML);
 
-                    
+                    $.each(nodes, function (i, node) {
+                        if(node.type == 'slave')
+                        {
+                            // build the container
+                            node_panel += ' <div class="col-lg-3 col-xs-6">';
+                            node_panel += '     <div class="panel panel-primary">';
+                            node_panel += '         <div class="panel-heading text-center">';
+                            node_panel +=               node.ip_address;
+                            node_panel += '         </div>';
+                            node_panel += '         <div class="panel-body text-center">';
+                            node_panel += '             <span id="node_cpu_load_'+node.ip_address+'" class="gauge_none text-center"></span>';
+                            node_panel += '         </div>';
+                            node_panel += '     </div>';
+                            node_panel += ' </div>';
+
+                            // chart for node cpu load
+                            $("#node_cpu_load_"+node.ip_address).html('');
+                            var gg1 = new JustGage({
+                                id: 'node_cpu_load_'+node.ip_address,
+                                value: node.cpu_load,
+                                min: 0,
+                                max: 100,
+                                gaugeWidthScale: 1,
+                                counter: false,
+                                relativeGaugeSize: true,
+                                formatNumber: true,
+                                label: "CPU Load"
+                            });
+                        }
+                    });
+                    $('#node_panels').html(node_panel);
+
+                    $.each(nodes, function (i, node) {
+                        if(node.type == 'slave')
+                        {
+                            // chart for node cpu load
+                            $("#node_cpu_load_"+node.ip_address).html('');
+                            var gg1 = new JustGage({
+                                id: 'node_cpu_load_'+node.ip_address,
+                                value: node.cpu_load,
+                                min: 0,
+                                max: 100,
+                                gaugeWidthScale: 1,
+                                counter: false,
+                                relativeGaugeSize: true,
+                                formatNumber: true,
+                                label: "CPU Load"
+                            });
+                        }
+                    });
+
+                    // chart for cluster size
+                    $("#show_cluster_size").html('');
+                    var gg1 = new JustGage({
+                        id: "show_cluster_size",
+                        value: nodes.length,
+                        min: 0,
+                        max: 16,
+                        gaugeWidthScale: 1,
+                        counter: false,
+                        relativeGaugeSize: true,
+                        formatNumber: true,
+                        label: "Nodes"
+                    });
                 },
                 error: function() {
                     // console.log(data);
