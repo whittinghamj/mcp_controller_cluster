@@ -330,7 +330,6 @@ desired effect
                                                     <th>Load</th>
                                                     <th>Temp</th>
                                                     <th>Uptime</th>
-                                                    <th>Miners</th>
                                                 </tr>
                                             </thead>
                                             <tbody id='cluster_nodes'>
@@ -480,14 +479,14 @@ desired effect
                     $.each(nodes, function (i, node) {
                         if(node.type == 'master')
                         {
-                            trHTML += '<tr bgcolor="#9ab5ed"><td>' + ucwords(node.type) + '</td><td>' + node.stats.hardware + '</td><td>' + node.stats.ip_address + '</td><td>' + node.stats.cpu_cores + '</td><td>' + node.stats.cpu_load + '%</td><td>' + node.stats.temp + ' °C</td><td>' + node.stats.uptime + '</td><td>N/A</td></tr>';
+                            trHTML += '<tr bgcolor="#9ab5ed"><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.temp + ' °C</td><td>' + node.uptime + '</td></tr>';
                         }
                     });
 
                     $.each(nodes, function (i, node) {
                         if(node.type == 'slave')
                         {
-                            trHTML += '<tr bgcolor="#a1f29f"><td>' + ucwords(node.type) + '</td><td>' + node.stats.hardware + '</td><td>' + node.stats.ip_address + '</td><td>' + node.stats.cpu_cores + '</td><td>' + node.stats.cpu_load + '%</td><td>' + node.stats.temp + ' °C</td><td>' + node.stats.uptime + '</td><td>' + node.stats.total_miners + '</td></tr>';
+                            trHTML += '<tr bgcolor="#a1f29f"><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.temp + ' °C</td><td>' + node.uptime + '</td></tr>';
                         }
                     });
                     $('#cluster_nodes').html(trHTML);
@@ -499,19 +498,19 @@ desired effect
                             node_panel += ' <div class="col-lg-3 col-xs-6">';
                             node_panel += '     <div class="panel panel-primary">';
                             node_panel += '         <div class="panel-heading text-center">';
-                            node_panel +=               node.stats.ip_address;
+                            node_panel +=               node.ip_address;
                             node_panel += '         </div>';
                             node_panel += '         <div class="panel-body text-center">';
-                            node_panel += '             <span id="node_cpu_load_'+node.stats.ip_address+'" class="gauge_none text-center"></span>';
+                            node_panel += '             <span id="node_cpu_load_'+node.ip_address+'" class="gauge_none text-center"></span>';
                             node_panel += '         </div>';
                             node_panel += '     </div>';
                             node_panel += ' </div>';
 
                             // chart for node cpu load
-                            $("#node_cpu_load_"+node.stats.ip_address).html('');
+                            $("#node_cpu_load_"+node.ip_address).html('');
                             var gg1 = new JustGage({
-                                id: 'node_cpu_load_'+node.stats.ip_address,
-                                value: node.stats.cpu_load,
+                                id: 'node_cpu_load_'+node.ip_address,
+                                value: node.cpu_load,
                                 min: 0,
                                 max: 100,
                                 gaugeWidthScale: 1,
@@ -528,10 +527,10 @@ desired effect
                         if(node.type == 'slave')
                         {
                             // chart for node cpu load
-                            $("#node_cpu_load_"+node.stats.ip_address).html('');
+                            $("#node_cpu_load_"+node.ip_address).html('');
                             var gg1 = new JustGage({
-                                id: 'node_cpu_load_'+node.stats.ip_address,
-                                value: node.stats.cpu_load,
+                                id: 'node_cpu_load_'+node.ip_address,
+                                value: node.cpu_load,
                                 min: 0,
                                 max: 100,
                                 gaugeWidthScale: 1,
@@ -570,9 +569,9 @@ desired effect
                 timeout: 30000,
                 cache: false,
                 success: function(node) {                    
-                    $('#hardware').html(node.stats.hardware);
-                    $('#ip_address').html(node.stats.ip_address);
-                    $('#uptime').html(node.stats.uptime);
+                    $('#hardware').html(node.hardware);
+                    $('#ip_address').html(node.ip_address);
+                    $('#uptime').html(node.uptime);
 
                     $('#loading_content').addClass("hidden");
 

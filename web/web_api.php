@@ -127,27 +127,34 @@ function find_master()
 
 function cluster_totals()
 {
-	$node_json 				= file_get_contents('/mcp_cluster/nodes.txt');
+	global $db;
 
-	$node_data				= json_decode($node_json, true);
+	// count nodes
+	$query = $db->query("SELECT `id`,`type` FROM `nodes` ");
+    $nodes = $query->fetchAll(PDO::FETCH_ASSOC);
 
-	$data['total_nodes']	= count($node_data);
-
-	$data['total_miners'] 	= 0;
-
-	foreach($node_data as $node)
+    $data['total_nodes']			= count($nodes);
+    $data['total_slaves']			= 0;
+    $data['total_masters']			= 0;
+    $data['total_cluster_load']		= 0;
+	foreach($nodes as $node)
 	{
-		$data['total_miners'] = $data['total_miners'] + $node['stats']['total_miners'];
-	}
+		if($node['type'] == 'master')
+		{
+			$data['total_masters']++;
+		}else{
+			$data['total_slaves']++;
+		}
 
-	$data['total_cluster_load'] 	= 0;
-
-	foreach($node_data as $node)
-	{
-		$data['total_cluster_load'] = $data['total_cluster_load'] + $node['stats']['cpu_load'];
+		$data['total_cluster_load'] = $data['total_cluster_load'] + $node['cpu_load'];
 	}
 
 	$data['max_cluster_load']		= percentage($data['total_cluster_load'], $data['total_nodes']);
+
+	// count miners
+	$query = $db->query("SELECT `id` FROM `miners` ");
+    $miners = $query->fetchAll(PDO::FETCH_ASSOC);
+	$data['total_miners'] 	= count($miners);
 
 	json_output($data);
 }
