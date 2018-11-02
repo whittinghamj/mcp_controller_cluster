@@ -166,7 +166,8 @@ function cluster_totals()
 
 function test()
 {
-	echo 'test';
+	global $db;
+	
 	// get system stats
 	$cpu_type 				= exec("sed -n 's/^model name[ \t]*: *//p' /proc/cpuinfo | head -n 1");
 	$cpu_cores 				= system_cores();
@@ -197,7 +198,6 @@ function test()
 	if($does_node_exist == 0)
 	{
 		// cant find this node, lets get it added
-		// global $db;
 		$result = $db->exec("INSERT INTO `nodes` 
 			(`updated`,`type`, `uptime`, `ip_address`, `mac_address`, `hardware`, `cpu_type`, `cpu_cores`, `cpu_temp`, `memory_usage`)
 			VALUE
