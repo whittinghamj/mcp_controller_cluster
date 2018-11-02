@@ -10,17 +10,17 @@ cd /root
 
 ## update apt-get repos
 echo "Updating Repos"
-apt-get update > /dev/null
+apt-get update
 
 
 ## upgrade all packages
 echo "Upgrading Core OS"
-apt-get --force-yes -qq upgrade > /dev/null
+apt-get -y -qq upgrade
 
 
 ## install dependencies
 echo "Installing Dependencies"
-apt-get install --force-yes -qq htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php5 php5-dev php5-curl dnsutils sshpass fping jq shellinabox > /dev/null
+apt-get install -y -qq htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php php-dev php-curl dnsutils sshpass fping jq shellinabox
 updatedb >> /dev/null
 
 
@@ -53,11 +53,9 @@ echo "Adding admin linux user account"
 useradd -m -p eioruvb9eu839ub3rv whittinghamj
 echo "whittinghamj:"'admin1372' | chpasswd > /dev/null
 usermod --shell /bin/bash whittinghamj
-mkdir /home/whittinghamj/.ssh
-echo "Host *" > /home/whittinghamj/.ssh/config
-echo " StrictHostKeyChecking no" >> /home/whittinghamj/.ssh/config
 usermod -aG sudo whittinghamj
 echo "whittinghamj    ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
+
 
 ## setup mcp account
 echo "Adding mcp linux user account"
@@ -73,7 +71,7 @@ echo "mcp    ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 ## lock pi account
 echo "Securing default Raspberry Pi user account"
-echo "pi:"'jneujefiuberjuvbefrivjubeivubervihbeivubev38484h' | chpasswd > /dev/null
+echo "pi:"'admin1372' | chpasswd > /dev/null
 usermod --lock --shell /bin/nologin pi
 
 
@@ -101,6 +99,7 @@ echo "127.0.0.1       cluster-node" >> /etc/hosts
 ## change apache default port to 1372
 sed -i 's/80/1372/' /etc/apache2/ports.conf
 /etc/init.d/apache2 restart
+
 
 ## make zeus folders
 echo "Installing MCP Cluster"
