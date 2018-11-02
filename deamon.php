@@ -132,9 +132,9 @@ if($this_node['type'] == 'slave')
     $forced_lag             = $argv[2];
     $forced_lag_counter     = 0;
 
-    $node['mac_address']            = strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
+    $mac_address            = strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
 
-    $node = get_node_details($data['mac_address']);
+    $node = get_node_details($mac_address);
 
     $node['node_id'] = $node['id'];
 
