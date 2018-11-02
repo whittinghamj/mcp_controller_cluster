@@ -58,6 +58,12 @@ if($this_node['type'] == 'master')
     console_output(" >- Master: ".$cluster['total_master']);
     console_output(" >- Slaves: ".$cluster['total_slave']);
 
+    if($cluster['total_slave'] == 0)
+    {
+        console_output("No slaves available, exiting.");
+        die();
+    }
+
     $runs                   = $argv[1];
     $forced_lag             = $argv[2];
     $forced_lag_counter     = 0;
