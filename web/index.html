@@ -480,14 +480,14 @@ desired effect
                     $.each(nodes, function (i, node) {
                         if(node.type == 'master')
                         {
-                            trHTML += '<tr bgcolor="#9ab5ed"><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.temp + ' °C</td><td>' + node.uptime + '</td></tr>';
+                            trHTML += '<tr bgcolor="#9ab5ed"><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.cpu_temp + ' °C</td><td>' + node.uptime + '</td></tr>';
                         }
                     });
 
                     $.each(nodes, function (i, node) {
                         if(node.type == 'slave')
                         {
-                            trHTML += '<tr bgcolor="#a1f29f"><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.temp + ' °C</td><td>' + node.uptime + '</td></tr>';
+                            trHTML += '<tr bgcolor="#a1f29f"><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.cpu_temp + ' °C</td><td>' + node.uptime + '</td></tr>';
                         }
                     });
                     $('#cluster_nodes').html(trHTML);
