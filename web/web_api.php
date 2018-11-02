@@ -171,7 +171,7 @@ function test()
 	// get system stats
 	$data['cpu_type'] 				= exec("sed -n 's/^model name[ \t]*: *//p' /proc/cpuinfo | head -n 1");
 	$data['cpu_cores'] 				= system_cores();
-	$data['cpu_load'] 				= system_load();
+	$data['cpu_load'] 				= cpu_load($data['cpu_cores']);
 	$data['cpu_temp']				= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
 	$data['memory_usage'] 			= system_memory_usage();
 	$data['uptime'] 				= system_uptime();

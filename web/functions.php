@@ -34,7 +34,7 @@ function system_cores()
 }
 
 // get system load
-function system_load($coreCount = 2, $interval = 1)
+function system_load($coreCount = 4, $interval = 1)
 {
 	$stat1 = file('/proc/stat'); 
 	sleep(1); 
@@ -50,7 +50,7 @@ function system_load($coreCount = 2, $interval = 1)
 	$cpu = array(); 
 	foreach($dif as $x=>$y) $cpu[$x] = round($y / $total * 100, 1);
 
-	return $cpu;
+	return $cpu['sys'];
 }
 
 // get memory usage
@@ -104,7 +104,7 @@ function does_node_exist($mac_address)
 function get_node_details($mac_address)
 {
 	global $db;
-	
+
 	$query = $db->query("SELECT * FROM `nodes` WHERE `mac_address` = '".$mac_address."'");
 	$data = $query->fetchAll(PDO::FETCH_ASSOC);
 	
