@@ -187,14 +187,14 @@ function test()
 	$data['mac_address']			= strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
 	$data['hostname']               = exec('cat /etc/hostname');
 
-	if($hostname == 'cluster-master')
+	if($data['hostname'] == 'cluster-master')
 	{
 		$data['node_type'] = 'master';
 	}else{
 		$data['node_type'] = 'slave';
 	}
 
-	$does_node_exist		= does_node_exist($mac_address);
+	$does_node_exist		= does_node_exist($data['mac_address']);
 	if($does_node_exist == 0)
 	{
 		// cant find this node, lets get it added

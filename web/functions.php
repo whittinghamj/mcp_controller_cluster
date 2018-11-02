@@ -103,6 +103,8 @@ function does_node_exist($mac_address)
 
 function get_node_details($mac_address)
 {
+	global $db;
+	
 	$query = $db->query("SELECT * FROM `nodes` WHERE `mac_address` = '".$mac_address."'");
 	$data = $query->fetchAll(PDO::FETCH_ASSOC);
 	
