@@ -33,8 +33,8 @@ function system_cores()
     return empty($cpuCoreNo) ? 1 : $cpuCoreNo;
 }
 
-// get system load
-function system_load($coreCount = 4, $interval = 1)
+// get cpu load
+function cpu_load($coreCount = 4, $interval = 1)
 {
 	$stat1 = file('/proc/stat'); 
 	sleep(1); 
