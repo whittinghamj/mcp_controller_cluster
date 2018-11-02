@@ -206,12 +206,12 @@ function test()
 	}else{
 		// existing node, update details
 		$result = $db->exec("UPDATE `nodes` SET `updated` = '".time()."' ");
-		$result = $db->exec("UPDATE `ty` SET `type` = '".$data['node_type']."' ");
-		$result = $db->exec("UPDATE `ty` SET `uptime` = '".$data['uptime']."' ");
-		$result = $db->exec("UPDATE `ty` SET `ip_address` = '".$data['ip_address']."' ");
-		$result = $db->exec("UPDATE `ty` SET `cpu_load` = '".$data['cpu_load']."' ");
-		$result = $db->exec("UPDATE `ty` SET `cpu_temp` = '".$data['cpu_temp']."' ");
-		$result = $db->exec("UPDATE `ty` SET `memory_usage` = '".$data['memory_usage']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `type` = '".$data['node_type']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `uptime` = '".$data['uptime']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `ip_address` = '".$data['ip_address']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `cpu_load` = '".$data['cpu_load']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `cpu_temp` = '".$data['cpu_temp']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `memory_usage` = '".$data['memory_usage']."' ");
 	}
 
 	$bits = get_node_details($data['mac_address']);
