@@ -28,7 +28,7 @@ sudo sh /mcp_cluster/update.sh
 shellinaboxd -t -b -p 8888 --no-beep \-s '/htop_app/:nobody:nogroup:/:htop -d 10' --css /root/shellinabox/white-on-black.css
 
 ## stop services that are not needed on a slave
-if [[ "$HOSTNAME" == 'cluster-node' ]]
+if [ "$HOSTNAME" == 'cluster-node' ];
 then
 	# stop mysql server
 	echo 'Booting MCP Cluster Slave'
