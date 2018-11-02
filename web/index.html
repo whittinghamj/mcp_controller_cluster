@@ -474,7 +474,10 @@ desired effect
                     var trHTML = '';
                     var total_miners = '';
                     var node_panel = '';
-                    var total_nodes = nodes.length;
+                    var total_nodes = 0;
+                    $.each(nodes, function (i, node) {
+                        var total_nodes = total_nodes + +1;
+                    });
                     console.log('Cluster Nodes: '+total_nodes);
 
                     // build the table for nodes
