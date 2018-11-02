@@ -8,6 +8,7 @@ ini_set('error_reporting', E_ALL);
 header("Content-Type:application/json; charset=utf-8");
 
 // includes
+include('db.php');
 include('functions.php');
 
 
@@ -165,19 +166,41 @@ function cluster_totals()
 
 function test()
 {
-	$stat1 = file('/proc/stat'); 
-	sleep(1); 
-	$stat2 = file('/proc/stat'); 
-	$info1 = explode(" ", preg_replace("!cpu +!", "", $stat1[0])); 
-	$info2 = explode(" ", preg_replace("!cpu +!", "", $stat2[0])); 
-	$dif = array(); 
-	$dif['user'] = $info2[0] - $info1[0]; 
-	$dif['nice'] = $info2[1] - $info1[1]; 
-	$dif['sys'] = $info2[2] - $info1[2]; 
-	$dif['idle'] = $info2[3] - $info1[3]; 
-	$total = array_sum($dif); 
-	$cpu = array(); 
-	foreach($dif as $x=>$y) $cpu[$x] = round($y / $total * 100, 1);
+	// get system stats
+	$cpu_type 				= exec("sed -n 's/^model name[ \t]*: *//p' /proc/cpuinfo | head -n 1");
+	$cpu_cores 				= system_cores();
+	$cpu_load 				= system_load();
+	$cpu_temp				= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
+	$memory_usage 			= system_memory_usage();
+	$uptime 				= system_uptime();
 
-	json_output($cpu);
+    if(file_exists('/sys/firmware/devicetree/base/model'))
+    {
+        $hardware 				= exec("cat /sys/firmware/devicetree/base/model");
+    }else{
+    	$hardware 				= 'Raspberry Pi x86 Server';
+    }
+
+	$ip_address 			= exec("sh /mcp_cluster/lan_ip.sh");
+	$mac_address			= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
+	$hostname               = exec('cat /etc/hostname');
+
+	if($hostname == 'cluster-master')
+	{
+		$node_type = 'master';
+	}else{
+		$node_type = 'slave';
+	}
+
+	$does_node_exist		= does_node_exist($mac_address);
+	if($does_node_exist == 0)
+	{
+		// cant find this node, lets get it added
+		$input = mysql_query("INSERT INTO `nodes` 
+			(`updated`,`type`, `uptime`, `ip_address`, `mac_address`, `hardware`, `cpu_type`, `cpu_cores`, `cpu_temp`, `memory_usage`)
+			VALUE
+			('".time()."','".$node_type."', '".$uptime."', '".$ip_address."', '".$mac_address."', '".$hardware."', '".$cpu_type."', '".$cpu_cores."', '".$cpu_temp."', '".$memory_usage."' )") or die(mysql_error());
+	}else{
+		// existing node, update details
+	}
 }

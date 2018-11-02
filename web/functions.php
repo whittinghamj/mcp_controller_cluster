@@ -90,3 +90,11 @@ function percentage($val1, $val2, $precision = 2)
 	$res = round($res, $precision);
 	return $res;
 }
+
+function does_node_exist($mac_address)
+{
+	$query = "SELECT `id` FROM `nodes` WHERE `mac_address` = '".$mac_address."' ";
+	$result = mysql_query($query) or die(mysql_error());
+	$node_found = mysql_num_rows($result);
+	return $node_found;
+}
