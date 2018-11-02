@@ -166,18 +166,7 @@ if($this_node['type'] == 'slave')
 
                 $pipe[$j] = popen("php -q /mcp_cluster/deamon_update_miner_stats.php -p='".$miner_ids[$j]."'", 'w');
 
-                if(isset($argv[2]))
-                {
-                    $forced_lag_counter = $forced_lag_counter + 1;
-                    // console_output($forced_lag_counter);
-                    if($forced_lag_counter == $forced_lag)
-                    {
-                        // console_output("forced_lag_counter = " . $forced_lag_counter);
-                        sleep(1);
-                        // console_output("done sleeping");
-                        $forced_lag_counter = 0;
-                    }
-                }
+                
             }
 
             // console_output("Killing children.");
