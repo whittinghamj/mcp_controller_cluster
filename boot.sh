@@ -25,7 +25,7 @@ sudo iwconfig wlan0 txpower off > /dev/null 2>&1
 sudo sh /mcp_cluster/update.sh > /dev/null 2>&1
 
 ## start shellinabox for htop read only access
-shellinaboxd -t -b -p 8888 --no-beep \-s '/htop_app/:nobody:nogroup:/:htop -d 10' --css /root/shellinabox/white-on-black.css
+shellinaboxd -t -b -p 8888 --no-beep \-s '/htop_app/:nobody:nogroup:/:htop -d 10' --css /root/shellinabox/white-on-black.css > /dev/null 2>&1
 
 ## stop services that are not needed on a slave
 if [ "$HOSTNAME" = "cluster-node" ]
