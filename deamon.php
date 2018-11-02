@@ -1,5 +1,7 @@
 <?php
 
+include('/mcp_cluster/db.php');
+
 // check if this is a master or slave node
 $node_type               = exec('cat /etc/hostname');
 if($node_type == 'cluster-master')
@@ -12,8 +14,8 @@ if($node_type == 'cluster-master')
 if($this_node['type'] == 'master')
 {
     // check to see if we have any nodes available
-    $nodes_file = @file_get_contents('/mcp_cluster/nodes.txt');
-    $cluster['nodes'] = json_decode($nodes_file, TRUE);
+    $query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' ");
+    $cluster['nodes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 
     $cluster['total_master'] = 0;
     $cluster['total_slave'] = 0;
@@ -24,7 +26,7 @@ if($this_node['type'] == 'master')
             $cluster['total_master']++;
         }else{
             $cluster['total_slave']++;
-            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+            $cluster['slaves'][]['ip_address'] = $node['ip_address'];
         }
     }
     $cluster['total_nodes'] = count($cluster['nodes']);
@@ -86,319 +88,15 @@ if($this_node['type'] == 'master')
         $jobs_per_node = round($total_miners / $cluster['total_slave']);
         console_output("Jobs Per Slave: " . $jobs_per_node);
 
-        // break jobs up for slave nodes
-        // first run
-        foreach($miner_ids as $key => $miner_id)
+        $query = $db->query("TRUNCATE TABLE `miners` ");
+
+        foreach($miner_ids as $miner_id)
         {
-            if($key <= $jobs_per_node)
-            {
-                $postdata[] = $miner_id;
-                unset($miner_ids[$key]);
-            }
+            $result = $db->exec("INSERT INTO `miners` 
+                (`updated`,`miner_id`, `node_id`)
+                VALUE
+                ('".time()."','".$miner_id."', '".rand(1,$total_miners)."')");
         }
-
-        console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
-
-        // post data to slave node
-        post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
-        unset($postdata);
-
-        // reset the slave and get ready for the next slave inline
-        unset($cluster['slaves'][0]);
-
-        // rearrange for next run
-        $miner_ids = array_values($miner_ids);
-        $cluster['slaves'] = array_values($cluster['slaves']);
-
-        // second run
-        if(isset($cluster['slaves'][0]))
-        {
-            foreach($miner_ids as $key => $miner_id)
-            {
-                if($key <= $jobs_per_node)
-                {
-                    $postdata[] = $miner_id;
-                    unset($miner_ids[$key]);
-                }
-            }
-
-            console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
-
-            // post data to slave node
-            post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
-            unset($postdata);
-
-            // reset the slave and get ready for the next slave inline
-            unset($cluster['slaves'][0]);
-
-            // rearrange for next run
-            $miner_ids = array_values($miner_ids);
-            $cluster['slaves'] = array_values($cluster['slaves']);
-        }
-
-        // third run
-        if(isset($cluster['slaves'][0]))
-        {
-            foreach($miner_ids as $key => $miner_id)
-            {
-                if($key <= $jobs_per_node)
-                {
-                    $postdata[] = $miner_id;
-                    unset($miner_ids[$key]);
-                }
-            }
-
-            console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
-
-            // post data to slave node
-            post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
-            unset($postdata);
-
-            // reset the slave and get ready for the next slave inline
-            unset($cluster['slaves'][0]);
-
-            // rearrange for next run
-            $miner_ids = array_values($miner_ids);
-            $cluster['slaves'] = array_values($cluster['slaves']);
-        }
-
-        // forth run
-        if(isset($cluster['slaves'][0]))
-        {
-            foreach($miner_ids as $key => $miner_id)
-            {
-                if($key <= $jobs_per_node)
-                {
-                    $postdata[] = $miner_id;
-                    // echo "Slave: " . $cluster['slaves'][0]['ip_address']." gets Key: ".$key." Miner ID: ".$miner_id."\n";
-                    unset($miner_ids[$key]);
-                }
-            }
-
-            console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
-
-            // post data to slave node
-            post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
-            unset($postdata);
-
-            // reset the slave and get ready for the next slave inline
-            unset($cluster['slaves'][0]);
-
-            // rearrange for next run
-            $miner_ids = array_values($miner_ids);
-            $cluster['slaves'] = array_values($cluster['slaves']);
-        }
-
-        // fifth run
-        if(isset($cluster['slaves'][0]))
-        {
-            foreach($miner_ids as $key => $miner_id)
-            {
-                if($key <= $jobs_per_node)
-                {
-                    $postdata[] = $miner_id;
-                    unset($miner_ids[$key]);
-                }
-            }
-
-            console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
-
-            // post data to slave node
-            post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
-            unset($postdata);
-
-            // reset the slave and get ready for the next slave inline
-            unset($cluster['slaves'][0]);
-
-            // rearrange for next run
-            $miner_ids = array_values($miner_ids);
-            $cluster['slaves'] = array_values($cluster['slaves']);
-        }
-
-        // sixth run
-        if(isset($cluster['slaves'][0]))
-        {
-            foreach($miner_ids as $key => $miner_id)
-            {
-                if($key <= $jobs_per_node)
-                {
-                    $postdata[] = $miner_id;
-                    unset($miner_ids[$key]);
-                }
-            }
-
-            console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
-
-            // post data to slave node
-            post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
-            unset($postdata);
-
-            // reset the slave and get ready for the next slave inline
-            unset($cluster['slaves'][0]);
-
-            // rearrange for next run
-            $miner_ids = array_values($miner_ids);
-            $cluster['slaves'] = array_values($cluster['slaves']);
-        }
-
-        // seventh run
-        if(isset($cluster['slaves'][0]))
-        {
-            foreach($miner_ids as $key => $miner_id)
-            {
-                if($key <= $jobs_per_node)
-                {
-                    $postdata[] = $miner_id;
-                    unset($miner_ids[$key]);
-                }
-            }
-
-            console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
-
-            // post data to slave node
-            post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
-            unset($postdata);
-
-            // reset the slave and get ready for the next slave inline
-            unset($cluster['slaves'][0]);
-
-            // rearrange for next run
-            $miner_ids = array_values($miner_ids);
-            $cluster['slaves'] = array_values($cluster['slaves']);
-        }
-
-        // eighth run
-        if(isset($cluster['slaves'][0]))
-        {
-            foreach($miner_ids as $key => $miner_id)
-            {
-                if($key <= $jobs_per_node)
-                {
-                    $postdata[] = $miner_id;
-                    unset($miner_ids[$key]);
-                }
-            }
-
-            console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
-
-            // post data to slave node
-            post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
-            unset($postdata);
-
-            // reset the slave and get ready for the next slave inline
-            unset($cluster['slaves'][0]);
-
-            // rearrange for next run
-            $miner_ids = array_values($miner_ids);
-            $cluster['slaves'] = array_values($cluster['slaves']);
-        }
-
-        // ninth run
-        if(isset($cluster['slaves'][0]))
-        {
-            foreach($miner_ids as $key => $miner_id)
-            {
-                if($key <= $jobs_per_node)
-                {
-                    $postdata[] = $miner_id;
-                    unset($miner_ids[$key]);
-                }
-            }
-
-            console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
-
-            // post data to slave node
-            post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
-            unset($postdata);
-
-            // reset the slave and get ready for the next slave inline
-            unset($cluster['slaves'][0]);
-
-            // rearrange for next run
-            $miner_ids = array_values($miner_ids);
-            $cluster['slaves'] = array_values($cluster['slaves']);
-        }
-
-        // tenth run
-        if(isset($cluster['slaves'][0]))
-        {
-            foreach($miner_ids as $key => $miner_id)
-            {
-                if($key <= $jobs_per_node)
-                {
-                    $postdata[] = $miner_id;
-                    unset($miner_ids[$key]);
-                }
-            }
-
-            console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
-
-            // post data to slave node
-            post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
-            unset($postdata);
-
-            // reset the slave and get ready for the next slave inline
-            unset($cluster['slaves'][0]);
-
-            // rearrange for next run
-            $miner_ids = array_values($miner_ids);
-            $cluster['slaves'] = array_values($cluster['slaves']);
-        }
-
-        // eleventh run
-        if(isset($cluster['slaves'][0]))
-        {
-            foreach($miner_ids as $key => $miner_id)
-            {
-                if($key <= $jobs_per_node)
-                {
-                    $postdata[] = $miner_id;
-                    unset($miner_ids[$key]);
-                }
-            }
-
-            console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
-
-            // post data to slave node
-            post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
-            unset($postdata);
-
-            // reset the slave and get ready for the next slave inline
-            unset($cluster['slaves'][0]);
-
-            // rearrange for next run
-            $miner_ids = array_values($miner_ids);
-            $cluster['slaves'] = array_values($cluster['slaves']);
-        }
-
-        // twelth run
-        if(isset($cluster['slaves'][0]))
-        {
-            foreach($miner_ids as $key => $miner_id)
-            {
-                if($key <= $jobs_per_node)
-                {
-                    $postdata[] = $miner_id;
-                    unset($miner_ids[$key]);
-                }
-            }
-
-            console_output("Handed ".count($postdata)." to ".$cluster['slaves'][0]['ip_address']);
-
-            // post data to slave node
-            post_to_slave($postdata, $cluster['slaves'][0]['ip_address']);
-            unset($postdata);
-
-            // reset the slave and get ready for the next slave inline
-            unset($cluster['slaves'][0]);
-
-            // rearrange for next run
-            $miner_ids = array_values($miner_ids);
-            $cluster['slaves'] = array_values($cluster['slaves']);
-        }
-
-        console_output("Remaining Miners: " . count($miner_ids));
-
     }else{
         console_output("No ASIC miners.");
     }
