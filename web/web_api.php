@@ -136,10 +136,10 @@ function find_master()
 {
 	global $db;
 
-    $query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'master'");
-    $data = $query->fetchAll(PDO::FETCH_ASSOC);
+    $query = $db->query("SELECT `ip_address` FROM `nodes` WHERE `type` = 'master' ");
+    $results = $query->fetchAll(PDO::FETCH_ASSOC);
     
-    $data['master']['ip_address'] 		= $data[0]['ip_address'];
+    $data['master']['ip_address'] 		= $results[0]['ip_address'];
 
 	json_output($data);
 }
