@@ -36,6 +36,8 @@ if($task == "install_config_file")
 			console_output("Attempting to mount MCP USB key.");
 
 			exec("sudo mount ".$usb_key." ".$mount_point);
+
+			break;
 			$status = '';
 		}else{
 			$status = 'no_usb_found';
@@ -60,6 +62,8 @@ if($task == "install_config_file")
 		fire_led('error');
 		die();
 	}
+
+	exec("sudo umount /dev/sda1 > /dev/null 2>&1");
 
 	console_output("Copied new config file for MCP.");
 	fire_led('success');
