@@ -474,7 +474,12 @@ desired effect
                     var trHTML = '';
                     var total_miners = '';
                     var node_panel = '';
+                    var total_nodes = ;;
 
+                    $.each(nodes, function (i, node) {
+                        total_nodes = total_nodes + +1
+                    });
+                    
                     // build the table for nodes
                     $.each(nodes, function (i, node) {
                         if(node.node_type == 'master')
@@ -546,7 +551,7 @@ desired effect
                     $("#show_cluster_size").html('');
                     var gg1 = new JustGage({
                         id: "show_cluster_size",
-                        value: nodes.length,
+                        value: total_nodes,
                         min: 0,
                         max: 16,
                         gaugeWidthScale: 1,
