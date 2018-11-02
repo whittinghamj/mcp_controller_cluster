@@ -21,6 +21,7 @@ if(!file_exists($functions))
 	die();
 }
 
+include('/mcp_cluster/db.php');
 include('/mcp_cluster/global_vars.php');
 include('/mcp_cluster/functions.php');
 
@@ -395,6 +396,8 @@ if($task == "apt_upgrade_process")
 ## update mcp cluster software for all slaves
 if($task == "mcp_update")
 {
+	global $db;
+
 	$runs = 1;
 	
 	$lockfile = dirname(__FILE__) . "/cluster.mcp_update.loc";
@@ -407,8 +410,8 @@ if($task == "mcp_update")
 	
 	console_output("Updating MCP Cluster Software");
 
-	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
-    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
+	$query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' ");
+	$cluster['nodes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 
    	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
 
