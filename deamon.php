@@ -56,9 +56,7 @@ if($this_node['type'] == 'master')
 
     // output
     console_output("MCP Controller Cluster - Master");
-    console_output("Total Nodes: ".$cluster['total_nodes']);
-    console_output(" >- Master: ".$cluster['total_master']);
-    console_output(" >- Slaves: ".$cluster['total_slave']);
+    console_output("Total Slaves: ".$cluster['total_nodes']);
 
     if($cluster['total_slave'] == 0)
     {
