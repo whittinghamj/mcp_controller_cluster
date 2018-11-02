@@ -18,13 +18,13 @@ if($task == "install_config_file")
 	$config_file = 'global_vars.php';
 
 	// sanity checks
-	if(!file_exists('/etc/mcp'))
+	if(!file_exists("/etc/mcp"))
 	{
-		exec('sudo mkdir /etc/mcp');
+		exec("sudo mkdir /etc/mcp");
 	}
-	if(!file_exists('/mnt/mcp_key'))
+	if(!file_exists("/mnt/mcp_key"))
 	{
-		exec('sudo mkdir /mnt/mcp_key');
+		exec("sudo mkdir /mnt/mcp_key");
 	}
 
 	// try and mount the usb key
@@ -36,6 +36,8 @@ if($task == "install_config_file")
 		exec("sudo mount ".$usb_key." ".$mount_point);
 	}else{
 		console_output("MCP USB Key not found.");
+		fire_led('error');
+		die();
 	}
 
 	// see if the config file exists
@@ -46,7 +48,10 @@ if($task == "install_config_file")
 		exec("sudo cp ".$mount_point."/".$config_file." /etc/mcp/");
 	}else{
 		console_output("MCP Cluster config file not found on USB key.");
+		fire_led('error');
+		die();
 	}
 
 	console_output("Copied new config file for MCP.");
+	fire_led('success');
 }

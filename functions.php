@@ -360,3 +360,50 @@ function get_nodes()
     
     return $data;
 }
+
+function fire_led($status)
+{
+    // clear the LED
+    exec('echo 0 >/sys/class/leds/led0/brightness');
+    sleep(2);
+
+    // display success pulses
+    if($status == 'success')
+    {
+        exec('echo 1 >/sys/class/leds/led0/brightness');
+        sleep(1);
+        exec('echo 0 >/sys/class/leds/led0/brightness');
+        sleep(1);
+        exec('echo 1 >/sys/class/leds/led0/brightness');
+        sleep(1);
+        exec('echo 0 >/sys/class/leds/led0/brightness');
+        sleep(1);
+        exec('echo 1 >/sys/class/leds/led0/brightness');
+        sleep(1);
+        exec('echo 0 >/sys/class/leds/led0/brightness');
+        sleep(1);
+        exec('echo 1 >/sys/class/leds/led0/brightness');
+        sleep(1);
+        exec('echo 0 >/sys/class/leds/led0/brightness');
+        sleep(1);
+        exec('echo 1 >/sys/class/leds/led0/brightness');
+        sleep(1);
+        exec('echo 0 >/sys/class/leds/led0/brightness');
+        sleep(1);
+    }
+
+    if($status == 'error')
+    {
+        exec('echo 1 >/sys/class/leds/led0/brightness');
+        sleep(3);
+        exec('echo 0 >/sys/class/leds/led0/brightness');
+        sleep(1);
+        exec('echo 1 >/sys/class/leds/led0/brightness');
+        sleep(3);
+        exec('echo 0 >/sys/class/leds/led0/brightness');
+        sleep(1);
+        exec('echo 1 >/sys/class/leds/led0/brightness');
+        sleep(3);
+        exec('echo 0 >/sys/class/leds/led0/brightness');
+    }
+}
