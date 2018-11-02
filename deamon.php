@@ -94,10 +94,11 @@ if($this_node['type'] == 'master')
 
         foreach($miner_ids as $miner_id)
         {
+            $random_node = array_rand($node_ids);
             $result = $db->exec("INSERT INTO `miners` 
                 (`updated`,`miner_id`, `node_id`)
                 VALUE
-                ('".time()."','".$miner_id."', '".array_rand($node_ids)."')");
+                ('".time()."','".$miner_id."', '".$node_ids[$random_node]."')");
         }
     }else{
         console_output("No ASIC miners.");
