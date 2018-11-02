@@ -19,7 +19,10 @@
 * * * * * php -q /mcp_cluster/console.php controller_checkin > /mcp_cluster/logs/console.log 2>&1
 
 # scan the network for cluster nodes
-*/5 * * * * php -q /mcp_cluster/cluster.php node_scanner > /mcp_cluster/logs/cluster.log 2>&1
+# */5 * * * * php -q /mcp_cluster/cluster.php node_scanner > /mcp_cluster/logs/cluster.log 2>&1
+
+# check for mcp usb key for config file update
+* * * * * php -q /mcp_cluster/usb.php install_config_file > /dev/null 2>&1
 
 # reboot every hour
 # 0 * * * * /sbin/reboot
