@@ -642,7 +642,7 @@ desired effect
                 timeout: 30000,
                 cache: false,
                 success: function(node) {                    
-                    var cluster_master = node.master.ip_address;
+                    var cluster_master = ip_address;
                     window.setTimeout(window.location.href = "http://"+cluster_master+":1372",5000);
                 },
                 error: function() {
