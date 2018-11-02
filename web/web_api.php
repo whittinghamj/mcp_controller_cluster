@@ -134,17 +134,12 @@ function web_cluster_details_table()
 
 function find_master()
 {
-	$node_json 			= file_get_contents('/mcp_cluster/nodes.txt');
+	global $db;
 
-	$node_data			= json_decode($node_json, true);
-
-	foreach($node_data as $node)
-	{
-		if($node['type'] == 'master')
-		{
-			$data['master']['ip_address'] = $node['stats']['ip_address'];
-		}
-	}
+    $query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'master'");
+    $data = $query->fetchAll(PDO::FETCH_ASSOC);
+    
+    $data['master']['ip_address'] 		= $data[0]['ip_address'];
 
 	json_output($data);
 }
