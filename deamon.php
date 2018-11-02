@@ -143,12 +143,16 @@ if($this_node['type'] == 'slave')
 
     $node['node_id'] = $node['id'];
 
-    print_r($node);
+    // print_r($node);
 
     $query = $db->query("SELECT `miner_id` FROM `miners` WHERE `node_id` = '".$node['node_id']."' ");
-    $miner_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+    $miner_ids_temp = $query->fetchAll(PDO::FETCH_ASSOC);
 
-    print_r($miner_ids);
+    // print_r($miner_ids);
+
+    foreach ($miner_ids_temp as $miner_id) {
+        $miner_ids[] = $miner_id;
+    }
 
     $count              = count($miner_ids);
 
