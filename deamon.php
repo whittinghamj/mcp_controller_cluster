@@ -68,8 +68,8 @@ if($this_node['type'] == 'master')
     $forced_lag             = $argv[2];
     $forced_lag_counter     = 0;
 
-    $miners_raw 		= file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_miners");
-    $miners 			= json_decode($miners_raw, true);
+    $miners_raw 		  = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_miners");
+    $miners 			 = json_decode($miners_raw, true);
 
     if(isset($miners['miners']))
     {
