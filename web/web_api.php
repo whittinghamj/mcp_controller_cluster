@@ -133,15 +133,10 @@ function web_cluster_details_table()
 }
 
 function find_master()
-{
-	global $db;
+{   
+    $data['master']['ip_address'] 		= gethostbyname('cluster-master');
 
-    $query = $db->query("SELECT `ip_address` FROM `nodes` WHERE `type` = 'master' ");
-    $results = $query->fetchAll(PDO::FETCH_ASSOC);
-    
-    $data['master']['ip_address'] 		= $results[0]['ip_address'];
-
-	json_output($results);
+	json_output($data);
 }
 
 function cluster_totals()
