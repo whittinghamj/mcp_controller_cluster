@@ -64,6 +64,9 @@ sleep 1
 ## disable onboard wireless
 sudo iwconfig wlan0 txpower off
 
+## get the latest mcp software
+sudo sh /mcp_cluster/update.sh
+
 ## start shellinabox for htop read only access
 shellinaboxd -t -b -p 8888 --no-beep \-s '/htop_app/:nobody:nogroup:/:htop -d 10' --css /root/shellinabox/white-on-black.css
 
