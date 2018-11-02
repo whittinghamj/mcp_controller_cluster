@@ -9,7 +9,7 @@ ini_set('display_startup_errors', 1);
 header("Content-Type:application/json; charset=utf-8");
 
 // includes
-include('/var/www/html/db.php');
+include('/mcp_cluster/db.php');
 include('/mcp_cluster/functions.php');
 
 $c = addslashes($_GET['c']);

@@ -32,14 +32,6 @@ function console_output($data)
 	echo "[" . $timestamp . "] - " . $data . "\n";
 }
 
-function json_output($data)
-{
-	$data['timestamp']		= time();
-	$data 					= json_encode($data);
-	echo $data;
-	die();
-}
-
 function getsock($addr, $port)
 {
 	$socket = null;
