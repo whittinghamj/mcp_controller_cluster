@@ -474,11 +474,6 @@ desired effect
                     var trHTML = '';
                     var total_miners = '';
                     var node_panel = '';
-                    var total_nodes = 0;
-                    $.each(nodes, function (i, node) {
-                        total_nodes = total_nodes + +1;
-                    });
-                    console.log('Cluster Nodes: '+total_nodes);
 
                     // build the table for nodes
                     $.each(nodes, function (i, node) {
@@ -545,20 +540,6 @@ desired effect
                                 label: "CPU Load"
                             });
                         }
-                    });
-
-                    // chart for cluster size
-                    $("#show_cluster_size").html('');
-                    var gg1 = new JustGage({
-                        id: "show_cluster_size",
-                        value: total_nodes,
-                        min: 0,
-                        max: 16,
-                        gaugeWidthScale: 1,
-                        counter: false,
-                        relativeGaugeSize: true,
-                        formatNumber: true,
-                        label: "Nodes"
                     });
                 },
                 error: function() {
@@ -630,6 +611,20 @@ desired effect
                         relativeGaugeSize: true,
                         formatNumber: true,
                         label: "Load"
+                    });
+
+                    // chart for cluster size
+                    $("#show_cluster_size").html('');
+                    var gg1 = new JustGage({
+                        id: "show_cluster_size",
+                        value: total_nodes,
+                        min: 0,
+                        max: 16,
+                        gaugeWidthScale: 1,
+                        counter: false,
+                        relativeGaugeSize: true,
+                        formatNumber: true,
+                        label: "Nodes"
                     });
                 },
                 error: function() {
