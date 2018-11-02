@@ -8,7 +8,7 @@ ini_set('error_reporting', E_ALL);
 header("Content-Type:application/json; charset=utf-8");
 
 // includes
-include('/var/www/html/db.php');
+// include('/var/www/html/db.php');
 include('/var/www/html/functions.php');
 
 $c = addslashes($_GET['c']);
