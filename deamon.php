@@ -140,7 +140,7 @@ if($this_node['type'] == 'slave')
 
     print_r($node);
 
-    $query = $db->query("SELECT `miner_id` FROM `miners` WHERE `miner_id` = '".$node['node_id']."' ");
+    $query = $db->query("SELECT `miner_id` FROM `miners` WHERE `node_id` = '".$node['node_id']."' ");
     $miner_ids = $query->fetchAll(PDO::FETCH_ASSOC);
 
     print_r($miner_ids);
