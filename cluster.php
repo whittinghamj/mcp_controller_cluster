@@ -426,7 +426,7 @@ if($task == "mcp_update")
             $cluster['total_master']++;
         }else{
             $cluster['total_slave']++;
-            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
+            $cluster['slaves'][]['ip_address'] = $node['ip_address'];
         }
     }
 
