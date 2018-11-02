@@ -169,29 +169,29 @@ function test()
 	global $db;
 	
 	// get system stats
-	$cpu_type 				= exec("sed -n 's/^model name[ \t]*: *//p' /proc/cpuinfo | head -n 1");
-	$cpu_cores 				= system_cores();
-	$cpu_load 				= system_load();
-	$cpu_temp				= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
-	$memory_usage 			= system_memory_usage();
-	$uptime 				= system_uptime();
+	$data['cpu_type'] 				= exec("sed -n 's/^model name[ \t]*: *//p' /proc/cpuinfo | head -n 1");
+	$data['cpu_cores'] 				= system_cores();
+	$data['cpu_load'] 				= system_load();
+	$data['cpu_temp']				= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
+	$data['memory_usage'] 			= system_memory_usage();
+	$data['uptime'] 				= system_uptime();
 
     if(file_exists('/sys/firmware/devicetree/base/model'))
     {
-        $hardware 				= exec("cat /sys/firmware/devicetree/base/model");
+        $data['hardware'] 				= exec("cat /sys/firmware/devicetree/base/model");
     }else{
-    	$hardware 				= 'Raspberry Pi x86 Server';
+    	$data['hardware'] 				= 'Raspberry Pi x86 Server';
     }
 
-	$ip_address 			= exec("sh /mcp_cluster/lan_ip.sh");
-	$mac_address			= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
-	$hostname               = exec('cat /etc/hostname');
+	$data['ip_address'] 			= exec("sh /mcp_cluster/lan_ip.sh");
+	$data['mac_address']			= strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
+	$data['hostname']               = exec('cat /etc/hostname');
 
 	if($hostname == 'cluster-master')
 	{
-		$node_type = 'master';
+		$data['node_type'] = 'master';
 	}else{
-		$node_type = 'slave';
+		$data['node_type'] = 'slave';
 	}
 
 	$does_node_exist		= does_node_exist($mac_address);
@@ -201,9 +201,21 @@ function test()
 		$result = $db->exec("INSERT INTO `nodes` 
 			(`updated`,`type`, `uptime`, `ip_address`, `mac_address`, `hardware`, `cpu_type`, `cpu_cores`, `cpu_temp`, `memory_usage`)
 			VALUE
-			('".time()."','".$node_type."', '".$uptime."', '".$ip_address."', '".$mac_address."', '".$hardware."', '".$cpu_type."', '".$cpu_cores."', '".$cpu_temp."', '".$memory_usage."' )");
-		$event_id = $db->lastInsertId();	
+			('".time()."','".$data['node_type']."', '".$data['uptime']."', '".$data['ip_address']."', '".$data['mac_address']."', '".$data['hardware']."', '".$data['cpu_type']."', '".$data['cpu_cores']."', '".$data['cpu_temp']."', '".$data['memory_usage']."' )");
+		$data['node_id'] = $db->lastInsertId();	
 	}else{
 		// existing node, update details
+		$result = $db->exec("UPDATE `nodes` SET `updated` = '".time()."' ");
+		$result = $db->exec("UPDATE `ty` SET `type` = '".$data['node_type']."' ");
+		$result = $db->exec("UPDATE `ty` SET `uptime` = '".$data['uptime']."' ");
+		$result = $db->exec("UPDATE `ty` SET `ip_address` = '".$data['ip_address']."' ");
+		$result = $db->exec("UPDATE `ty` SET `cpu_temp` = '".$data['cpu_temp']."' ");
+		$result = $db->exec("UPDATE `ty` SET `memory_usage` = '".$data['memory_usage']."' ");
 	}
+
+	$bits = get_node_details($data['mac_address']);
+
+	$data['node_id'] = $bits['id'];
+
+	json_output($data);
 }
