@@ -413,6 +413,8 @@ if($task == "mcp_update")
 	$query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' ");
 	$cluster['nodes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 
+	print_r($cluster['nodes']);
+
    	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
 
    	$cluster['total_master'] = 0;
