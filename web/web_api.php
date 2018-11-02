@@ -166,6 +166,7 @@ function cluster_totals()
 
 function test()
 {
+	echo 'test';
 	// get system stats
 	$cpu_type 				= exec("sed -n 's/^model name[ \t]*: *//p' /proc/cpuinfo | head -n 1");
 	$cpu_cores 				= system_cores();
