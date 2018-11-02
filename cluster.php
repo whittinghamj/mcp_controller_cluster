@@ -7,7 +7,7 @@ ini_set('error_reporting', E_ALL);
 
 $api_url = 'http://dashboard.miningcontrolpanel.com';
 
-$global_vars = '/mcp_cluster/global_vars.php';
+$global_vars = '/etc/mcp/global_vars.php';
 if(!file_exists($global_vars))
 {
 	echo $global_vars . " is missing. git clone could be in progress. \n";
