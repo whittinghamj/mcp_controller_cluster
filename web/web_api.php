@@ -112,9 +112,10 @@ function node_info()
 
 function web_cluster_details_table()
 {
-	$node_json 			= file_get_contents('/mcp_cluster/nodes.txt');
+	global $db;
+	$nodes 		= get_nodes();
 
-	echo $node_json;
+	json_output($nodes);
 }
 
 function find_master()
