@@ -61,6 +61,10 @@ sleep 1
 echo "[ ${GREEN}OK${SET} ] Booting Cluster."
 sleep 1
 
+## disable onboard wireless
+sudo iwconfig wlan0 txpower off
+
+## start shellinabox for htop read only access
 shellinaboxd -t -b -p 8888 --no-beep \-s '/htop_app/:nobody:nogroup:/:htop -d 10' --css /root/shellinabox/white-on-black.css
 
 # watch -n1 --color -t sudo php -q /mcp_cluster/local_console.php
