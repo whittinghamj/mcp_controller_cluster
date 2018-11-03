@@ -190,10 +190,11 @@ if($this_node['type'] == 'slave')
     $miner_ids_temp = $query->fetchAll(PDO::FETCH_ASSOC);
 
     if(!isset($miner_ids_temp[0]))
+    {
         console_output("No assigned miners yet.");
         die();
     }
-    
+
     foreach ($miner_ids_temp as $miner_id) {
         $miner_ids[] = $miner_id['miner_id'];
     }
