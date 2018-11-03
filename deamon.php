@@ -139,6 +139,14 @@ if($this_node['type'] == 'slave')
 
     $mac_address            = strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
 
+    echo "MAC Address: " . $mac_address;
+    
+    if(empty($mac_address))
+    {
+        console_output("MAC Address is empty, unable to continue.");
+        die();
+    }
+
     $node = get_node_details($mac_address);
 
     $node['node_id'] = $node['id'];
