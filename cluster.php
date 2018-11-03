@@ -113,9 +113,6 @@ if($task == "node_checkin")
 
 	$data 					= get_system_stats();
 
-	print_r($data);
-	die();
-
     $does_node_exist        = does_node_exist($data['mac_address']);
 
     if(empty($data['mac_address']))
@@ -132,13 +129,24 @@ if($task == "node_checkin")
             VALUE
             ('".time()."','".$data['node_type']."', '".$data['uptime']."', '".$data['ip_address']."', '".$data['mac_address']."', '".$data['hardware']."', '".$data['cpu_type']."','".$data['cpu_load']."', '".$data['cpu_cores']."', '".$data['cpu_temp']."', '".$data['memory_usage']."' )");
         $data['node_id'] = $db->lastInsertId(); 
+
+        console_output("Node added to the cluster.");
+    }else{
+    	// existing node, update details
+		$bits = get_node_details($data['mac_address']);
+
+		$data['node_id'] = $bits['id'];
+
+		$result = $db->exec("UPDATE `nodes` SET `updated` = '".time()."' WHERE `id` = '".$data['node_id']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `type` = '".$data['node_type']."' WHERE `id` = '".$data['node_id']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `uptime` = '".$data['uptime']."' WHERE `id` = '".$data['node_id']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `ip_address` = '".$data['ip_address']."' WHERE `id` = '".$data['node_id']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `cpu_load` = '".$data['cpu_load']."' WHERE `id` = '".$data['node_id']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `cpu_temp` = '".$data['cpu_temp']."' WHERE `id` = '".$data['node_id']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `memory_usage` = '".$data['memory_usage']."' WHERE `id` = '".$data['node_id']."' ");
+
+		console_output("Node stats updated.");
     }
-
-    $node = get_node_details($data['mac_address']);
-
-    $node['node_id'] = $node['id'];
-	
-	console_output("Done.");
 
 	// killlock
 	killlock();
