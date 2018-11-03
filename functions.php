@@ -397,3 +397,37 @@ function fire_led($status)
         exec('echo 0 >/sys/class/leds/led0/brightness');
     }
 }
+
+function get_system_stats()
+{
+    $data['cpu_type']               = exec("sed -n 's/^model name[ \t]*: *//p' /proc/cpuinfo | head -n 1");
+    $data['cpu_cores']              = system_cores();
+    $data['cpu_load']               = exec('echo `top -b -n1 | grep "Cpu(s)" | awk \'{print $2 + $4}\'`');
+    $data['cpu_temp']               = number_format(exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000, 2);
+    $data['memory_usage']           = system_memory_usage();
+    $data['uptime']                 = system_uptime();
+
+    if(file_exists('/sys/firmware/devicetree/base/model'))
+    {
+        $data['hardware']               = exec("cat /sys/firmware/devicetree/base/model");
+    }else{
+        $data['hardware']               = 'Raspberry Pi x86 Server';
+    }
+
+    $data['ip_address']             = exec("sh /mcp_cluster/lan_ip.sh");
+    $data['mac_address']            = strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
+    $data['hostname']               = exec('cat /etc/hostname');
+
+    if($data['hostname'] == 'cluster-master')
+    {
+        $data['node_type'] = 'master';
+    }else{
+        $data['node_type'] = 'slave';
+    }
+
+    $node = get_node_details($data['mac_address']);
+
+    $node['node_id'] = $node['id'];
+
+    return $data;
+}

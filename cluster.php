@@ -107,35 +107,36 @@ if($task == "node_scanner")
 	killlock();
 }
 
-if($task == "controller_checkin")
+if($task == "node_checkin")
 {
-	$lockfile = dirname(__FILE__) . "/cluster.controller_checkin.loc";
-	if(file_exists($lockfile)){
-		console_output("controller_checkin is already running. exiting");
-		die();
-	}else{
-		exec("touch $lockfile");
-	}
-	
-	console_output("Running controller checkin");
+	global $db;
 
-	$hardware 			= exec("cat /sys/firmware/devicetree/base/model");
-	// $mac_address 		= exec("cat /sys/class/net/eth0/address");
-	$mac_address		= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
-	$ip_address 		= exec("sh /mcp/lan_ip.sh");
-	$cpu_temp			= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
+	$data 					= get_system_stats();
 
-	console_output('Hardware: ' . $hardware);
-	console_output('IP Address: ' . $ip_address);
-	console_output('MAC Address: ' . $mac_address);
-	console_output('CPU Temp: ' . $cpu_temp);
+	print_r($data);
+	die();
 
-	$post_url = $api_url."/api/?key=".$config['api_key']."&c=controller_checkin&type=contoller&ip_address=".$ip_address."&mac_address=".$mac_address."&cpu_temp=".$cpu_temp."&version=".$version."&hardware=".base64_encode($hardware);
-	
-	// console_output("POST URL: " . $post_url);
+    $does_node_exist        = does_node_exist($data['mac_address']);
 
-	// send data to mcp
-	$post = file_get_contents($post_url);
+    if(empty($data['mac_address']))
+    {
+        console_output("MAC Address is empty, unable to continue.");
+        die();
+    }
+
+    if($does_node_exist == 0)
+    {
+        // cant find this node, lets get it added
+        $result = $db->exec("INSERT INTO `nodes` 
+            (`updated`,`type`, `uptime`, `ip_address`, `mac_address`, `hardware`, `cpu_type`, `cpu_load`, `cpu_cores`, `cpu_temp`, `memory_usage`)
+            VALUE
+            ('".time()."','".$data['node_type']."', '".$data['uptime']."', '".$data['ip_address']."', '".$data['mac_address']."', '".$data['hardware']."', '".$data['cpu_type']."','".$data['cpu_load']."', '".$data['cpu_cores']."', '".$data['cpu_temp']."', '".$data['memory_usage']."' )");
+        $data['node_id'] = $db->lastInsertId(); 
+    }
+
+    $node = get_node_details($data['mac_address']);
+
+    $node['node_id'] = $node['id'];
 	
 	console_output("Done.");
 
