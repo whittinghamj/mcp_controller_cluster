@@ -162,9 +162,9 @@ if($this_node['type'] == 'slave')
         $data['node_type'] = 'slave';
     }
 
-    $does_node_exist        = does_node_exist($mac_address);
+    $does_node_exist        = does_node_exist($data['mac_address']);
 
-    if(empty($mac_address))
+    if(empty($data['mac_address']))
     {
         console_output("MAC Address is empty, unable to continue.");
         die();
@@ -180,9 +180,7 @@ if($this_node['type'] == 'slave')
         $data['node_id'] = $db->lastInsertId(); 
     }
 
-    unset($data);
-
-    $node = get_node_details($mac_address);
+    $node = get_node_details($data['mac_address']);
 
     $node['node_id'] = $node['id'];
 
