@@ -139,12 +139,22 @@ if($this_node['type'] == 'slave')
 
     $mac_address            = strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
 
-    echo "MAC Address: " . $mac_address;
-    
+    $does_node_exist        = does_node_exist($mac_address);
+
     if(empty($mac_address))
     {
         console_output("MAC Address is empty, unable to continue.");
         die();
+    }
+    
+    if($does_node_exist == 0)
+    {
+        // cant find this node, lets get it added
+        $result = $db->exec("INSERT INTO `nodes` 
+            (`updated`,`type`, `uptime`, `ip_address`, `mac_address`, `hardware`, `cpu_type`, `cpu_load`, `cpu_cores`, `cpu_temp`, `memory_usage`)
+            VALUE
+            ('".time()."','".$data['node_type']."', '".$data['uptime']."', '".$data['ip_address']."', '".$data['mac_address']."', '".$data['hardware']."', '".$data['cpu_type']."','".$data['cpu_load']."', '".$data['cpu_cores']."', '".$data['cpu_temp']."', '".$data['memory_usage']."' )");
+        $data['node_id'] = $db->lastInsertId(); 
     }
 
     $node = get_node_details($mac_address);
