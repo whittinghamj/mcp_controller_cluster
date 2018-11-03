@@ -137,54 +137,11 @@ if($this_node['type'] == 'slave')
     $forced_lag             = $argv[2];
     $forced_lag_counter     = 0;
 
-    $data['cpu_type']               = exec("sed -n 's/^model name[ \t]*: *//p' /proc/cpuinfo | head -n 1");
-    $data['cpu_cores']              = system_cores();
-    $data['cpu_load']               = cpu_load($data['cpu_cores']);
-    $data['cpu_temp']               = number_format(exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000, 2);
-    $data['memory_usage']           = system_memory_usage();
-    $data['uptime']                 = system_uptime();
+    $data                   = get_system_stats();
 
-    if(file_exists('/sys/firmware/devicetree/base/model'))
-    {
-        $data['hardware']               = exec("cat /sys/firmware/devicetree/base/model");
-    }else{
-        $data['hardware']               = 'Raspberry Pi x86 Server';
-    }
+    $node                   = get_node_details($data['mac_address']);
 
-    $data['ip_address']             = exec("sh /mcp_cluster/lan_ip.sh");
-    $data['mac_address']            = strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
-    $data['hostname']               = exec('cat /etc/hostname');
-
-    if($data['hostname'] == 'cluster-master')
-    {
-        $data['node_type'] = 'master';
-    }else{
-        $data['node_type'] = 'slave';
-    }
-
-    $does_node_exist        = does_node_exist($data['mac_address']);
-
-    if(empty($data['mac_address']))
-    {
-        console_output("MAC Address is empty, unable to continue.");
-        die();
-    }
-
-    if($does_node_exist == 0)
-    {
-        // cant find this node, lets get it added
-        $result = $db->exec("INSERT INTO `nodes` 
-            (`updated`,`type`, `uptime`, `ip_address`, `mac_address`, `hardware`, `cpu_type`, `cpu_load`, `cpu_cores`, `cpu_temp`, `memory_usage`)
-            VALUE
-            ('".time()."','".$data['node_type']."', '".$data['uptime']."', '".$data['ip_address']."', '".$data['mac_address']."', '".$data['hardware']."', '".$data['cpu_type']."','".$data['cpu_load']."', '".$data['cpu_cores']."', '".$data['cpu_temp']."', '".$data['memory_usage']."' )");
-        $data['node_id'] = $db->lastInsertId(); 
-    }
-
-    $node = get_node_details($data['mac_address']);
-
-    $node['node_id'] = $node['id'];
-
-    // print_r($node);
+    $node['node_id']        = $node['id'];
 
     $query = $db->query("SELECT `miner_id` FROM `miners` WHERE `node_id` = '".$node['node_id']."' ");
     $miner_ids_temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -205,7 +162,6 @@ if($this_node['type'] == 'slave')
 
     if(is_array($miner_ids))
     {
-
         for ($i=0; $i<$runs; $i++) {
             console_output("Spawning children.");
             for ($j=0; $j<$count; $j++) {
