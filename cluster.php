@@ -113,13 +113,13 @@ if($task == "node_checkin")
 
 	$data 					= get_system_stats();
 
-    $does_node_exist        = does_node_exist($data['mac_address']);
-
     if(empty($data['mac_address']))
     {
         console_output("MAC Address is empty, unable to continue.");
         die();
     }
+
+    $does_node_exist        = does_node_exist($data['mac_address']);
 
     if($does_node_exist == 0)
     {
