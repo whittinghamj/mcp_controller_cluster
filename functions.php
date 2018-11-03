@@ -405,6 +405,7 @@ function get_system_stats()
     $data['cpu_load']               = exec('echo `top -b -n1 | grep "Cpu(s)" | awk \'{print $2 + $4}\'`');
     $data['cpu_temp']               = number_format(exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000, 2);
     $data['memory_usage']           = system_memory_usage();
+    $data['hdd_usage']              = exec('echo `df -lh | awk \'{if ($6 == "/") { print $5 }}\' | head -1 | cut -d\'%\' -f1`');
     $data['uptime']                 = system_uptime();
 
     if(file_exists('/sys/firmware/devicetree/base/model'))
