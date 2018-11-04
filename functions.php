@@ -366,12 +366,11 @@ function get_nodes()
     
     foreach($nodes as $node)
     {
-        $node['node_id'] = $node['id'];
+        $node['node_id']        = $node['id'];
 
         $location               = geoip_record_by_name($node['ip_address_wan']);
     
-        $node['location']    = $location;
-        print_r($node);
+        $node['location']       = $location;
     }
 
     return $nodes;
