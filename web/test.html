@@ -83,6 +83,10 @@ var chart = Highcharts.mapChart('container', {
         // Use id instead of name to allow for referencing points later using
         // chart.get
         data: [{
+            id: 'MCP',
+            lat: 37.548271,
+            lon: -121.988571
+        },{
             id: 'Castle Rock',
             lat: 39.443901062012,
             lon: -104.85150146484
@@ -100,14 +104,14 @@ var chart = Highcharts.mapChart('container', {
 
 // Function to return an SVG path between two points, with an arc
 function pointsToPath(from, to, invertArc) {
-    var arcPointX = (from.x + to.x) / (invertArc ? 1 : 5),
-        arcPointY = (from.y + to.y) / (invertArc ? 1 : 5);
+    var arcPointX = (from.x + to.x) / (invertArc ? 5 : 5),
+        arcPointY = (from.y + to.y) / (invertArc ? 5 : 5);
     return 'M' + from.x + ',' + from.y + 'Q' + arcPointX + ' ' + arcPointY +
             ',' + to.x + ' ' + to.y;
 }
 
-var londonPoint = chart.get('Castle Rock'),
-    lerwickPoint = chart.get('Lerwick');
+var master = chart.get('Castle Rock'),
+    mcp = chart.get('MCP');
 
 // Add a series of lines for London
 chart.addSeries({
@@ -116,11 +120,14 @@ chart.addSeries({
     lineWidth: 2,
     color: Highcharts.getOptions().colors[3],
     data: [{
-        id: 'Master to Slave',
-        path: pointsToPath(londonPoint, chart.get('Darwen'), 0)
+        id: 'Master to MCP',
+        path: pointsToPath(mcp, chart.get('Darwen'), 0)
     }, {
         id: 'Master to Slave',
-        path: pointsToPath(londonPoint, chart.get('Pocatello'), 0)
+        path: pointsToPath(master, chart.get('Darwen'), 0)
+    }, {
+        id: 'Master to Slave',
+        path: pointsToPath(master, chart.get('Pocatello'), 0)
     }]
 });
 
