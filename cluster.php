@@ -43,66 +43,30 @@ $cluster = '';
 
 if($task == "node_scanner")
 {
-	$lockfile = dirname(__FILE__) . "/cluster.cluster_scan.loc";
-	if(file_exists($lockfile)){
-		console_output("cluster_scan is already running. exiting");
-		die();
-	}else{
-		exec("touch $lockfile");
-	}
-	
-	console_output("Getting site IP ranges");
+	global $db;
 
-	/*
-	$ip_ranges_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_ip_ranges");
-	$ip_ranges = json_decode($ip_ranges_raw, true);
+	$data 					= get_system_stats();
 
-	foreach($ip_ranges['ip_ranges'] as $ip_range){
-		$subnets[] = $ip_range['ip_range'];
-	}
-	*/
-
-	// clean up from last run
-	exec('rm -rf /mcp_cluster/node_ip_addresses.txt');
-	exec('touch /mcp_cluster/node_ip_addresses.txt');
-	
-	// run multi threaded network scan for cluster nodes
-	exec('sh /mcp_cluster/node_scanner.sh '.$config['api_key']);
-
-	// get node_ip_address
-	$ip_file = file('/mcp_cluster/node_ip_addresses.txt');
-
-	// Loop through our array, show HTML source as HTML source; and line numbers too.
-	foreach ($ip_file as $ip)
+	if($data['type'] == 'master')
 	{
-		$ip 						= str_replace(' ', '', $ip);
-		$ip 						= trim($ip, " \t.");
-		$ip 						= trim($ip, " \n.");
-		$ip 						= trim($ip, " \r.");
+		$nodes 				= get_nodes();
 
-		echo "Checking ".$ip." -> ";
-		// check IP for web_api.php
-		$cluster_api_url = 'http://'.$ip.':1372/web_api.php?c=node_info';
-		$file_headers = @get_headers($cluster_api_url);
-		if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
-		    // not a cluster node
-		    echo "not a cluster node. \n";
-		}
-		else {
-		    // cluster node found, lets get some data.
-		    echo "cluster node FOUND. \n";
-		    $node = @file_get_contents($cluster_api_url);
-		    $node = json_decode($node, true);
-		    // print_r($node);
-		    $cluster['nodes'][] = $node;
+		foreach($nodes as $node)
+		{
+			if($node['type'] == 'slave')
+			{
+				$ping_status = ping_node($node['ip_address']);
+				if($ping_status == 'offline')
+				{
+					$result = $db->exec("UPDATE `nodes` SET `status` = 'offline' WHERE `id` = '".$node['id']."' ");
+
+					console_output("Node: ".$node['ip_address']." is offline.");
+				}else{
+					console_output("Node: ".$node['ip_address']." is online.");
+				}
+			}
 		}
 	}
-
-	$nodes = json_encode($cluster['nodes']);
-
-	// write nodes to file
-	file_put_contents('/mcp_cluster/nodes.txt', $nodes);
-
 	// killlock
 	killlock();
 }
@@ -144,6 +108,8 @@ if($task == "node_checkin")
 		$result = $db->exec("UPDATE `nodes` SET `cpu_load` = '".$data['cpu_load']."' WHERE `id` = '".$data['node_id']."' ");
 		$result = $db->exec("UPDATE `nodes` SET `cpu_temp` = '".$data['cpu_temp']."' WHERE `id` = '".$data['node_id']."' ");
 		$result = $db->exec("UPDATE `nodes` SET `memory_usage` = '".$data['memory_usage']."' WHERE `id` = '".$data['node_id']."' ");
+
+		$result = $db->exec("UPDATE `nodes` SET `status` = 'online' WHERE `id` = '".$data['node_id']."' ");
 
 		console_output("Node stats updated.");
     }
