@@ -102,18 +102,18 @@ function pointsToPath(from, to, invertArc) {
             ',' + to.x + ' ' + to.y;
 }
 
-var londonPoint = chart.get('London'),
+var londonPoint = chart.get('Andy'),
     lerwickPoint = chart.get('Lerwick');
 
 // Add a series of lines for London
 chart.addSeries({
-    name: 'London flight routes',
+    name: 'Master > Slave Connections',
     type: 'mapline',
     lineWidth: 2,
     color: Highcharts.getOptions().colors[3],
     data: [{
-        id: 'London - Glasgow',
-        path: pointsToPath(londonPoint, chart.get('Glasgow'), 0)
+        id: 'Andy - Jamie',
+        path: pointsToPath(londonPoint, chart.get('Jamie'), 0)
     }]
 });
 
