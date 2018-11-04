@@ -87,42 +87,9 @@ var chart = Highcharts.mapChart('container', {
             lat: 51.507222,
             lon: -0.1275
         }, {
-            id: 'Birmingham',
-            lat: 52.483056,
-            lon: -1.893611
-        }, {
-            id: 'Leeds',
-            lat: 53.799722,
-            lon: -1.549167
-        }, {
             id: 'Glasgow',
             lat: 55.858,
             lon: -4.259
-        }, {
-            id: 'Sheffield',
-            lat: 53.383611,
-            lon: -1.466944
-        }, {
-            id: 'Liverpool',
-            lat: 53.4,
-            lon: -3
-        }, {
-            id: 'Bristol',
-            lat: 51.45,
-            lon: -2.583333
-        }, {
-            id: 'Belfast',
-            lat: 54.597,
-            lon: -5.93
-        }, {
-            id: 'Lerwick',
-            lat: 60.155,
-            lon: -1.145,
-            dataLabels: {
-                align: 'left',
-                x: 5,
-                verticalAlign: 'middle'
-            }
         }]
     }]
 });
@@ -147,46 +114,9 @@ chart.addSeries({
     data: [{
         id: 'London - Glasgow',
         path: pointsToPath(londonPoint, chart.get('Glasgow'))
-    }, {
-        id: 'London - Belfast',
-        path: pointsToPath(londonPoint, chart.get('Belfast'), true)
-    }, {
-        id: 'London - Leeds',
-        path: pointsToPath(londonPoint, chart.get('Leeds'))
-    }, {
-        id: 'London - Liverpool',
-        path: pointsToPath(londonPoint, chart.get('Liverpool'), true)
-    }, {
-        id: 'London - Sheffield',
-        path: pointsToPath(londonPoint, chart.get('Sheffield'))
-    }, {
-        id: 'London - Birmingham',
-        path: pointsToPath(londonPoint, chart.get('Birmingham'), true)
-    }, {
-        id: 'London - Bristol',
-        path: pointsToPath(londonPoint, chart.get('Bristol'), true)
     }]
 });
 
-// Add a series of lines for Lerwick
-chart.addSeries({
-    name: 'Lerwick flight routes',
-    type: 'mapline',
-    lineWidth: 2,
-    color: Highcharts.getOptions().colors[5],
-    data: [{
-        id: 'Lerwick - Glasgow',
-        path: pointsToPath(lerwickPoint, chart.get('Glasgow'))
-    }, {
-        id: 'Lerwick - Belfast',
-        path: pointsToPath(lerwickPoint, chart.get('Belfast'))
-    }, {
-        id: 'Lerwick - Leeds',
-        path: pointsToPath(lerwickPoint, chart.get('Leeds'))
-    }, {
-        id: 'Lerwick - Liverpool',
-        path: pointsToPath(lerwickPoint, chart.get('Liverpool'))
-    }]
-});
+
 
 </script>
