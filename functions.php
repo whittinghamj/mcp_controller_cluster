@@ -364,9 +364,14 @@ function get_nodes()
     global $db;
 
     $query = $db->query("SELECT * FROM `nodes` ORDER BY `type`,INET_ATON(ip_address)");
-    $data = $query->fetchAll(PDO::FETCH_ASSOC);
+    $nodes = $query->fetchAll(PDO::FETCH_ASSOC);
     
-    return $data;
+    foreach($nodes as $node)
+    {
+        $node['node_id'] = $node['id'];
+    }
+
+    return $nodes;
 }
 
 function fire_led($status)
