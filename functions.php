@@ -362,15 +362,18 @@ function get_nodes()
     global $db;
 
     $query = $db->query("SELECT * FROM `nodes` ORDER BY `type`,INET_ATON(ip_address)");
-    $nodes = $query->fetchAll(PDO::FETCH_ASSOC);
+    $data = $query->fetchAll(PDO::FETCH_ASSOC);
 
-    foreach($nodes as $key => $value)
+    $count = 0;
+    foreach($data as $node)
     {
-        $nodes[$key]['node_id']        = $node['id'];
+        $nodes[$count]['node_id']        = $node['id'];
 
-        $location               = geoip_record_by_name($node['ip_address_wan']);
+        $location                        = geoip_record_by_name($node['ip_address_wan']);
     
-        $nodes[$key]['location']       = $location;
+        $nodes[$count]['location']       = $location;
+
+        $count++;
     }
 
     return $nodes;
