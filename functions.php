@@ -410,9 +410,9 @@ function get_system_stats()
 
     if(file_exists('/sys/firmware/devicetree/base/model'))
     {
-        $data['hardware']               = exec("cat /sys/firmware/devicetree/base/model");
+        $data['hardware']           = exec("cat /sys/firmware/devicetree/base/model");
     }else{
-        $data['hardware']               = 'Raspberry Pi x86 Server';
+        $data['hardware']           = 'Raspberry Pi x86 Server';
     }
 
     $data['ip_address']             = exec("sh /mcp_cluster/lan_ip.sh");
@@ -422,14 +422,16 @@ function get_system_stats()
 
     if($data['hostname'] == 'cluster-master')
     {
-        $data['node_type'] = 'master';
+        $data['node_type']          = 'master';
     }else{
-        $data['node_type'] = 'slave';
+        $data['node_type']          = 'slave';
     }
 
     $node = get_node_details($data['mac_address']);
 
-    $node['node_id'] = $node['id'];
+    $node['location']               = geoip_record_by_name($node['ip_address_wan']);
+
+    $node['node_id']                = $node['id'];
 
     return $data;
 }
