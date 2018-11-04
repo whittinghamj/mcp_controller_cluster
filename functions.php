@@ -351,6 +351,10 @@ function get_node_details($mac_address)
     $data['node_id']                = $data[0]['id'];
 
     $data['location']               = geoip_record_by_name($mac_address);
+    if($data['location'])
+    {
+        $data['location'] = 'geo location not available';
+    }
     
     return $data[0];
 }
