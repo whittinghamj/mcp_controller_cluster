@@ -416,6 +416,7 @@ function get_system_stats()
     }
 
     $data['ip_address']             = exec("sh /mcp_cluster/lan_ip.sh");
+    $data['ip_address_wan']         = exec("dig +short myip.opendns.com @resolver1.opendns.com");
     $data['mac_address']            = strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
     $data['hostname']               = exec('cat /etc/hostname');
 

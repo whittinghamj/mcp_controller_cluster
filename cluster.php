@@ -89,9 +89,9 @@ if($task == "node_checkin")
     {
         // cant find this node, lets get it added
         $result = $db->exec("INSERT INTO `nodes` 
-            (`updated`,`type`, `uptime`, `ip_address`, `mac_address`, `hardware`, `cpu_type`, `cpu_load`, `cpu_cores`, `cpu_temp`, `memory_usage`)
+            (`updated`,`type`, `uptime`, `ip_address`, `ip_address_wan`, `mac_address`, `hardware`, `cpu_type`, `cpu_load`, `cpu_cores`, `cpu_temp`, `memory_usage`)
             VALUE
-            ('".time()."','".$data['node_type']."', '".$data['uptime']."', '".$data['ip_address']."', '".$data['mac_address']."', '".$data['hardware']."', '".$data['cpu_type']."','".$data['cpu_load']."', '".$data['cpu_cores']."', '".$data['cpu_temp']."', '".$data['memory_usage']."' )");
+            ('".time()."','".$data['node_type']."', '".$data['uptime']."', '".$data['ip_address']."', '".$data['ip_address_wan']."', ".$data['mac_address']."', '".$data['hardware']."', '".$data['cpu_type']."','".$data['cpu_load']."', '".$data['cpu_cores']."', '".$data['cpu_temp']."', '".$data['memory_usage']."' )");
         $data['node_id'] = $db->lastInsertId(); 
 
         console_output("Node added to the cluster.");
@@ -105,6 +105,7 @@ if($task == "node_checkin")
 		$result = $db->exec("UPDATE `nodes` SET `type` = '".$data['node_type']."' WHERE `id` = '".$data['node_id']."' ");
 		$result = $db->exec("UPDATE `nodes` SET `uptime` = '".$data['uptime']."' WHERE `id` = '".$data['node_id']."' ");
 		$result = $db->exec("UPDATE `nodes` SET `ip_address` = '".$data['ip_address']."' WHERE `id` = '".$data['node_id']."' ");
+		$result = $db->exec("UPDATE `nodes` SET `ip_address_wan` = '".$data['ip_address_wan']."' WHERE `id` = '".$data['node_id']."' ");
 		$result = $db->exec("UPDATE `nodes` SET `cpu_load` = '".$data['cpu_load']."' WHERE `id` = '".$data['node_id']."' ");
 		$result = $db->exec("UPDATE `nodes` SET `cpu_temp` = '".$data['cpu_temp']."' WHERE `id` = '".$data['node_id']."' ");
 		$result = $db->exec("UPDATE `nodes` SET `memory_usage` = '".$data['memory_usage']."' WHERE `id` = '".$data['node_id']."' ");
