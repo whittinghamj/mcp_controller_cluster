@@ -58,9 +58,11 @@ function node_info()
 	global $db;
 	
 	// get system stats
-	$mac_address			= strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
+	$mac_address	= strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
 	
-	$data = get_node_details($mac_address);
+	$data 			= get_node_details($mac_address);
+
+	$data['test']	= 'jamie';
 
 	json_output($data);
 }
