@@ -348,9 +348,9 @@ function get_node_details($mac_address)
     $query = $db->query("SELECT * FROM `nodes` WHERE `mac_address` = '".$mac_address."'");
     $data = $query->fetchAll(PDO::FETCH_ASSOC);
 
-    $data['node_id']                = $data['id'];
+    $data['node_id']                = $data[0]['id'];
 
-    $data['location']               = geoip_record_by_name($data['ip_address_wan']);
+    $data['location']               = geoip_record_by_name($data[0]['ip_address_wan']);
     
     return $data[0];
 }
