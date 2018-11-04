@@ -113,21 +113,28 @@ function pointsToPath(from, to, invertArc) {
 var master = chart.get('Castle Rock'),
     mcp = chart.get('MCP');
 
-// Add a series of lines for London
 chart.addSeries({
     name: 'Master > Slave Connections',
     type: 'mapline',
     lineWidth: 2,
     color: Highcharts.getOptions().colors[3],
     data: [{
-        id: 'Master to MCP',
-        path: pointsToPath(mcp, chart.get('Castle Rock'), 0)
-    }, {
         id: 'Master to Slave',
         path: pointsToPath(master, chart.get('Darwen'), 0)
     }, {
         id: 'Master to Slave',
         path: pointsToPath(master, chart.get('Pocatello'), 0)
+    }]
+});
+
+chart.addSeries({
+    name: 'Master > MCP Connections',
+    type: 'mapline',
+    lineWidth: 2,
+    color: Highcharts.getOptions().colors[5],
+    data: [{
+        id: 'Master to MCP',
+        path: pointsToPath(mcp, chart.get('Castle Rock'), 0)
     }]
 });
 
