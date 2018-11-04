@@ -49,7 +49,7 @@ switch ($c){
 function home()
 {
 	$data['status']				= 'success';
-	// $data['message']			= '';
+	$data['message']			= 'default function';
 	json_output($data);
 }
 
@@ -61,8 +61,6 @@ function node_info()
 	$mac_address	= strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
 	
 	$data 			= get_node_details($mac_address);
-
-	$data['test']	= 'jamie';
 
 	json_output($data);
 }

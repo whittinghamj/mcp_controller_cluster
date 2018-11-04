@@ -347,6 +347,10 @@ function get_node_details($mac_address)
 
     $query = $db->query("SELECT * FROM `nodes` WHERE `mac_address` = '".$mac_address."'");
     $data = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    $data['node_id']                = $data['id'];
+
+    $data['location']               = geoip_record_by_name($data['ip_address_wan']);
     
     return $data[0];
 }
@@ -429,16 +433,11 @@ function get_system_stats()
 
     $node = get_node_details($data['mac_address']);
 
-    $data['node_id']                = $node['id'];
-
-    $data['node']                   = $node;
-
-    $data['location']               = geoip_record_by_name($node['ip_address_wan']);
-
     return $data;
 }
 
-function ping_node($ip) {
+function ping_node($ip)
+{
     $pingresult = exec("ping -c 2 $ip", $outcome, $status);
     if (0 == $status) {
         $status = "online";
