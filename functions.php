@@ -366,8 +366,8 @@ function get_nodes()
     
     foreach($nodes as $node)
     {
-        print_r($node);
         $node['node_id'] = $node['id'];
+        print_r($node);
     }
 
     return $nodes;
