@@ -14,7 +14,7 @@ if($node_type == 'cluster-master')
 if($this_node['type'] == 'master')
 {
     // check to see if we have any nodes available
-    $query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' ");
+    $query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' AND `status` = 'online' ");
     $cluster['nodes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 
     $cluster['total_master'] = 0;
