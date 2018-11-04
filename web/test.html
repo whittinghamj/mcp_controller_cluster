@@ -3,6 +3,7 @@
 <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
 <script src="https://code.highcharts.com/mapdata/countries/gb/gb-all.js"></script>
+<script src="http://code.highcharts.com/mapdata/custom/world.js"></script>
 <div id="container"></div>
 
 <style type="text/css">
@@ -20,7 +21,7 @@
 </style>
 
 <script type="text/javascript">
-    
+
 
 // Initialize the chart
 var chart = Highcharts.mapChart('container', {
@@ -60,7 +61,7 @@ var chart = Highcharts.mapChart('container', {
 
     series: [{
         // Use the gb-all map with no data as a basemap
-        mapData: Highcharts.maps['countries/gb/gb-all'],
+        mapData: Highcharts.maps['custom/world'],
         name: 'Basemap',
         borderColor: '#707070',
         nullColor: 'rgba(200, 200, 200, 0.3)',
