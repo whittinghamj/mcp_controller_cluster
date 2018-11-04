@@ -383,7 +383,7 @@ if($task == "mcp_update")
 	
 	console_output("Updating MCP Cluster Software");
 
-	$query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' ");
+	$query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' AND `status` = 'online' ");
 	$cluster['nodes'] = $query->fetchAll(PDO::FETCH_ASSOC);
 
    	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
