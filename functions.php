@@ -429,9 +429,9 @@ function get_system_stats()
 
     $node = get_node_details($data['mac_address']);
 
-    $node['location']               = geoip_record_by_name($node['ip_address_wan']);
+    $data['location']               = geoip_record_by_name($node['ip_address_wan']);
 
-    $node['node_id']                = $node['id'];
+    $data['node_id']                = $data['id'];
 
     return $data;
 }
