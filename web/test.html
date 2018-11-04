@@ -83,13 +83,17 @@ var chart = Highcharts.mapChart('container', {
         // Use id instead of name to allow for referencing points later using
         // chart.get
         data: [{
-            id: 'Andy',
+            id: 'Castle Rock',
             lat: 39.443901062012,
             lon: -104.85150146484
         }, {
-            id: 'Jamie',
+            id: 'Darwen',
             lat: 53.48095,
             lon: -2.237430
+        }, {
+            id: 'Pocatello',
+            lat: 42.8876,
+            lon: -112.4381
         }]
     }]
 });
@@ -102,7 +106,7 @@ function pointsToPath(from, to, invertArc) {
             ',' + to.x + ' ' + to.y;
 }
 
-var londonPoint = chart.get('Andy'),
+var londonPoint = chart.get('Castle Rock'),
     lerwickPoint = chart.get('Lerwick');
 
 // Add a series of lines for London
@@ -112,8 +116,11 @@ chart.addSeries({
     lineWidth: 2,
     color: Highcharts.getOptions().colors[3],
     data: [{
-        id: 'Andy - Jamie',
-        path: pointsToPath(londonPoint, chart.get('Jamie'), 0)
+        id: 'Master to Slave',
+        path: pointsToPath(londonPoint, chart.get('Darwen'), 0)
+    }, {
+        id: 'Master to Slave',
+        path: pointsToPath(lerwickPoint, chart.get('Pocatello'))
     }]
 });
 
