@@ -7,25 +7,25 @@
 0 0 * * * sh /mcp_cluster/update.sh > /dev/null 2>&1
 
 # run the cluster deamon
-*/5 * * * * php -q /mcp_cluster/deamon.php 1 8 > /mcp_cluster/logs/deamon.log 2>&1
+*/5 * * * * php -q /mcp_cluster/deamon.php 1 8 >> /mcp_cluster/logs/deamon.log 2>&1
 
 # script to run at boot time
 @reboot sh /mcp_cluster/boot.sh > /dev/null 2>&1
 
 # check for site jobs
-* * * * * php -q /mcp_cluster/console.php site_jobs > /mcp_cluster/logs/console.log 2>&1
+* * * * * php -q /mcp_cluster/console.php site_jobs >> /mcp_cluster/logs/console.log 2>&1
 
 # conroller checkin
-* * * * * php -q /mcp_cluster/console.php controller_checkin > /mcp_cluster/logs/console.log 2>&1
+* * * * * php -q /mcp_cluster/console.php controller_checkin >> /mcp_cluster/logs/console.log 2>&1
 
 # node checkin
-* * * * * php -q /mcp_cluster/cluster.php node_checkin > /mcp_cluster/logs/cluster.log 2>&1
+* * * * * php -q /mcp_cluster/cluster.php node_checkin >> /mcp_cluster/logs/cluster.log 2>&1
 
 # scan the network for cluster nodes status
-* * * * * php -q /mcp_cluster/cluster.php node_scanner > /mcp_cluster/logs/cluster.log 2>&1
+* * * * * php -q /mcp_cluster/cluster.php node_scanner >> /mcp_cluster/logs/cluster.log 2>&1
 
 # check for mcp usb key for config file update
-* * * * * php -q /mcp_cluster/usb.php install_config_file > /mcp_cluster/logs/usb.log 2>&1
+* * * * * php -q /mcp_cluster/usb.php install_config_file >> /mcp_cluster/logs/usb.log 2>&1
 
 # reboot every hour
 # 0 * * * * /sbin/reboot
