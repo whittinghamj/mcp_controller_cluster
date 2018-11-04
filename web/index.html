@@ -498,7 +498,7 @@ desired effect
                     $('#cluster_nodes').html(trHTML);
 
                     $.each(nodes, function (i, node) {
-                        if(node.type == 'slave')
+                        if(node.type == 'slave' && node.status == 'online')
                         {
                             // build the container
                             node_panel += ' <div class="col-lg-3 col-xs-6">';
