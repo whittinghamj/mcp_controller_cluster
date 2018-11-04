@@ -47,7 +47,7 @@ if($task == "node_scanner")
 
 	$data 					= get_system_stats();
 
-	if($data['type'] == 'master')
+	if($data['node_type'] == 'master')
 	{
 		$nodes 				= get_nodes();
 
