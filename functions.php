@@ -350,7 +350,7 @@ function get_node_details($mac_address)
 
     $data['node_id']                = $data[0]['id'];
 
-    $data['location']               = geoip_record_by_name($data[0]['ip_address_wan']);
+    $data['location']               = geoip_record_by_name($mac_address);
     
     return $data[0];
 }
