@@ -8,8 +8,8 @@
 
 <style type="text/css">
     #container {
-        height: 680px;
-        min-width: 310px;
+        height: 800px;
+        min-width: 450px;
         max-width: 800px;
         margin: 0 auto;
     }
@@ -27,7 +27,7 @@
 var chart = Highcharts.mapChart('container', {
 
     title: {
-        text: 'Highmaps simple flight routes demo'
+        text: 'MCP Cluster Map'
     },
 
     legend: {
@@ -42,10 +42,13 @@ var chart = Highcharts.mapChart('container', {
 
     tooltip: {
         formatter: function () {
+            /*
             return this.point.id + (
                 this.point.lat ?
                 '<br>Lat: ' + this.point.lat + ' Lon: ' + this.point.lon : ''
             );
+            */
+            return '';
         }
     },
 
