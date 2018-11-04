@@ -376,9 +376,7 @@ desired effect
                                             map = new google.maps.Map(document.getElementById('map-canvas'),
                                             mapOptions);
 
-                                            <?php foreach($customer_miners as $customer_miner){ ?>
-                                                add_markers('<?php echo $customer_miner['gps']['latitude']; ?>', '<?php echo $customer_miner['gps']['longitude']; ?>');
-                                            <?php } ?>
+                                                add_markers('-25.363882','131.044922');
                                         }
 
                                         function add_marker(location) {
@@ -397,6 +395,8 @@ desired effect
                                         google.maps.event.addDomListener(window, 'load', initialize);
 
                                     </script>
+
+                                    <div id="map-canvas"></div>
                                 </div>
                             </div>
                         </div>
