@@ -367,6 +367,7 @@ function get_nodes()
     $count = 0;
     foreach($data as $node)
     {
+        $nodes[$count]                   = $node;
         $nodes[$count]['node_id']        = $node['id'];
 
         $location                        = geoip_record_by_name($node['ip_address_wan']);
