@@ -1,0 +1,18 @@
+[
+  {
+    "abbrev":"AL",
+    "parentState":"Alabama",
+    "capital":"Montgomery",
+    "lat":32.380120,
+    "lon":-86.300629,
+    "population":205764
+  },
+  {
+    "abbrev":"AK",
+    "parentState":"Alaska",
+    "capital":"Juneau",
+    "lat":58.299740,
+    "lon":-134.406794,
+    "population":31275
+  }
+]
