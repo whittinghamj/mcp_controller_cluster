@@ -434,7 +434,7 @@ function get_system_stats()
 }
 
 function ping_node($ip) {
-    $pingresult = exec("/bin/ping -n 3 $ip", $outcome, $status);
+    $pingresult = exec("ping -c 2 $ip", $outcome, $status);
     if (0 == $status) {
         $status = "online";
     } else {
