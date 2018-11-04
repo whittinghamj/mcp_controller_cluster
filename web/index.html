@@ -530,7 +530,7 @@ desired effect
                     $('#node_panels').html(node_panel);
 
                     $.each(nodes, function (i, node) {
-                        if(node.type == 'slave')
+                        if(node.type == 'slave' && node.status == 'online')
                         {
                             // chart for node cpu load
                             $("#node_cpu_load_"+node.ip_address).html('');
