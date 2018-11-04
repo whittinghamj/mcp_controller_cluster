@@ -353,50 +353,195 @@ desired effect
                                     <h3 class="box-title">Node Locations</h3>
                                 </div>
                                 <div class="box-body">
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
+                                    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+                                    <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+                                    <script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
+                                    <script src="https://code.highcharts.com/mapdata/countries/gb/gb-all.js"></script>
+                                    <div id="container"></div>
+
                                     <style>
-                                        #map-canvas {
-                                        height: 600px;
-                                        margin: 0px;
-                                        padding: 0px;
-                                        width: 100%;
+                                        #container {
+                                            height: 680px;
+                                            min-width: 310px;
+                                            max-width: 800px;
+                                            margin: 0 auto;
+                                        }
+                                        .loading {
+                                            margin-top: 10em;
+                                            text-align: center;
+                                            color: gray;
                                         }
                                     </style>
-                                    
-                                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpMWtXLvl-a6YsAAB2HBQvK-_c0_zDtXg&v=3"></script>
-                                    
+
                                     <script>
-                                        var map;
-                                        function initialize() {
-                                            var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+                                        // Initialize the chart
+                                        var chart = Highcharts.mapChart('container', {
 
-                                            var mapOptions = {
-                                                zoom: 3,
-                                                center: new google.maps.LatLng(<?php echo $account_details['location']['latitude']; ?>, <?php echo $account_details['location']['longitude']; ?>)
-                                            };
-                                            map = new google.maps.Map(document.getElementById('map-canvas'),
-                                            mapOptions);
+                                            title: {
+                                                text: 'Highmaps simple flight routes demo'
+                                            },
 
-                                                add_markers('-25.363882','131.044922');
+                                            legend: {
+                                                align: 'left',
+                                                layout: 'vertical',
+                                                floating: true
+                                            },
+
+                                            mapNavigation: {
+                                                enabled: true
+                                            },
+
+                                            tooltip: {
+                                                formatter: function () {
+                                                    return this.point.id + (
+                                                        this.point.lat ?
+                                                        '<br>Lat: ' + this.point.lat + ' Lon: ' + this.point.lon : ''
+                                                    );
+                                                }
+                                            },
+
+                                            plotOptions: {
+                                                series: {
+                                                    marker: {
+                                                        fillColor: '#FFFFFF',
+                                                        lineWidth: 2,
+                                                        lineColor: Highcharts.getOptions().colors[1]
+                                                    }
+                                                }
+                                            },
+
+                                            series: [{
+                                                // Use the gb-all map with no data as a basemap
+                                                mapData: Highcharts.maps['countries/gb/gb-all'],
+                                                name: 'Basemap',
+                                                borderColor: '#707070',
+                                                nullColor: 'rgba(200, 200, 200, 0.3)',
+                                                showInLegend: false
+                                            }, {
+                                                name: 'Separators',
+                                                type: 'mapline',
+                                                data: Highcharts.geojson(Highcharts.maps['countries/gb/gb-all'], 'mapline'),
+                                                color: '#707070',
+                                                showInLegend: false,
+                                                enableMouseTracking: false
+                                            }, {
+                                                // Specify cities using lat/lon
+                                                type: 'mappoint',
+                                                name: 'Cities',
+                                                dataLabels: {
+                                                    format: '{point.id}'
+                                                },
+                                                // Use id instead of name to allow for referencing points later using
+                                                // chart.get
+                                                data: [{
+                                                    id: 'London',
+                                                    lat: 51.507222,
+                                                    lon: -0.1275
+                                                }, {
+                                                    id: 'Birmingham',
+                                                    lat: 52.483056,
+                                                    lon: -1.893611
+                                                }, {
+                                                    id: 'Leeds',
+                                                    lat: 53.799722,
+                                                    lon: -1.549167
+                                                }, {
+                                                    id: 'Glasgow',
+                                                    lat: 55.858,
+                                                    lon: -4.259
+                                                }, {
+                                                    id: 'Sheffield',
+                                                    lat: 53.383611,
+                                                    lon: -1.466944
+                                                }, {
+                                                    id: 'Liverpool',
+                                                    lat: 53.4,
+                                                    lon: -3
+                                                }, {
+                                                    id: 'Bristol',
+                                                    lat: 51.45,
+                                                    lon: -2.583333
+                                                }, {
+                                                    id: 'Belfast',
+                                                    lat: 54.597,
+                                                    lon: -5.93
+                                                }, {
+                                                    id: 'Lerwick',
+                                                    lat: 60.155,
+                                                    lon: -1.145,
+                                                    dataLabels: {
+                                                        align: 'left',
+                                                        x: 5,
+                                                        verticalAlign: 'middle'
+                                                    }
+                                                }]
+                                            }]
+                                        });
+
+                                        // Function to return an SVG path between two points, with an arc
+                                        function pointsToPath(from, to, invertArc) {
+                                            var arcPointX = (from.x + to.x) / (invertArc ? 2.4 : 1.6),
+                                                arcPointY = (from.y + to.y) / (invertArc ? 2.4 : 1.6);
+                                            return 'M' + from.x + ',' + from.y + 'Q' + arcPointX + ' ' + arcPointY +
+                                                    ',' + to.x + ' ' + to.y;
                                         }
 
-                                        function add_marker(location) {
-                                            marker = new google.maps.Marker({
-                                                position: location,
-                                                map: map
-                                            });
-                                        }
+                                        var londonPoint = chart.get('London'),
+                                            lerwickPoint = chart.get('Lerwick');
 
-                                        // Testing the addMarker function
-                                        function add_markers(lat, lng) {
-                                               marker = new google.maps.LatLng(lat, lng);
-                                               add_marker(marker);
-                                        }
+                                        // Add a series of lines for London
+                                        chart.addSeries({
+                                            name: 'London flight routes',
+                                            type: 'mapline',
+                                            lineWidth: 2,
+                                            color: Highcharts.getOptions().colors[3],
+                                            data: [{
+                                                id: 'London - Glasgow',
+                                                path: pointsToPath(londonPoint, chart.get('Glasgow'))
+                                            }, {
+                                                id: 'London - Belfast',
+                                                path: pointsToPath(londonPoint, chart.get('Belfast'), true)
+                                            }, {
+                                                id: 'London - Leeds',
+                                                path: pointsToPath(londonPoint, chart.get('Leeds'))
+                                            }, {
+                                                id: 'London - Liverpool',
+                                                path: pointsToPath(londonPoint, chart.get('Liverpool'), true)
+                                            }, {
+                                                id: 'London - Sheffield',
+                                                path: pointsToPath(londonPoint, chart.get('Sheffield'))
+                                            }, {
+                                                id: 'London - Birmingham',
+                                                path: pointsToPath(londonPoint, chart.get('Birmingham'), true)
+                                            }, {
+                                                id: 'London - Bristol',
+                                                path: pointsToPath(londonPoint, chart.get('Bristol'), true)
+                                            }]
+                                        });
 
-                                        google.maps.event.addDomListener(window, 'load', initialize);
+                                        // Add a series of lines for Lerwick
+                                        chart.addSeries({
+                                            name: 'Lerwick flight routes',
+                                            type: 'mapline',
+                                            lineWidth: 2,
+                                            color: Highcharts.getOptions().colors[5],
+                                            data: [{
+                                                id: 'Lerwick - Glasgow',
+                                                path: pointsToPath(lerwickPoint, chart.get('Glasgow'))
+                                            }, {
+                                                id: 'Lerwick - Belfast',
+                                                path: pointsToPath(lerwickPoint, chart.get('Belfast'))
+                                            }, {
+                                                id: 'Lerwick - Leeds',
+                                                path: pointsToPath(lerwickPoint, chart.get('Leeds'))
+                                            }, {
+                                                id: 'Lerwick - Liverpool',
+                                                path: pointsToPath(lerwickPoint, chart.get('Liverpool'))
+                                            }]
+                                        });
 
                                     </script>
-
-                                    <div id="map-canvas"></div>
                                 </div>
                             </div>
                         </div>
