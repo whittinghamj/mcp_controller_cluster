@@ -118,13 +118,11 @@ chart.addSeries({
     type: 'mapline',
     lineWidth: 2,
     color: Highcharts.getOptions().colors[3],
-    data: [{
-        id: 'Master to Slave',
-        path: pointsToPath(master, chart.get('Darwen'), 0)
-    }, {
-        id: 'Master to Slave',
-        path: pointsToPath(master, chart.get('Pocatello'), 0)
-    }]
+
+    data: [
+        { lat: 34.69266754930666, lon: -86.73595745087314 },
+        { lat: 52.34766280549233, lon: -5.1888640605449545 }
+    ]
 });
 
 chart.addSeries({
