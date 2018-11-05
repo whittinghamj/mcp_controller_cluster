@@ -119,73 +119,6 @@ if($task == "node_checkin")
 	killlock();
 }
 
-if($task == "test")
-{
-	$runs = 1;
-
-	$lockfile = dirname(__FILE__) . "/cluster.test.loc";
-	if(file_exists($lockfile)){
-		console_output("test is already running. exiting");
-		die();
-	}else{
-		exec("touch $lockfile");
-	}
-	
-	console_output("Updating APT for Cluster");
-
-	$nodes_file 			= @file_get_contents('/mcp_cluster/nodes.txt');
-    $cluster['nodes'] 		= json_decode($nodes_file, TRUE);
-
-   	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
-
-   	$cluster['total_master'] = 0;
-    $cluster['total_slave'] = 0;
-    foreach($cluster['nodes'] as $node)
-    {
-        if($node['type'] == 'master')
-        {
-            $cluster['total_master']++;
-        }else{
-            $cluster['total_slave']++;
-            $cluster['slaves'][]['ip_address'] = $node['stats']['ip_address'];
-        }
-    }
-
-   	foreach($cluster['slaves'] as $slave)
-    {
-    	if($slave['ip_address'] != $myip)
-    	{
-	    	$slaves[] = $slave['ip_address'];
-	    }
-    }
-
-    $count 				= count($slaves);
-
-    console_output("Polling " . $count . " nodes.");
-
-    for ($i=0; $i<$runs; $i++) {
-        console_output("Spawning children.");
-        for ($j=0; $j<$count; $j++) {
-        	// echo "Checking Miner: ".$miner_ids[$j]."\n";
-
-            $pipe[$j] = popen("php -q /mcp_cluster/cluster.php apt_update_process ".$slaves[$j], 'w');
-        }
-
-        // console_output("Killing children.");
-        
-        // wait for them to finish
-        for ($j=0; $j<$count; ++$j) {
-            pclose($pipe[$j]);
-        }
-
-        // console_output("Sleeping.");
-        // sleep(1);
-    }
-
-	// killlock
-	killlock();
-}
-
 if($task == "reboot")
 {
 	$lockfile = dirname(__FILE__) . "/cluster.reboot.loc";
@@ -654,6 +587,78 @@ if($task == "mcp_enable_process")
 	exec($cmd);
 
 	console_output("Node: ".$ip_address." MCP Cluster is enabled.");
+	
+	// killlock
+	killlock();
+}
+
+## run remote commands
+if($task == "remote_command")
+{
+	$runs = 1;
+	
+	$lockfile = dirname(__FILE__) . "/cluster.mcp_enable.loc";
+	if(file_exists($lockfile)){
+		console_output("mcp_enable is already running. exiting");
+		die();
+	}else{
+		exec("touch $lockfile");
+	}
+	
+	console_output("Running remote command on all nodes.");
+
+	$query = $db->query("SELECT * FROM `nodes` WHERE `type` = 'slave' ");
+	$cluster['nodes'] = $query->fetchAll(PDO::FETCH_ASSOC);
+
+   	$myip					= exec('sh /mcp_cluster/lan_ip.sh');
+
+   	$cluster['total_master'] = 0;
+    $cluster['total_slave'] = 0;
+    foreach($cluster['nodes'] as $node)
+    {
+        if($node['type'] == 'master')
+        {
+            $cluster['total_master']++;
+        }else{
+            $cluster['total_slave']++;
+            $cluster['slaves'][]['ip_address'] = $node['ip_address'];
+        }
+    }
+
+   	foreach($cluster['slaves'] as $slave)
+    {
+    	if($slave['ip_address'] != $myip)
+    	{
+	    	$slaves[] = $slave['ip_address'];
+	    }
+    }
+
+    $count 				= count($slaves);
+
+    for ($i=0; $i<$runs; $i++) {
+        for ($j=0; $j<$count; $j++) {
+            $pipe[$j] = popen("php -q /mcp_cluster/cluster.php remote_command_process ".$slaves[$j], 'w');
+        }
+        
+        // wait for them to finish
+        for ($j=0; $j<$count; ++$j) {
+            pclose($pipe[$j]);
+        }
+
+    }
+
+	// killlock
+	killlock();
+}
+
+if($task == "remote_command_process")
+{
+	$ip_address = $argv[2];
+
+	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo apt-get install -y php-geoip' 2>/dev/null";
+	exec($cmd);
+
+	console_output("Node: ".$ip_address." remote package installed.");
 	
 	// killlock
 	killlock();
