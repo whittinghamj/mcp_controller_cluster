@@ -655,7 +655,7 @@ if($task == "remote_command_process")
 {
 	$ip_address = $argv[2];
 
-	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'wget -N http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz -O /usr/share/GeoIP/GeoLiteCity.dat.gz && gunzip --force /usr/share/GeoIP/GeoLiteCity.dat.gz; ' 2>/dev/null";
+	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'wget -N http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz -O /usr/share/GeoIP/GeoLiteCity.dat.gz && gunzip --force /usr/share/GeoIP/GeoLiteCity.dat.gz; ln -s /usr/share/GeoIP/GeoLiteCity.dat /usr/share/GeoIP/GeoIPCity.dat;' 2>/dev/null";
 	exec($cmd);
 
 	console_output("Node: ".$ip_address." remote package installed.");
