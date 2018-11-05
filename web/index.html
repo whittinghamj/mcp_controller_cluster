@@ -326,6 +326,7 @@ desired effect
                                         <table class="table">
                                             <thead>
                                                 <tr>
+                                                    <th>ID</th>
                                                     <th>Type</th>
                                                     <th>Hardware</th>
                                                     <th>IP</th>
@@ -482,7 +483,7 @@ desired effect
                     $.each(nodes, function (i, node) {
                         if(node.type == 'master')
                         {
-                            trHTML += '<tr bgcolor="#9ab5ed"><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.cpu_temp + ' °C</td><td>' + node.uptime + '</td></tr>';
+                            trHTML += '<tr bgcolor="#9ab5ed"><td>' + node.node_id + '</td><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.cpu_temp + ' °C</td><td>' + node.uptime + '</td></tr>';
                         }
                     });
 
@@ -495,7 +496,7 @@ desired effect
                             }else{
                                 var row_color = '#efa49b';
                             }
-                            trHTML += '<tr bgcolor="'+row_color+'"><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.cpu_temp + ' °C</td><td>' + node.uptime + '</td></tr>';
+                            trHTML += '<tr bgcolor="'+row_color+'"><td>' + node.node_id + '</td><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.cpu_temp + ' °C</td><td>' + node.uptime + '</td></tr>';
                         }
                     });
                     $('#cluster_nodes').html(trHTML);
@@ -511,6 +512,7 @@ desired effect
                             node_panel += '         </div>';
                             node_panel += '         <div class="panel-body text-center">';
                             node_panel += '             <span id="node_cpu_load_'+node.ip_address+'" class="gauge_none text-center"></span>';
+                            node_panel += '             ' + node.ip_address;
                             node_panel += '         </div>';
                             node_panel += '     </div>';
                             node_panel += ' </div>';
