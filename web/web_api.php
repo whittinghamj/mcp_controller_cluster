@@ -107,14 +107,14 @@ function cluster_totals()
 		$data['total_cluster_load'] = $data['total_cluster_load'] + $node['cpu_load'];
 	}
 
-	$data['max_cluster_load']		= percentage($data['total_cluster_load'], $data['total_nodes']);
-
 	// count miners
 	$query = $db->query("SELECT `id` FROM `miners` ");
     $miners = $query->fetchAll(PDO::FETCH_ASSOC);
 	$data['total_miners'] 	= count($miners);
 
-	$data['total_cluster_load'] = number_format($data['total_cluster_load'] / $data['total_miners'], 2);
+	// $data['total_cluster_load'] = number_format($data['total_cluster_load'] / $data['total_miners'], 2);
+
+	$data['avg_cluster_load'] = $data['total_cluster_load'] / $data['total_slaves'];
 
 	json_output($data);
 }
