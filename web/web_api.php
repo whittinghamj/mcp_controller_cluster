@@ -114,7 +114,7 @@ function cluster_totals()
     $miners = $query->fetchAll(PDO::FETCH_ASSOC);
 	$data['total_miners'] 	= count($miners);
 
-	$data['total_cluster_load'] = $data['total_cluster_load'] / $data['total_miners'];
+	$data['total_cluster_load'] = number_format($data['total_cluster_load'] / $data['total_miners'], 2);
 
 	json_output($data);
 }
