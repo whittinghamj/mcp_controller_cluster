@@ -364,7 +364,7 @@ if($task == "mcp_update")
 if($task == "mcp_update_process")
 {
 	$ip_address = $argv[2];
-	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo sh /mcp_cluster/update.sh' 2>/dev/null";
+	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo sh /mcp_cluster/update.sh; sudo php -q /mcp_cluster/cluster.php node_checkin;' 2>/dev/null";
 	exec($cmd);
 
 	console_output("Node: ".$ip_address." updating MCP Cluster Software.");
@@ -511,7 +511,7 @@ if($task == "mcp_disable_process")
 {
 	$ip_address = $argv[2];
 
-	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo service cron stop; echo 'MCP Cluster disabled.'' 2>/dev/null";
+	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo service cron stop; sudo service apache2 stop;' 2>/dev/null";
 	exec($cmd);
 
 	console_output("Node: ".$ip_address." MCP Cluster is disabled.");
@@ -583,7 +583,7 @@ if($task == "mcp_enable_process")
 {
 	$ip_address = $argv[2];
 
-	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo service cron start; echo 'MCP Cluster enabled.'' 2>/dev/null";
+	$cmd = "sshpass -pmcp ssh -o StrictHostKeyChecking=no mcp@".$ip_address." -p 33077 'sudo service cron start; sudo service apache2 start;' 2>/dev/null";
 	exec($cmd);
 
 	console_output("Node: ".$ip_address." MCP Cluster is enabled.");
