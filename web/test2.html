@@ -156,27 +156,12 @@ pre {
         series: [{
             mapData: Highcharts.maps[mapKey]
         }, {
-            type: 'mappoint',
-            id: 'points',
-            name: 'Points',
-            draggableX: true,
-            draggableY: true,
-            cursor: 'move',
-            point: {
-                events: {
-                    click: function () {
-                        if ($('input#delete').attr('checked')) {
-                            this.remove();
-                        }
-                    }
-                }
-            }
-        }, {
             type: "mappoint",
             lineWidth: 2,
+            color: Highcharts.getOptions().colors[4],
             data: [
-                { lat: 51.46502953913064, lon: -84.27854987523561 },
-                { lat: 52.171727345264934, lon: -78.88452242610185 }
+                { lat: 39.443901062012, lon: -104.85150146484 },
+                { lat: 53.48095, lon: --2.237430 }
             ]
         }]
     });
