@@ -156,6 +156,22 @@ pre {
         series: [{
             mapData: Highcharts.maps[mapKey]
         }, {
+            type: 'mappoint',
+            id: 'points',
+            name: 'Points',
+            draggableX: true,
+            draggableY: true,
+            cursor: 'move',
+            point: {
+                events: {
+                    click: function () {
+                        if ($('input#delete').attr('checked')) {
+                            this.remove();
+                        }
+                    }
+                }
+            }
+        }, {
             type: "mappoint",
             lineWidth: 2,
             data: [
