@@ -421,7 +421,7 @@ function get_system_stats()
 {
     $data['cpu_type']               = exec("sed -n 's/^model name[ \t]*: *//p' /proc/cpuinfo | head -n 1");
     $data['cpu_cores']              = system_cores();
-    $data['cpu_load']               = exec('echo `top -b -n1 | grep "Cpu(s)" | awk \'{print $2 + $4}\'`');
+    $data['cpu_load']               = exec('ps -A -o pcpu | tail -n+2 | paste -sd+ | bc');
     $data['cpu_temp']               = number_format(exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000, 2);
     $data['memory_usage']           = system_memory_usage();
     $data['hdd_usage']              = exec('echo `df -lh | awk \'{if ($6 == "/") { print $5 }}\' | head -1 | cut -d\'%\' -f1`');
