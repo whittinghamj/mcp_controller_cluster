@@ -39,13 +39,7 @@ var chart = Highcharts.mapChart('container', {
 
     tooltip: {
         formatter: function () {
-            /*
-            return this.point.id + (
-                this.point.lat ?
-                '<br>Lat: ' + this.point.lat + ' Lon: ' + this.point.lon : ''
-            );
-            */
-            return '';
+            return this.point.id;
         }
     },
 
@@ -120,10 +114,10 @@ chart.addSeries({
     color: Highcharts.getOptions().colors[8],
     data: [{
         id: 'Master to Slave',
-        path: pointsToPath(master, chart.get('Darwen'), 0)
+        path: pointsToPath(master, chart.get('Darwen'), true)
     }, {
         id: 'Master to Slave',
-        path: pointsToPath(master, chart.get('Pocatello'), 0)
+        path: pointsToPath(master, chart.get('Pocatello'), true)
     }]
 });
 
@@ -134,7 +128,7 @@ chart.addSeries({
     color: Highcharts.getOptions().colors[4],
     data: [{
         id: 'Master to MCP',
-        path: pointsToPath(mcp, chart.get('Castle Rock'), 0)
+        path: pointsToPath(mcp, chart.get('Castle Rock'), true)
     }]
 });
 
