@@ -11,7 +11,7 @@ $graph->addNode('Master', array('URL'   => 'http://link1', 'label' => 'Master', 
 $graph->addNode('Slave 1', array('URL'   => 'http://link1', 'label' => 'Slave 1', 'shape' => 'box'));
 $graph->addNode('Slave 2', array('URL'   => 'http://link1', 'label' => 'Slave 2', 'shape' => 'box'));
 $graph->addNode('Slave 3', array('URL'   => 'http://link1', 'label' => 'Slave 3', 'shape' => 'box'));
-$graph->addNode('Slave 4', array('URL'   => 'http://link1', 'label' => 'Slave 4', 'shape' => 'box', 'color' => 'blue'));
+$graph->addNode('Slave 4', array('URL'   => 'http://link1', 'label' => 'Slave 4', 'shape' => 'box', 'color' => 'black'));
 
 
 $graph->addEdge(array('Slave 1' => 'Master'), array('color' => 'blue'));
