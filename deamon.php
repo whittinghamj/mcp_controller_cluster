@@ -1,6 +1,25 @@
 <?php
+// sanity check
+$global_vars = '/etc/mcp/global_vars.php';
+if(!file_exists($global_vars))
+{
+    echo $global_vars . " is missing. git clone could be in progress. \n";
+    die();
+}
 
+// sanity check
+$functions = '/mcp_cluster/functions.php';
+if(!file_exists($functions))
+{
+    echo $functions . " is missing. git clone could be in progress. \n";
+    die();
+}
+
+// includes
+include('/etc/mcp/global_vars.php');
 include('/mcp_cluster/db.php');
+include('/mcp_cluster/functions.php');
+
 
 // check if this is a master or slave node
 $node_type               = exec('cat /etc/hostname');
@@ -33,26 +52,6 @@ if($this_node['type'] == 'master')
 
     // set main api url endpoint
     $api_url = 'http://dashboard.miningcontrolpanel.com';
-
-    // sanity check
-    $global_vars = '/etc/mcp/global_vars.php';
-    if(!file_exists($global_vars))
-    {
-        echo $global_vars . " is missing. git clone could be in progress. \n";
-        die();
-    }
-
-    // sanity check
-    $functions = '/mcp_cluster/functions.php';
-    if(!file_exists($functions))
-    {
-        echo $functions . " is missing. git clone could be in progress. \n";
-        die();
-    }
-
-    // includes
-    include('/etc/mcp/global_vars.php');
-    include('/mcp_cluster/functions.php');
 
     // output
     console_output("MCP Controller Cluster - Master");
@@ -115,26 +114,6 @@ if($this_node['type'] == 'slave')
 
     // set main api url endpoint
     $api_url = 'http://dashboard.miningcontrolpanel.com';
-
-    // sanity check
-    $global_vars = '/etc/mcp/global_vars.php';
-    if(!file_exists($global_vars))
-    {
-        echo $global_vars . " is missing. git clone could be in progress. \n";
-        die();
-    }
-
-    // sanity check
-    $functions = '/mcp_cluster/functions.php';
-    if(!file_exists($functions))
-    {
-        echo $functions . " is missing. git clone could be in progress. \n";
-        die();
-    }
-
-    // includes
-    include('/etc/mcp/global_vars.php');
-    include('/mcp_cluster/functions.php');
 
     // output
     console_output("MCP Controller Cluster - Slave");
