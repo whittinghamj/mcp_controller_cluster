@@ -603,7 +603,7 @@ desired effect
                         id: "show_total_miners",
                         value: data.total_miners,
                         min: 0,
-                        max: fake_total_miners,
+                        max: data.max_supported_miners.1_minute,
                         gaugeWidthScale: 1,
                         counter: false,
                         relativeGaugeSize: true,
