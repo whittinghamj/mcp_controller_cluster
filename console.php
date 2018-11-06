@@ -823,6 +823,8 @@ if($task == "controller_checkin")
 		
 		console_output("Running MCP Controller checkin");
 
+		
+		$post_data['version']				= $version;
 		$post_data['cluster_details']		= serialize(get_nodes());
 		$post_data['hardware']				= exec("cat /sys/firmware/devicetree/base/model");
 		// $mac_address 		= exec("cat /sys/class/net/eth0/address");
