@@ -832,6 +832,8 @@ if($task == "controller_checkin")
 
 		$post_data_json						= json_encode($post_data);
 
+		print_r($post_data_json, true);
+
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $api_url."/api/?key=".$config['api_key']."&c=controller_checkin");
 		curl_setopt($ch, CURLOPT_POST, 1);
