@@ -37,7 +37,9 @@ $nodes = get_nodes();
 
 		// add nodes
 		<?php foreach($nodes as $node){ ?>
-			add_markers('<?php if($node['type']=='master'){echo $node['location']['latitude'];} ?>', '<?php if($node['type']=='master'){echo $node['location']['longitude'];} ?>');
+			<?php if($node['type']=='master'){ ?>
+				add_markers('<?php echo $node['location']['latitude']; ?>', '<?php echo $node['location']['longitude']; ?>');
+			<?php } ?>
 		<?php } ?>
 
 		var flightPlanCoordinates = [
