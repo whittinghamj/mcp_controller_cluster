@@ -118,15 +118,15 @@ function cluster_totals()
 
 	$miner_per_second = 11.5;
 	$miner_per_minute = $miner_per_second * 60;
-	$data['max_supported_miners']['1_minute'] = $miner_per_minute * $data['total_slaves'];
-	$data['max_supported_miners']['5_minutes'] = $data['max_supported_miners']['1_minute'] * 5;
-	$data['max_supported_miners']['10_minutes'] = $data['max_supported_miners']['1_minute'] * 10;
-	$data['max_supported_miners']['15_minutes'] = $data['max_supported_miners']['1_minute'] * 15;
-	$data['max_supported_miners']['30_minutes'] = $data['max_supported_miners']['1_minute'] * 30;
-	$data['max_supported_miners']['1_hour'] = $data['max_supported_miners']['1_minute'] * 60;
-	$data['max_supported_miners']['6_hour'] = $data['max_supported_miners']['1_hour'] * 6;
-	$data['max_supported_miners']['12_hour'] = $data['max_supported_miners']['1_hour'] * 12;
-	$data['max_supported_miners']['1_day'] = $data['max_supported_miners']['1_hour'] * 24;
+	$data['max_supported_miners']['one_minute'] = $miner_per_minute * $data['total_slaves'];
+	$data['max_supported_miners']['five_minutes'] = $data['max_supported_miners']['1_minute'] * 5;
+	$data['max_supported_miners']['ten_minutes'] = $data['max_supported_miners']['1_minute'] * 10;
+	$data['max_supported_miners']['fifteen_minutes'] = $data['max_supported_miners']['1_minute'] * 15;
+	$data['max_supported_miners']['thirty_minutes'] = $data['max_supported_miners']['1_minute'] * 30;
+	$data['max_supported_miners']['one_hour'] = $data['max_supported_miners']['1_minute'] * 60;
+	$data['max_supported_miners']['sex_hour'] = $data['max_supported_miners']['1_hour'] * 6;
+	$data['max_supported_miners']['twelve_hour'] = $data['max_supported_miners']['1_hour'] * 12;
+	$data['max_supported_miners']['one_day'] = $data['max_supported_miners']['1_hour'] * 24;
 
 	json_output($data);
 }
