@@ -374,6 +374,11 @@ function get_nodes()
     
         $nodes[$count]['location']       = $location;
 
+        $nodes[$count]['hardware']               = str_replace(' Rev 1.0', '', $node['hardware']);
+        $nodes[$count]['hardware']               = str_replace(' Rev 1.1', '', $node['hardware']);
+        $nodes[$count]['hardware']               = str_replace(' Rev 1.2', '', $node['hardware']);
+        $nodes[$count]['hardware']               = str_replace(' Rev 1.3', '', $node['hardware']);
+
         $count++;
     }
 
