@@ -35,7 +35,7 @@ $nodes = get_nodes();
 		// marker for MCP
 		add_markers('37.4121375', '-121.9813865');
 
-		// add nodes
+		// add master nodes
 		<?php foreach($nodes as $node){ ?>
 			<?php if($node['type']=='master'){ ?>
 				add_markers('<?php echo $node['location']['latitude']; ?>', '<?php echo $node['location']['longitude']; ?>');
@@ -43,8 +43,12 @@ $nodes = get_nodes();
 		<?php } ?>
 
 		var flightPlanCoordinates = [
-          {lat: 39.443901062012, lng: -104.85150146484},
-          {lat: 53.783298492432, lng: -2.5666999816895}
+          {lat: 37.4121375, lng: -121.9813865},
+          <?php foreach($nodes as $node){ ?>
+			<?php if($node['type']=='master'){ ?>
+          		{lat: <?php echo $node['location']['latitude']; ?>, lng: <?php echo $node['location']['longitude']; ?>}
+          	<?php } ?>
+		<?php } ?>
         ];
 
         var flightPath = new google.maps.Polyline({
