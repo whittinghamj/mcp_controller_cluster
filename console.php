@@ -845,8 +845,6 @@ if($task == "controller_checkin")
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data_json);
 		$data = curl_exec($ch);
 		curl_close($ch);
-
-		print_r($data);
 		
 		console_output("Done.");
 
