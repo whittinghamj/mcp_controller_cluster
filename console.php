@@ -821,7 +821,7 @@ if($task == "controller_checkin")
 			exec("touch $lockfile");
 		}
 		
-		console_output("Running controller checkin");
+		console_output("Running MCP Controller checkin");
 
 		$post_data['cluster_details']		= serialize(get_nodes());
 		$post_data['hardware']				= exec("cat /sys/firmware/devicetree/base/model");
@@ -832,7 +832,7 @@ if($task == "controller_checkin")
 
 		$post_data_json						= json_encode($post_data);
 
-		print_r($post_data, true);
+		print_r($post_data);
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $api_url."/api/?key=".$config['api_key']."&c=controller_checkin");
