@@ -14,67 +14,68 @@
 
 <script>
     function drawCurve(P1, P2, map) {
-  var lineLength = google.maps.geometry.spherical.computeDistanceBetween(P1, P2);
-  var lineHeading = google.maps.geometry.spherical.computeHeading(P1, P2);
-  if (lineHeading < 0) {
-    var lineHeading1 = lineHeading + 45;
-    var lineHeading2 = lineHeading + 135;
-  } else {
-    var lineHeading1 = lineHeading + -45;
-    var lineHeading2 = lineHeading + -135;
-  }
-  var pA = google.maps.geometry.spherical.computeOffset(P1, lineLength / 2.2, lineHeading1);
-  var pB = google.maps.geometry.spherical.computeOffset(P2, lineLength / 2.2, lineHeading2);
+        var lineLength = google.maps.geometry.spherical.computeDistanceBetween(P1, P2);
+        var lineHeading = google.maps.geometry.spherical.computeHeading(P1, P2);
+        if (lineHeading < 0) {
+            var lineHeading1 = lineHeading + 45;
+            var lineHeading2 = lineHeading + 135;
+        } else {
+            var lineHeading1 = lineHeading + -45;
+            var lineHeading2 = lineHeading + -135;
+        }
+        
+        var pA = google.maps.geometry.spherical.computeOffset(P1, lineLength / 2.2, lineHeading1);
+        var pB = google.maps.geometry.spherical.computeOffset(P2, lineLength / 2.2, lineHeading2);
 
-  var curvedLine = new GmapsCubicBezier(P1, pA, pB, P2, 0.01, map);
-}
+        var curvedLine = new GmapsCubicBezier(P1, pA, pB, P2, 0.01, map);
+    }
 
-var x = new google.maps.LatLng(14.560774500000008, 121.02631410000006);
-var london = new google.maps.LatLng(51.5073509, -0.12775829999998223);
-var rcbc = new google.maps.LatLng(14.560648, 121.016781);
-var powerplant = new google.maps.LatLng(14.565066, 121.036184);
+    var x = new google.maps.LatLng(14.560774500000008, 121.02631410000006);
+    var london = new google.maps.LatLng(51.5073509, -0.12775829999998223);
+    var rcbc = new google.maps.LatLng(14.560648, 121.016781); // has two points
+    var powerplant = new google.maps.LatLng(14.565066, 121.036184);
 
-var trafalgar = new google.maps.LatLng(14.560774500000008, 121.02631410000006);
-var mapua = new google.maps.LatLng(14.562883, 121.022039);
+    var trafalgar = new google.maps.LatLng(14.560774500000008, 121.02631410000006);
+    var mapua = new google.maps.LatLng(14.562883, 121.022039);
 
-function initialize() {
-  var mapProp = {
-    center: x,
-    zoom: 15,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  };
+    function initialize() {
+        var mapProp = {
+            center: x,
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
 
-  var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
-  var myTrip = [trafalgar, rcbc];
-  var myTrip2 = [rcbc, powerplant];
+        var myTrip = [london, rcbc];
+        var myTrip2 = [rcbc, powerplant];
 
-  drawCurve(trafalgar, rcbc, map);
-  drawCurve(rcbc, powerplant, map);
+        drawCurve(london, rcbc, map);
+        drawCurve(rcbc, powerplant, map);
 
-  var marker = new google.maps.Marker({
-    position: x,
-  });
+        var marker = new google.maps.Marker({
+            position: x,
+        });
 
-  var marker2 = new google.maps.Marker({
-    position: london,
-  });
+        var marker2 = new google.maps.Marker({
+            position: london,
+        });
 
-  var marker3 = new google.maps.Marker({
-    position: rcbc,
-  });
+        var marker3 = new google.maps.Marker({
+            position: rcbc,
+        });
 
-  var marker4 = new google.maps.Marker({
-    position: powerplant,
-  });
+        var marker4 = new google.maps.Marker({
+            position: powerplant,
+        });
 
-  marker4.setMap(map);
-  marker3.setMap(map);
-  marker2.setMap(map);
-  marker.setMap(map);
-  flightPath.setMap(map);
-  flightPath2.setMap(map);
-}
+        marker4.setMap(map);
+        marker3.setMap(map);
+        marker2.setMap(map);
+        marker.setMap(map);
+        flightPath.setMap(map);
+        flightPath2.setMap(map);
+    }
 
 google.maps.event.addDomListener(window, 'load', initialize);
 // original Belzier Curve code from nicoabie's answer to this question on StackOverflow:
