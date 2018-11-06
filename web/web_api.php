@@ -116,6 +116,10 @@ function cluster_totals()
 
 	$data['avg_cluster_load'] = $data['total_cluster_load'] / $data['total_slaves'];
 
+	$miner_per_second = 11.5;
+	$miner_per_minute = $miner_per_second * 60;
+	$data['max_supported_miners']['1_minute'] = $miner_per_minute * $data['total_slaves'];
+
 	json_output($data);
 }
 
