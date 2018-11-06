@@ -378,6 +378,7 @@ function get_nodes()
         $nodes[$count]['hardware']               = str_replace(' Rev 1.1', '', $node['hardware']);
         $nodes[$count]['hardware']               = str_replace(' Rev 1.2', '', $node['hardware']);
         $nodes[$count]['hardware']               = str_replace(' Rev 1.3', '', $node['hardware']);
+        $nodes[$count]['hardware']               = str_replace(' Plus', '+', $node['hardware']);
 
         $count++;
     }
@@ -439,11 +440,6 @@ function get_system_stats()
     }else{
         $data['hardware']           = 'Raspberry Pi x86 Server';
     }
-
-    $data['hardware']               = str_replace(' Rev 1.0', '', $data['hardware']);
-    $data['hardware']               = str_replace(' Rev 1.1', '', $data['hardware']);
-    $data['hardware']               = str_replace(' Rev 1.2', '', $data['hardware']);
-    $data['hardware']               = str_replace(' Rev 1.3', '', $data['hardware']);
 
     $data['ip_address']             = exec("sh /mcp_cluster/lan_ip.sh");
     $data['ip_address_wan']         = exec("dig +short myip.opendns.com @resolver1.opendns.com");
