@@ -1,5 +1,12 @@
 <?php
 
+function geoip($ip_address)
+{
+    $location               = geoip_record_by_name($ip_address);
+
+    return $location;
+}
+
 function post_to_slave($postdata, $ip_address)
 {
     $poststring = json_encode($postdata);
