@@ -107,6 +107,12 @@ if($this_node['type'] == 'master')
 
 if($this_node['type'] == 'slave')
 {
+    // start timer for loaded var
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $start = $time;
+
     // set main api url endpoint
     $api_url = 'http://dashboard.miningcontrolpanel.com';
 
@@ -193,6 +199,14 @@ if($this_node['type'] == 'slave')
             // console_output("Sleeping.");
             // sleep(1);
         }
+
+        $time = microtime();
+        $time = explode(' ', $time);
+        $time = $time[1] + $time[0];
+        $finish = $time;
+        $total_time = round(($finish - $start), 4);
+
+        console_output("Script took " . $total_time . " seconds.");
     }else{
         console_output("No ASIC miners.");
     }
