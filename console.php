@@ -833,7 +833,7 @@ if($task == "controller_checkin")
 		$post_data_json						= json_encode($post_data);
 
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $whmcs['url']);
+		curl_setopt($ch, CURLOPT_URL, $api_url."/api/?key=".$config['api_key']."&c=controller_checkin");
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 300);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
