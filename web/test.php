@@ -9,7 +9,7 @@ $graph->addNode('Slave 2', array('label' => 'Slave 2', 'shape' => 'box', 'fillco
 $graph->addNode('Slave 3', array('label' => 'Slave 3', 'shape' => 'box', 'fillcolor' => 'darkseagreen1', 'style' => 'filled'));
 $graph->addNode('Slave 4', array('label' => 'Slave 4', 'shape' => 'box', 'fillcolor' => 'darkseagreen1', 'style' => 'filled'));
 
-$graph->addNode('Master', array('label' => 'Master', 'shape' => 'box', 'fillcolor' => 'darkseagreen1', 'style' => 'filled'));));
+$graph->addNode('Master', array('label' => 'Master', 'shape' => 'box', 'fillcolor' => 'darkseagreen1', 'style' => 'filled'));
 
 $graph->addNode('Router', array('label' => 'Router', 'shape' => 'box'));
 
