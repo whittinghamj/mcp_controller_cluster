@@ -34,8 +34,10 @@ $nodes = get_nodes();
 
 		// marker for MCP
 		add_markers('37.4121375', '-121.9813865');
+
+		// add nodes
 		<?php foreach($nodes as $node){ ?>
-			add_markers('<?php echo $node['location']['latitude']; ?>', '<?php echo $node['location']['longitude']; ?>');
+			add_markers('<?php if($node['type']=='master'){echo $node['location']['latitude'];} ?>', '<?php if($node['type']=='master'){echo $node['location']['longitude'];} ?>');
 		<?php } ?>
 
 		var flightPlanCoordinates = [
