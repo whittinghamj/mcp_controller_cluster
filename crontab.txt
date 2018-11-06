@@ -7,7 +7,7 @@
 0 0 * * * sh /mcp_cluster/update.sh > /dev/null 2>&1
 
 # run the cluster deamon
-*/2 * * * * php -q /mcp_cluster/deamon.php 1 4 >> /mcp_cluster/logs/deamon.log 2>&1
+*/2 * * * * php -q /mcp_cluster/deamon.php 1 40 >> /mcp_cluster/logs/deamon.log 2>&1
 
 # script to run at boot time
 @reboot sh /mcp_cluster/boot.sh > /dev/null 2>&1
