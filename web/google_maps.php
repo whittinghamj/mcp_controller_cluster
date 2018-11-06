@@ -32,6 +32,8 @@ $nodes = get_nodes();
 		map = new google.maps.Map(document.getElementById('map-canvas'),
 		mapOptions);
 
+		// marker for MCP
+		add_markers('37.4121375', '-121.9813865');
 		<?php foreach($nodes as $node){ ?>
 			add_markers('<?php echo $node['location']['latitude']; ?>', '<?php echo $node['location']['longitude']; ?>');
 		<?php } ?>
@@ -40,7 +42,7 @@ $nodes = get_nodes();
           {lat: 39.443901062012, lng: -104.85150146484},
           {lat: 53.783298492432, lng: -2.5666999816895}
         ];
-        
+
         var flightPath = new google.maps.Polyline({
           path: flightPlanCoordinates,
           geodesic: true,
