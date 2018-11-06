@@ -103,8 +103,6 @@ if($task == "node_checkin")
 
         $data['node_id'] = $db->lastInsertId(); 
 
-        print_r($data);
-
         console_output("Node added to the cluster.");
     }else{
     	// existing node, update details
