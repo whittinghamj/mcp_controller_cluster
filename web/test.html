@@ -104,8 +104,10 @@ function pointsToPath(from, to, invertArc) {
             ',' + to.x + ' ' + to.y;
 }
 
-var master = chart.get('Castle Rock'),
-    mcp = chart.get('MCP');
+var 
+castle_rock = chart.get('Castle Rock'),
+darwen = chart.get('Darwen'),
+mcp = chart.get('MCP');
 
 chart.addSeries({
     name: 'Slave > Master Connections',
@@ -114,10 +116,10 @@ chart.addSeries({
     color: Highcharts.getOptions().colors[8],
     data: [{
         id: 'Master to Slave',
-        path: pointsToPath(master, chart.get('Darwen'), true)
+        path: pointsToPath(darwen, chart.get('Darwen'), true)
     }, {
         id: 'Master to Slave',
-        path: pointsToPath(master, chart.get('Pocatello'), true)
+        path: pointsToPath(castle_rock, chart.get('Pocatello'), true)
     }]
 });
 
@@ -129,6 +131,9 @@ chart.addSeries({
     data: [{
         id: 'Master to MCP',
         path: pointsToPath(mcp, chart.get('Castle Rock'), true)
+    },{
+        id: 'Master to MCP',
+        path: pointsToPath(mcp, chart.get('Darwen'), true)
     }]
 });
 
