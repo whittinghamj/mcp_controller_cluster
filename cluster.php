@@ -89,8 +89,6 @@ if($task == "node_checkin")
     {
         $data               = get_system_stats();
 
-        print_r($data);
-        
         // cant find this node, lets get it added
         $result = $db->exec("INSERT INTO `nodes` 
             (`updated`,`type`, `uptime`, `ip_address`, `ip_address_wan`, `mac_address`, `hardware`, `cpu_type`, `cpu_load`, `cpu_cores`, `cpu_temp`, `memory_usage`)
@@ -98,6 +96,8 @@ if($task == "node_checkin")
             ('".time()."','".$data['node_type']."', '".$data['uptime']."', '".$data['ip_address']."', '".$data['ip_address_wan']."', ".$data['mac_address']."', '".$data['hardware']."', '".$data['cpu_type']."','".$data['cpu_load']."', '".$data['cpu_cores']."', '".$data['cpu_temp']."', '".$data['memory_usage']."' )");
         
         $data['node_id'] = $db->lastInsertId(); 
+
+        print_r($data);
 
         console_output("Node added to the cluster.");
     }else{
