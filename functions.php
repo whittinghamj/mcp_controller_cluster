@@ -381,7 +381,7 @@ function get_nodes()
         $node['hardware']               = str_replace(' Model ', '', $node['hardware']);
         $node['hardware']               = str_replace('Raspberry ', 'R-', $node['hardware']);
         $node['hardware']               = str_replace(' Plus ', '+', $node['hardware']);
-        $nodes[$count]['hardware']      = $node['hardware']);
+        $nodes[$count]['hardware']      = $node['hardware'];
 
         $count++;
     }
