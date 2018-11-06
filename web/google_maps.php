@@ -11,7 +11,7 @@ $nodes = get_nodes();
 
 <style>
 	#map-canvas {
-	height: 600px;
+	height: 100%;
 	margin: 0px;
 	padding: 0px;
 	width: 100%;
@@ -23,11 +23,11 @@ $nodes = get_nodes();
 <script>
 	var map;
 	function initialize() {
-		var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+		var myLatlng = new google.maps.LatLng(41.850033, -87.6500523);
 
 		var mapOptions = {
 			zoom: 3,
-			center: new google.maps.LatLng(-25.363882,131.044922)
+			center: new google.maps.LatLng(41.850033, -87.6500523)
 		};
 		map = new google.maps.Map(document.getElementById('map-canvas'),
 		mapOptions);
