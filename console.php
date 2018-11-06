@@ -23,6 +23,7 @@ if(!file_exists($functions))
 }
 
 include('/etc/mcp/global_vars.php');
+include('/mcp_cluster/db.php');
 include('/mcp_cluster/functions.php');
 
 function killlock(){
@@ -822,23 +823,26 @@ if($task == "controller_checkin")
 		
 		console_output("Running controller checkin");
 
-		$hardware 			= exec("cat /sys/firmware/devicetree/base/model");
+		$post_data['cluster_details']		= serialize(get_nodes());
+		$post_data['hardware']				= exec("cat /sys/firmware/devicetree/base/model");
 		// $mac_address 		= exec("cat /sys/class/net/eth0/address");
-		$mac_address		= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
-		$ip_address 		= exec("sh /mcp_cluster/lan_ip.sh");
-		$cpu_temp			= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
+		$post_data['mac_address']			= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
+		$post_data['ip_address'] 			= exec("sh /mcp_cluster/lan_ip.sh");
+		$post_data['cpu_temp']				= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
 
-		console_output('Hardware: ' . $hardware);
-		console_output('IP Address: ' . $ip_address);
-		console_output('MAC Address: ' . $mac_address);
-		console_output('CPU Temp: ' . $cpu_temp);
+		$post_data_json						= json_encode($post_data);
 
-		$post_url = $api_url."/api/?key=".$config['api_key']."&c=controller_checkin&type=contoller&ip_address=".$ip_address."&mac_address=".$mac_address."&cpu_temp=".$cpu_temp."&version=".$version."&hardware=".base64_encode($hardware);
-		
-		// console_output("POST URL: " . $post_url);
-
-		// send data to mcp
-		$post = file_get_contents($post_url);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $whmcs['url']);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 300);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_SSLVERSION,3);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+		$data = curl_exec($ch);
+		curl_close($ch);
 		
 		console_output("Done.");
 
