@@ -378,7 +378,10 @@ function get_nodes()
         $node['hardware']               = str_replace(' Rev 1.1', '', $node['hardware']);
         $node['hardware']               = str_replace(' Rev 1.2', '', $node['hardware']);
         $node['hardware']               = str_replace(' Rev 1.3', '', $node['hardware']);
-        $nodes[$count]['hardware']      = str_replace(' Plus', '+', $node['hardware']);
+        $node['hardware']               = str_replace(' Model ', '', $node['hardware']);
+        $node['hardware']               = str_replace('Raspberry ', 'R-', $node['hardware']);
+        $node['hardware']               = str_replace(' Plus ', '+', $node['hardware']);
+        $nodes[$count]['hardware']      = $node['hardware']);
 
         $count++;
     }
