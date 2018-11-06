@@ -38,8 +38,9 @@ $nodes = get_nodes();
 
 		var flightPlanCoordinates = [
           {lat: 39.443901062012, lng: -104.85150146484},
-          {lat: 21.291, lng: -157.821}
+          {lat: 53.783298492432, lng: -2.5666999816895}
         ];
+        
         var flightPath = new google.maps.Polyline({
           path: flightPlanCoordinates,
           geodesic: true,
