@@ -12,7 +12,7 @@ if($data['hostname'] == 'cluster-master')
 /********Socket Server*********************/
 set_time_limit(0);
 // Set the ip and port we will listen on
-$address = '127.0.0.1';
+$address = '192.168.1.240';
 $port = 4444;
 // Create a TCP Stream socket
 $sock = socket_create(AF_INET, SOCK_STREAM, 0); // 0 for  SQL_TCP
@@ -26,12 +26,9 @@ while (true) {
     $client = socket_accept($sock);
     // Read the input  from the client – 1024000 bytes
     $input = socket_read($client, 1024000);
-    // Strip all white  spaces from input
-    $output = ereg_replace("[ \t\n\r]", "", $input).
-    "\0";
-    $message = explode('=', $output);
     
-    if($message == 'node_type')
+    
+    if($input == 'node_type')
     {
     	$response = $data['node_type'];
     }else{
