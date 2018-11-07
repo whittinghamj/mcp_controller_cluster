@@ -18,7 +18,7 @@ if(!file_exists($functions))
 	die();
 }
 
-include('/etc/mcp/global_vars.php');
+include('/mcp_cluster/db.php');
 include('/mcp_cluster/functions.php');
 
 $options 				= getopt("p:");
