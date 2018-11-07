@@ -51,9 +51,7 @@ function execute_task($ip_address)
 	{
 		if(isset($remote_data['node_type']) && $remote_data['node_type'] == 'master')
 		{
-			
 			echo "MCP Cluster Master found on " . $ip_address."\n";
-			break;
 		}
 	}
 	// echo "Completed task: ${task_id}. Took ${execution_time} seconds.\n";
