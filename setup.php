@@ -75,10 +75,10 @@ if($data['node_type'] == 'slave')
 				$api_key = $remote_data['api_key'];
 				$master_ip_address = $remote_data['master_ip_address'];
 
-				$data['api_key'] = $remote_data['api_key'];
-				$data['master'] = $remote_data['master_ip_address'];
+				unset($remote_data['timestamp']);
+				unset($remote_data['node_type']);
 
-				$json = json_encode($data, true);
+				$json = json_encode($remote_data, true);
 
 				file_put_contents('/etc/mcp/global_vars.php', $json);
 				
