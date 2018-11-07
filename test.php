@@ -42,7 +42,7 @@ echo "Done \n";
  */
 function execute_task($ip_address)
 {
-	echo "Checking: '${ip_address}'\n";
+	// echo "Checking: '${ip_address}'\n";
 	// Simulate doing actual work with sleep().
 	// $execution_time = rand(5, 10);
 	// sleep($execution_time);
@@ -55,6 +55,8 @@ function execute_task($ip_address)
 		if(isset($remote_data['node_type']) && $remote_data['node_type'] == 'master')
 		{
 			echo "MCP Cluster Master found on " . $ip_address."\n";
+
+			print_r($remote_data);
 		}
 	}
 	// echo "Completed task: ${task_id}. Took ${execution_time} seconds.\n";
