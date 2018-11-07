@@ -34,6 +34,8 @@ while (true) {
     	$response = 'unknown command';
     }
 
+    $response = "you asked " . $input . "\n\n";
+
     // Display output  back to client
     socket_write($client, $response);
     socket_close($client);
