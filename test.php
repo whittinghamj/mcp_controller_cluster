@@ -56,11 +56,12 @@ function execute_task($ip_address)
 		{
 			echo "MCP Cluster Master found on " . $ip_address."\n";
 
-			unset($remote_data['node_type']);
-			unset($remote_data['timestamp']);
+			$api_key = $remote_data['api_key'];
+			$master_ip_address = $remote_data['master_ip_address'];
 
 			exec('echo "<php \n\n" > /etc/mcp/global_vars.php');
-			exec('echo \'$config[\'api_key\']\' >> /etc/mcp/global_vars.php');
+			exec('echo \'$config["api_key"] = "'.$api_key.'";\' >> /etc/mcp/global_vars.php');
+			exec('echo \'$config["master"] = "'.$master_ip_address.'";\' >> /etc/mcp/global_vars.php');
 			
 		}
 	}
