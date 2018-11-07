@@ -7,10 +7,11 @@
 // these are just strings, but they could be a callback, class or
 // include file (hell, even code-as-a-string to pass to eval()).
 $tasks = [
-  "fetch_remote_data",
-  "post_async_updates",
-  "clear_caches",
-  "notify_admin",
+  "192.168.1.240",
+  "192.168.1.241",
+  "192.168.1.242",
+  "192.168.3.136",
+  "192.168.7.50",
 ];
 
 // This loop creates a new fork for each of the items in $tasks.
@@ -36,11 +37,24 @@ echo "Do stuff after all parallel execution is complete.\n";
 /**
  * Helper method to execute a task.
  */
-function execute_task($task_id)
+function execute_task($ip_address)
 {
-	echo "Starting task: ${task_id}\n";
+	echo "Checking: ${ip_address}\n";
 	// Simulate doing actual work with sleep().
-	$execution_time = rand(5, 10);
-	sleep($execution_time);
-	echo "Completed task: ${task_id}. Took ${execution_time} seconds.\n";
+	// $execution_time = rand(5, 10);
+	// sleep($execution_time);
+
+	$remote_content 	= @file_get_contents("http://".$ip_address.":1372/web_api.php?c=cluster_configuration");
+	$remote_data		= json_decode($remote_content, true);
+
+	if(is_array($remote_data))
+	{
+		if(isset($remote_data['node_type']) && $remote_data['node_type'] == 'master')
+		{
+			
+			echo "MCP Cluster Master found on " . $ip_address."\n";
+			break;
+		}
+	}
+	// echo "Completed task: ${task_id}. Took ${execution_time} seconds.\n";
 }
