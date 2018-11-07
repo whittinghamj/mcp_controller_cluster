@@ -30,6 +30,7 @@ while (true) {
     $input = str_replace('\t', '', $input);
     $input = str_replace('\n', '', $input);
     $input = str_replace('\r', '', $input);
+    preg_replace( "/\r|\n/", "", $input );
     
     if($input == 'node_type')
     {
