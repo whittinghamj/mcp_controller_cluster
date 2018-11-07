@@ -21,7 +21,6 @@ if(!file_exists($functions))
 	die();
 }
 
-$config = json_decode(file_get_contents('/etc/mcp/global_vars.php'));
 include('/mcp_cluster/db.php');
 include('/mcp_cluster/functions.php');
 
