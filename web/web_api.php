@@ -139,18 +139,16 @@ function cluster_totals()
 
 function cluster_configuration()
 {
-	global $config;
-
 	$node_type               = exec('cat /etc/hostname');
 	if($node_type == 'cluster-master')
 	{
+		global $config;
 	    $data['node_type'] = 'master';
+	    $data['master_ip_address'] 	= exec('sh /mcp_cluster/lan_ip.sh');
+		$data['api_key']			= $config['api_key'];
 	}else{
 	    $data['node_type'] = 'slave';
 	}
-
-	$data['master_ip_address'] 	= exec('sh /mcp_cluster/lan_ip.sh');
-	$data['api_key']			= $config['api_key'];
 
 	json_output($data);
 }
