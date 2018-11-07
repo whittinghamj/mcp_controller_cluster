@@ -16,7 +16,6 @@ if(!file_exists($functions))
 }
 
 // includes
-include('/etc/mcp/global_vars.php');
 include('/mcp_cluster/db.php');
 include('/mcp_cluster/functions.php');
 

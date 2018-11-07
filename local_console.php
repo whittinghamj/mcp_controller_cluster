@@ -2,7 +2,6 @@
 
 $api_url = 'http://dashboard.miningcontrolpanel.com';
 
-include('/etc/mcp/global_vars.php');
 include('/mcp_cluster/functions.php');
 include('/mcp_cluster/php_colors.php');
 
