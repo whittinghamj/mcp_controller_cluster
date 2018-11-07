@@ -40,7 +40,7 @@ echo "Done \n";
  */
 function execute_task($ip_address)
 {
-	echo "Checking: ${ip_address}\n";
+	echo "Checking: '${ip_address}'\n";
 	// Simulate doing actual work with sleep().
 	// $execution_time = rand(5, 10);
 	// sleep($execution_time);
