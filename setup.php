@@ -62,31 +62,33 @@ echo "Done \n";
 */
 function execute_task($ip_address)
 {
-// echo "Checking: '${ip_address}'\n";
-// Simulate doing actual work with sleep().
-// $execution_time = rand(5, 10);
-// sleep($execution_time);
+	// echo "Checking: '${ip_address}'\n";
+	// Simulate doing actual work with sleep().
+	// $execution_time = rand(5, 10);
+	// sleep($execution_time);
 
-$remote_content 	= @file_get_contents("http://".$ip_address.":1372/web_api.php?c=cluster_configuration");
-$remote_data		= json_decode($remote_content, true);
+	$remote_content 	= @file_get_contents("http://".$ip_address.":1372/web_api.php?c=cluster_configuration");
+	$remote_data		= json_decode($remote_content, true);
 
-if(is_array($remote_data))
-{
-	if(isset($remote_data['node_type']) && $remote_data['node_type'] == 'master')
+	if(is_array($remote_data))
 	{
-		echo "MCP Cluster Master found on " . $ip_address."\n";
+		if(isset($remote_data['node_type']) && $remote_data['node_type'] == 'master')
+		{
+			echo "MCP Cluster Master found on " . $ip_address."\n";
 
-		$api_key = $remote_data['api_key'];
-		$master_ip_address = $remote_data['master_ip_address'];
+			$api_key = $remote_data['api_key'];
+			$master_ip_address = $remote_data['master_ip_address'];
 
-		unset($remote_data['timestamp']);
-		unset($remote_data['node_type']);
+			unset($remote_data['timestamp']);
+			unset($remote_data['node_type']);
 
-		$json = json_encode($remote_data, true);
+			$json = json_encode($remote_data, true);
 
-		file_put_contents('/etc/mcp/global_vars.php', $json);
-		
+			file_put_contents('/etc/mcp/global_vars.php', $json);
+			
+		}
+	}else{
+		echo $ip_address. " does not appear to be a master \n";
 	}
-}
-// echo "Completed task: ${task_id}. Took ${execution_time} seconds.\n";
+echo "Done.\n";
 }
