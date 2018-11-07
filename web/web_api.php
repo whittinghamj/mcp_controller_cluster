@@ -36,6 +36,11 @@ switch ($c){
 		cluster_totals();
 		break;
 
+	// cluster configuration
+	case "cluster_configuration":
+		cluster_configuration();
+		break;
+
 	// test function
 	case "test":
 		test();
@@ -132,7 +137,16 @@ function cluster_totals()
 	json_output($data);
 }
 
+function cluster_configuration()
+{
+	global $config;
+	$data['master_ip_address'] 	= exec('sh /mcp_cluster/lan_ip.sh');
+	$data['api_key']			= $config['api_key'];
+
+	json_output($data);
+}
+
 function test()
 {
-	
+	echo 'test';
 }
