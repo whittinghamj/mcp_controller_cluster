@@ -59,7 +59,7 @@ function execute_task($ip_address)
 			unset($remote_data['node_type']);
 			unset($remote_data['timestamp']);
 
-			exec('echo "<php \n\n test" > /etc/mcp/global_vars.php')
+			exec('echo "<php \n\n test" > /etc/mcp/global_vars.php');
 			
 		}
 	}
