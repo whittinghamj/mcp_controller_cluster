@@ -62,9 +62,9 @@ function execute_task($ip_address)
 			$data['api_key'] = $remote_data['api_key'];
 			$data['master'] = $remote_data['master_ip_address'];
 
-			$json = json_encode($data);
+			$json = json_encode($data, true);
 
-			file_put_contents('/etc/mcp/global_vars.php', $data);
+			file_put_contents('/etc/mcp/global_vars.php', $json);
 			
 		}
 	}
