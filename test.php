@@ -13,21 +13,17 @@ exec('nmap -p1372 "192.168.1.0/24" -oG - | grep 1372/open | awk \'{ print $2 }\'
 
 $nodes = file('/mcp_cluster/node_ip_addresses.txt');
 
-print_r($nodes);
-
-die();
-
-$tasks = [];
+// print_r($nodes);
 
 // This loop creates a new fork for each of the items in $tasks.
-foreach($tasks as $task)
+foreach($nodes as $node)
 {
 	$pid = pcntl_fork();
 	if ($pid == -1)
 	{
 		exit("Error forking...\n");
 	}elseif($pid == 0){
-		execute_task($task);
+		execute_task($node);
 		exit();
 	}
 }
@@ -37,7 +33,7 @@ foreach($tasks as $task)
 while(pcntl_waitpid(0, $status) != -1);
 
 // You could have more code here.
-echo "Do stuff after all parallel execution is complete.\n";
+echo "Done \n";
 
 /**
  * Helper method to execute a task.
