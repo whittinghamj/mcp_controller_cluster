@@ -27,7 +27,6 @@ while (true) {
     // Read the input  from the client – 1024000 bytes
     $input = socket_read($client, 1024000);
     
-    
     if($input == 'node_type')
     {
     	$response = $data['node_type'];
