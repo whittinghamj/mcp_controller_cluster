@@ -76,11 +76,11 @@ function execute_task($ip_address)
 		{
 			echo "MCP Cluster Master found on " . $ip_address."\n";
 
-			$api_key = $remote_data['api_key'];
-			$master_ip_address = $remote_data['master_ip_address'];
+			$remote_data['master'] = $remote_data['master_ip_address'];
 
 			unset($remote_data['timestamp']);
 			unset($remote_data['node_type']);
+			unset($remote_data['master_ip_address']);
 
 			$json = json_encode($remote_data, true);
 
