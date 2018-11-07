@@ -88,7 +88,6 @@ function execute_task($ip_address)
 			
 		}
 	}else{
-		echo $ip_address. " does not appear to be a master \n";
+		echo "MCP Cluster Slave found on " . $ip_address."\n";
 	}
-echo "Done.\n";
 }
