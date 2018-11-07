@@ -60,7 +60,7 @@ function execute_task($ip_address)
 			unset($remote_data['timestamp']);
 
 			$data = serialize($remote_data);
-			$content = unserialize(file_put_contents('/etc/mcp/global_vars.php', $data));
+			$content = file_put_contents(unserialize('/etc/mcp/global_vars.php', $data));
 			
 		}
 	}
