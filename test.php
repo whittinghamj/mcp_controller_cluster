@@ -56,7 +56,9 @@ function execute_task($ip_address)
 		{
 			echo "MCP Cluster Master found on " . $ip_address."\n";
 
-			print_r($remote_data);
+			// $var_str = var_export($text, true);
+			$var = "<?php\n\n\$config['master'] = $remote_data['master_ip_address'];\n$config['api_key'] = $remote_data['api_key'];\n?>";
+			file_put_contents('/etc/mcp/global_vars.php', $var);
 		}
 	}
 	// echo "Completed task: ${task_id}. Took ${execution_time} seconds.\n";
