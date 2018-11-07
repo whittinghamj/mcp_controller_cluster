@@ -27,16 +27,13 @@ while (true) {
     // Read the input  from the client – 1024000 bytes
     $input = socket_read($client, 1024000);
     
-    $input = str_replace('\t', '', $input);
-    $input = str_replace('\n', '', $input);
-    $input = str_replace('\r', '', $input);
-    preg_replace( "/\r|\n/", "", $input );
+    $input = str_replace(array("\r\n", "\t", "\r", "\n"), '', $input);
     
     if($input == 'node_type')
     {
     	$response = $data['node_type'];
     }else{
-    	$response = "\n".'"'.$input.'" u is an nknown command'."\n";
+    	$response = '"'.$input.'" is an nknown command'."\n";
     }
 
     // Display output  back to client
