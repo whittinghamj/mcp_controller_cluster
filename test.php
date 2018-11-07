@@ -18,6 +18,11 @@ $nodes = file('/mcp_cluster/node_ip_addresses.txt');
 // This loop creates a new fork for each of the items in $tasks.
 foreach($nodes as $node)
 {
+	$node 						= str_replace(' ', '', $node);
+	$node 						= trim($node, " \t.");
+	$node 						= trim($node, " \n.");
+	$node 						= trim($node, " \r.");
+
 	$pid = pcntl_fork();
 	if ($pid == -1)
 	{
