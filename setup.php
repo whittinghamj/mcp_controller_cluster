@@ -1,11 +1,9 @@
 <?php
-// MCP Controller Cluster - Cluster Management console Scripts
+// MCP Controller Cluster - Find master and build local config file
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('error_reporting', E_ALL); 
-
-include('/mcp_cluster/functions.php');
 
 $data['hostname']               = exec('cat /etc/hostname');
 
