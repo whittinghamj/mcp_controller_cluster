@@ -59,9 +59,12 @@ function execute_task($ip_address)
 			$api_key = $remote_data['api_key'];
 			$master_ip_address = $remote_data['master_ip_address'];
 
-			exec('echo "<php \n\n" > /etc/mcp/global_vars.php');
-			exec('echo \'$config["api_key"] = "'.$api_key.'";\' >> /etc/mcp/global_vars.php');
-			exec('echo \'$config["master"] = "'.$master_ip_address.'";\' >> /etc/mcp/global_vars.php');
+			$data['api_key'] = $remote_data['api_key'];
+			$data['master'] = $remote_data['master_ip_address'];
+
+			$json = json_encode($data);
+
+			file_put_contents('/etc/mcp/global_vars.php', $data);
 			
 		}
 	}
