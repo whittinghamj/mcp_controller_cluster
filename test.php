@@ -1,15 +1,12 @@
 <?php
-/**
- * @file
- * Basic demonstration of how to do parallel threads in PHP.
- */
-// This array of "tasks" could be anything. For demonstration purposes
-// these are just strings, but they could be a callback, class or
-// include file (hell, even code-as-a-string to pass to eval()).
+
+// get local ip establish subnet
+$my_ip = exec('sh /mcp_cluster/lan_ip.sh');
+$my_ip_bits = explode('.', $my_ip);
 
 // scan my local subnet for cluster nodes
 exec('rm -rf /mcp_cluster/node_ip_addresses.txt && touch /mcp_cluster/node_ip_addresses.txt');
-exec('nmap -p1372 "192.168.1.0/24" -oG - | grep 1372/open | awk \'{ print $2 }\' >> /mcp_cluster/node_ip_addresses.txt');
+exec('nmap -p1372 "'.$my_ip_bits[0].'.'.$my_ip_bits[1].'.'.$my_ip_bits[2].'.0/24" -oG - | grep 1372/open | awk \'{ print $2 }\' >> /mcp_cluster/node_ip_addresses.txt');
 
 $nodes = file('/mcp_cluster/node_ip_addresses.txt');
 
