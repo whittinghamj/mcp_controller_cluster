@@ -26,9 +26,9 @@ if($data['node_type'] == 'slave')
 	exec("echo '<?php' > /etc/mcp/global_vars.php");
 	exec("echo '' >> /etc/mcp/global_vars.php");
 	exec("echo '' >> /etc/mcp/global_vars.php");
-	exec("echo $config['api_key'] = ".$config['api_key']."; >> /etc/mcp/global_vars.php");
+	exec('echo $config["api_key"] = "'.$config['api_key'].'"; >> /etc/mcp/global_vars.php');
 	exec("echo '' >> /etc/mcp/global_vars.php");
-	exec("echo $config['master'] = ".$config['master_ip_address']."; >> /etc/mcp/global_vars.php");
+	exec('echo $config["master"] = "'.$config['master_ip_address'].'"; >> /etc/mcp/global_vars.php');
 
 	console_output("MCP Cluster is now configured.");
 	// fire_led('success');
