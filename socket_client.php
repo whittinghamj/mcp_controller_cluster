@@ -56,7 +56,7 @@ function request($ip, $cmd)
         return $line;
     }
 
-    print "$cmd returned '$line'\n";
+    // print "$cmd returned '$line'\n";
 
     if (substr($line,0,1) == '{')
         return json_decode($line, true);
