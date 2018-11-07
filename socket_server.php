@@ -32,12 +32,15 @@ while (true) {
     if($input == 'node_type')
     {
     	$response = $data['node_type'];
+    	socket_write($client, $response);
     }else{
-    	$response = '"'.$input.'" is an nknown command'."\n";
+    	$response = '"'.$input.'" is an nknown command.';
+    	socket_write($client, $response);
+
+    	$response = 'Available commands are "node_type"';
+    	socket_write($client, $response);
     }
 
-    // Display output  back to client
-    socket_write($client, $response);
     socket_close($client);
 }
 // Close the master sockets
