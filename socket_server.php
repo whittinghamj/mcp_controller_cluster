@@ -34,11 +34,12 @@ while (true) {
     	$response = 'unknown command';
     }
 
-    $response = "you asked " . $input . "\n\n";
+    // $response = "you asked " . $input . "\n\n";
 
-    // Display output  back to client
+    // Display output back to client
     socket_write($client, $response);
     socket_close($client);
 }
+
 // Close the master sockets
 socket_close($sock);
