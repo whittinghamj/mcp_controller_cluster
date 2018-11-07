@@ -11,7 +11,7 @@
 exec('rm -rf /mcp_cluster/mcp_cluster/node_ip_addresses.txt && touch /mcp_cluster/node_ip_addresses.txt');
 exec('nmap -p1372 "192.168.1.0/24" -oG - | grep 1372/open | awk \'{ print $2 }\' >> /mcp_cluster/node_ip_addresses.txt');
 
-$nodes 		= @file_get_contents('/mcp_cluster/node_ip_addresses.txt');
+$nodes = file('/mcp_cluster/node_ip_addresses.txt');
 
 print_r($nodes);
 
