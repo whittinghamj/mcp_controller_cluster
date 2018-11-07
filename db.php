@@ -1,7 +1,8 @@
 <?php
 
 // include('/etc/mcp/global_vars.php');
-$config = json_decode(file_get_contents('/etc/mcp/global_vars.php'));
+$config_file		= @file_get_contents('/etc/mcp/global_vars.php');
+$config 			= json_decode($config_file, true);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // mysql settings
