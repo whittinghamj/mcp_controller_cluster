@@ -8,7 +8,14 @@ ini_set('error_reporting', E_ALL);
 include('/mcp_cluster/functions.php');
 
 
-$data 					= get_system_stats();
+$data['hostname']               = exec('cat /etc/hostname');
+
+if($data['hostname'] == 'cluster-master')
+{
+    $data['node_type']          = 'master';
+}else{
+    $data['node_type']          = 'slave';
+}
 
 if($data['node_type'] == 'slave')
 {
