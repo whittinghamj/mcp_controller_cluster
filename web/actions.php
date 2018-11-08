@@ -59,7 +59,7 @@ function test(){
 }
 
 function set_status_message(){
-	$status 				= $_GET['status'];
+	$status 			= $_GET['status'];
 	$message			= $_GET['message'];
 	
 	status_message($status, $message);

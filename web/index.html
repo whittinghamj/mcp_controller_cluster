@@ -783,9 +783,10 @@ desired effect
         };
 
         $('#update_api_key_submit').click(function() {
+            env.preventDefault();
             $.ajax({
                 url: 'actions.php?a=update_api_key',
-                type: 'POST',
+                type: 'GET',
                 data: $('#update_api_key').serialize(),
                 success: function(msg) {
                     alert('API Key submitted');
