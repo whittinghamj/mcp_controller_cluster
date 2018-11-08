@@ -28,6 +28,14 @@
     	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 
+    <style type="text/css">
+        @media only screen and (max-width: 900px) {
+            .hide_on_mobile{
+                display: none;
+            }
+        }
+
+    </style>
 </head>
 
 <!--
@@ -333,12 +341,12 @@ desired effect
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Type</th>
-                                                    <th>Hardware</th>
+                                                    <th class="hide_on_mobile">Hardware</th>
                                                     <th>IP</th>
-                                                    <th>CPU Cores</th>
+                                                    <th class="hide_on_mobile">CPU Cores</th>
                                                     <th>Load</th>
-                                                    <th>Temp</th>
-                                                    <th>Uptime</th>
+                                                    <th class="hide_on_mobile">Temp</th>
+                                                    <th class="hide_on_mobile">Uptime</th>
                                                 </tr>
                                             </thead>
                                             <tbody id='cluster_nodes'>
@@ -517,7 +525,7 @@ desired effect
                     $.each(nodes, function (i, node) {
                         if(node.type == 'master')
                         {
-                            trHTML += '<tr bgcolor="#9ab5ed"><td>' + node.node_id + '</td><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.cpu_temp + ' °C</td><td>' + node.uptime + '</td></tr>';
+                            trHTML += '<tr bgcolor="#9ab5ed"><td>' + node.node_id + '</td><td>' + ucwords(node.type) + '</td><td class="hide_on_mobile">' + node.hardware + '</td><td>' + node.ip_address + '</td><td class="hide_on_mobile">' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td class="hide_on_mobile">' + node.cpu_temp + ' °C</td><td class="hide_on_mobile">' + node.uptime + '</td></tr>';
                         }
                     });
 
@@ -530,7 +538,7 @@ desired effect
                             }else{
                                 var row_color = '#efa49b';
                             }
-                            trHTML += '<tr bgcolor="'+row_color+'"><td>' + node.node_id + '</td><td>' + ucwords(node.type) + '</td><td>' + node.hardware + '</td><td>' + node.ip_address + '</td><td>' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td>' + node.cpu_temp + ' °C</td><td>' + node.uptime + '</td></tr>';
+                            trHTML += '<tr bgcolor="'+row_color+'"><td>' + node.node_id + '</td><td>' + ucwords(node.type) + '</td><td class="hide_on_mobile">' + node.hardware + '</td><td>' + node.ip_address + '</td><td class="hide_on_mobile">' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td class="hide_on_mobile">' + node.cpu_temp + ' °C</td><td class="hide_on_mobile">' + node.uptime + '</td></tr>';
                         }
                     });
                     $('#cluster_nodes').html(trHTML);
