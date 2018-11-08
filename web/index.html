@@ -492,6 +492,7 @@ desired effect
                     }
                 },
                 error: function(data) {
+                    console.log(data);
                     if(data.readyState == 4)
                     {
                         $("#content_dashboard").hide();
