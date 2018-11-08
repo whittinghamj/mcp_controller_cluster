@@ -28,6 +28,6 @@ $query = $db->query("DELETE FROM `miners`;");
 
 file_put_contents('/etc/mcp/global_vars.php', $default_config);
 
-echo "Reset complete. \n"
+echo "Reset complete. \n";
 echo "\n";
 echo "Go to http://".$config['master'].":1372 to configure this master node.\n";
