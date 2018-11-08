@@ -11,6 +11,12 @@ session_start();
 // include("inc/global_vars.php");
 // include("inc/functions.php");
 
+function go($link = '')
+{
+	header("Location: " . $link);
+	die();
+}
+
 $a = $_GET['a'];
 
 switch ($a)
