@@ -16,7 +16,7 @@ if($data['hostname'] == 'cluster-master')
 
 if($data['node_type'] == 'master')
 {
-	echo "MCP Cluster - Master not allowed to run this command.";
+	echo "MCP Cluster - Master not allowed to run this command. \n";
 	die();
 }
 
