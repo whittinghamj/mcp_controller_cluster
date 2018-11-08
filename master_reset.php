@@ -23,8 +23,8 @@ echo "Resetting MCP Cluster Master node...\n";
 
 $default_config = '{"api_key":"","master":""}';
 
-$query = $db->query("DELETE FROM `nodes`;");
-$query = $db->query("DELETE FROM `miners`;");
+$remove_nodes = $db->query("TRUNCATE TABLE `nodes`");
+$remove_miners = $db->query("TRUNCATE TABLE `nodes`");
 
 file_put_contents('/etc/mcp/global_vars.php', $default_config);
 
