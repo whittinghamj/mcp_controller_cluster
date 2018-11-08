@@ -62,8 +62,8 @@ function set_status_message(){
 function update_api_key()
 {
 
-	print_r($_POST);
-	$data['api_key'] 	= $_POST['api_key'];
+	print_r($_GET);
+	$data['api_key'] 	= $_GET['api_key'];
 	$data['api_key']	= str_replace(' ', '', $data['api_key']);
 
 	if(!ctype_alnum($data['api_key']))
