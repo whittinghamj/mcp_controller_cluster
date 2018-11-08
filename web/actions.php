@@ -62,12 +62,21 @@ function set_status_message(){
 function update_api_key()
 {
 	$data['api_key'] 	= $_POST['api_key'];
+	$data['api_key']	= str_replace(' ', '', $data['api_key']);
 
-	$data['master'] 	= exec("sh /mcp_cluster/lan_ip.sh");
+	if(!ctype_alnum($data['api_key']))
+	{
+        set_status_message('danger', 'The API Key does not appear to be valid.');
+	}else{
 
-	$json = json_encode($remote_data, true);
+		$data['master'] 	= exec("sh /mcp_cluster/lan_ip.sh");
 
-	file_put_contents('/etc/mcp/global_vars.php', $json);
+		$json = json_encode($remote_data, true);
+
+		file_put_contents('/etc/mcp/global_vars.php', $json);
+
+		set_status_message('success','Your API Key has been saved.');
+	}
 
 	go($_SERVER['HTTP_REFERER']);
 }
