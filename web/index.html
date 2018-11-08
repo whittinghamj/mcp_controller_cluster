@@ -477,14 +477,18 @@ desired effect
                 dataType: 'json',
                 timeout: 30000,
                 cache: false,
-                success: function(node) {                    
+                success: function(node) {
+                    if (typeof node.api_key !== 'undefined')
+                    {
+                        $('#content_settings').modal('show');
+                    }
                     if(node.api_key == '')
                     {
                         $('#content_settings').modal('show');
                     }
                 },
                 error: function() {
-                    // console.log(data);
+                    console.log(data);
                 }
             });
         }
