@@ -483,6 +483,11 @@ desired effect
                     {
                         $('#content_settings').modal('show');
                     }else{
+                        var existing_api_key = $('#api_key').val();
+                        if(existing_api_key == '')
+                        {
+                            document.getElementById('#api_key').value = node.api_key;
+                        }
                         $('#content_settings').modal('hide');
                     }
                 },
