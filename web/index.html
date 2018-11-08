@@ -151,7 +151,7 @@ desired effect
             </div>
 
             <div class="modal fade" id="content_settings">
-                <form class="form-horizontal" action="actions.php?a=update_api_key" method="post">
+                <form id="update_api_key" class="form-horizontal" action="#" method="post">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -781,6 +781,17 @@ desired effect
             // evt.preventDefault(); 
             return false;
         };
+
+        $('#update_api_key_submit').click(function() {
+            $.ajax({
+                url: 'actions.php?a=update_api_key',
+                type: 'POST',
+                data: $('#update_api_key').serialize(),
+                success: function(msg) {
+                    alert('API Key submitted');
+                }               
+            });
+        });
 	</script>
 </body>
 </html>
