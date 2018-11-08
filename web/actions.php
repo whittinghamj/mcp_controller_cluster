@@ -72,7 +72,7 @@ function update_api_key()
 	}else{
 		$data['master'] 	= exec("sh /mcp_cluster/lan_ip.sh");
 
-		$json = json_encode($remote_data, true);
+		$json = json_encode($data, true);
 
 		file_put_contents('/etc/mcp/global_vars.php', $json);
 
