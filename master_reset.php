@@ -2,8 +2,6 @@
 
 // MCP Cluster - Master Reset Script
 
-{"api_key":"279e8017e2d2d0d7d591a25e40d6cada","master":"192.168.1.240"}
-
 include('/mcp_cluster/db.php');
 
 echo "MCP Cluster - Master Reset \n";
@@ -21,4 +19,15 @@ if(trim($line) != 'yes'){
 }
 fclose($handle);
 echo "\n"; 
-echo "Thank you, continuing...\n";
+echo "Resetting MCP Cluster Master node...\n";
+
+$default_config = '{"api_key":"","master":""}';
+
+$query = $db->query("DELETE FROM `nodes`;");
+$query = $db->query("DELETE FROM `miners`;");
+
+file_put_contents('/etc/mcp/global_vars.php', $default_config);
+
+echo "Reset complete. \n"
+echo "\n";
+echo "Go to http://".$config['master'].":1372 to configure this master node.\n";
