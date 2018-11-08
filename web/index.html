@@ -478,17 +478,19 @@ desired effect
                 timeout: 30000,
                 cache: false,
                 success: function(node) {
+                    console.log('apikey = ' + node.api_key);
                     if (typeof node.api_key !== 'undefined')
                     {
                         $('#content_settings').modal('show');
-                    }
-                    if(node.api_key == '')
+                    }else if(node.api_key == '')
                     {
                         $('#content_settings').modal('show');
+                    }else{
+                        $('#content_settings').modal('hide');
                     }
                 },
                 error: function(data) {
-                    $('#content_settings').modal('show');
+                    // $('#content_settings').modal('show');
                 }
             });
         }
