@@ -63,15 +63,16 @@ function update_api_key()
 {
 
 	print_r($_GET);
+	print_r($_POST);
 
 	$data['api_key'] 	= $_POST['api_key'];
 	$data['api_key']	= str_replace(' ', '', $data['api_key']);
 
 	if(empty($data['api_key']))
 	{
-		set_status_message('danger', 'API Key cannot be empty.');
+		// set_status_message('danger', 'API Key cannot be empty.');
 	}elseif(!ctype_alnum($data['api_key'])){
-        set_status_message('danger', 'The API Key does not appear to be valid.');
+        // set_status_message('danger', 'The API Key does not appear to be valid.');
 	}else{
 		$data['master'] 	= exec("sh /mcp_cluster/lan_ip.sh");
 
@@ -79,7 +80,7 @@ function update_api_key()
 
 		file_put_contents('/etc/mcp/global_vars.php', $json);
 
-		set_status_message('success','Your API Key has been saved.');
+		// set_status_message('success','Your API Key has been saved.');
 	}
 
 	go($_SERVER['HTTP_REFERER']);
