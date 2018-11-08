@@ -63,14 +63,16 @@ function update_api_key()
 {
 
 	print_r($_GET);
+
 	$data['api_key'] 	= $_GET['api_key'];
 	$data['api_key']	= str_replace(' ', '', $data['api_key']);
 
-	if(!ctype_alnum($data['api_key']))
+	if(empty($data['api_key']))
 	{
+		set_status_message('danger', 'API Key cannot be empty.');
+	}elseif(!ctype_alnum($data['api_key'])){
         set_status_message('danger', 'The API Key does not appear to be valid.');
 	}else{
-
 		$data['master'] 	= exec("sh /mcp_cluster/lan_ip.sh");
 
 		$json = json_encode($remote_data, true);
