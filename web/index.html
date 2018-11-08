@@ -151,13 +151,13 @@ desired effect
             </div>
 
             <div class="modal fade" id="content_settings">
-                <div class="modal-dialog" style="width: 80%;">
+                <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Settings</h4>
                         </div>
                         <div class="modal-body">
-                            <!-- <iframe src="http://192.168.1.103:4200" style="position: absolute; height: 100%; border: none" width="100%" frameborder="0"></iframe> -->
+                            Please enter your MCP Dashboard Site API Key to configure this cluster.
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -448,9 +448,29 @@ desired effect
 
         window.setInterval( function()
         {
+            is_master_configured();
             poll_cluster_data();
-
         }, refreshTime );
+
+        function is_master_configured()
+        {
+            $.ajax({
+                url: '/web_api.php?c=cluster_configuration',
+                type: 'GET',
+                dataType: 'json',
+                timeout: 30000,
+                cache: false,
+                success: function(node) {                    
+                    if(node.api_key == '')
+                    {
+                        $('#content_settings').modal('show');
+                    }
+                },
+                error: function() {
+                    // console.log(data);
+                }
+            });
+        }
 
         function poll_cluster_data()
         {
