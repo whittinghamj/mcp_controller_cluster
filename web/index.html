@@ -151,15 +151,14 @@ desired effect
             </div>
 
             <div class="modal fade" id="content_settings">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Settings</h4>
-                        </div>
-                        <div class="modal-body">
-                            Please enter your MCP Dashboard Site API Key to configure this cluster.<br><br>
-
-                            <form class="form-horizontal" action="/actions.php">
+                <form class="form-horizontal" action="/actions.php">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Settings</h4>
+                            </div>
+                            <div class="modal-body">
+                                Please enter your MCP Dashboard Site API Key to configure this cluster.<br><br>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3" for="api_key">MCP Site API Key:</label>
                                     <div class="col-sm-9">
@@ -174,19 +173,14 @@ desired effect
                                     </div>
                                 </div>
                                 -->
-                                
-                                <div class="form-group col-lg-12">
-                                    <div class="pull-right">
-                                        <button type="submit" class="btn btn-success">Submit</button>
-                                    </div>
-                                </div>
-                            </form> 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
 
             <div class="modal fade" id="saving_config" tabindex="-1" role="dialog" aria-labelledby="saving_config" aria-hidden="true">
