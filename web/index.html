@@ -478,11 +478,8 @@ desired effect
                 timeout: 30000,
                 cache: false,
                 success: function(node) {
-                    console.log('apikey = ' + node.api_key);
-                    if (typeof node.api_key !== 'undefined')
-                    {
-                        $('#content_settings').modal('show');
-                    }else if(node.api_key == '')
+                    console.log('api_key = ' + node.api_key);
+                    if(node.api_key == '')
                     {
                         $('#content_settings').modal('show');
                     }else{
