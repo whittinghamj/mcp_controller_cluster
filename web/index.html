@@ -97,10 +97,10 @@ desired effect
                                 
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
-                                    <div class="pull-left">
+                                    <div class="pull-right">
                                         <a href="https://dashboard.miningcontrolpanel.com" target="_blank" class="btn btn-primary btn-flat">MCP Dashboard</a>
                                     </div>
-                                    <div class="pull-right">
+                                    <div class="pull-left">
                                         <!-- <a href="<?php echo $site['url']; ?>/logout" class="btn btn-default btn-flat">Logout</a> -->
                                     </div>
                                 </li>
@@ -121,7 +121,7 @@ desired effect
                         </a>
                     </li>
                     <li class="active">
-                        <a href="#" onclick="toggle_content('content_settings');">
+                        <a href="#" onclick="open_cluster_settings('content_settings');">
                             <i class="fa fa-gears"></i>
                             <span>Settings</span>
                         </a>
@@ -139,6 +139,22 @@ desired effect
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Cluster Web Console</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!-- <iframe src="http://192.168.1.103:4200" style="position: absolute; height: 100%; border: none" width="100%" frameborder="0"></iframe> -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="content_settings">
+                <div class="modal-dialog" style="width: 80%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Settings</h4>
                         </div>
                         <div class="modal-body">
                             <!-- <iframe src="http://192.168.1.103:4200" style="position: absolute; height: 100%; border: none" width="100%" frameborder="0"></iframe> -->
@@ -332,21 +348,6 @@ desired effect
                                     <div class="">
                                         <span id="node_panels"></span>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="content_settings" class="container-fluid hidden">
-                    <div class="row">
-                        <div class="box box-primary">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Settings</h3> 
-                            </div>
-                            <div class="box-body">
-                                <div class="">
-                                    <span id="node_panels"></span>
                                 </div>
                             </div>
                         </div>
@@ -732,6 +733,13 @@ desired effect
             $("#content_mcp_dashboard").hide();
             $("#" + show_div).show();
         }
+
+        function open_cluster_settings()
+        {
+            $('#content_settings').modal('toggle');
+            evt.preventDefault(); 
+            return false;
+        };
 	</script>
 </body>
 </html>
