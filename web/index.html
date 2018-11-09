@@ -347,6 +347,7 @@ desired effect
                                                     <th>Load</th>
                                                     <th class="hide_on_mobile">Temp</th>
                                                     <th class="hide_on_mobile">Uptime</th>
+                                                    <th class="hide_on_mobile">Ver</th>
                                                     <th class="hide_on_mobile" width="10px">Actions</th>
                                                 </tr>
                                             </thead>
@@ -526,7 +527,7 @@ desired effect
                     $.each(nodes, function (i, node) {
                         if(node.type == 'master')
                         {
-                            trHTML += '<tr bgcolor="#9ab5ed"><td>' + node.node_id + '</td><td>' + ucwords(node.type) + '</td><td class="hide_on_mobile">' + node.hardware + '</td><td>' + node.ip_address + '</td><td class="hide_on_mobile">' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td class="hide_on_mobile">' + node.cpu_temp + ' °C</td><td class="hide_on_mobile">' + node.uptime + '</td><td class="hide_on_mobile"></td></tr>';
+                            trHTML += '<tr bgcolor="#9ab5ed"><td>'+node.node_id+'</td><td>'+ucwords(node.type)+'</td><td class="hide_on_mobile">'+node.hardware+'</td><td>'+node.ip_address+'</td><td class="hide_on_mobile">'+node.cpu_cores+'</td><td>'+node.cpu_load+'%</td><td class="hide_on_mobile">'+node.cpu_temp+' °C</td><td class="hide_on_mobile">'+node.uptime+'</td><td class="hide_on_mobile">'+node.mcp_version+'</td><td class="hide_on_mobile"></td></tr>';
                         }
                     });
 
@@ -539,7 +540,7 @@ desired effect
                             }else{
                                 var row_color = '#efa49b';
                             }
-                            trHTML += '<tr bgcolor="'+row_color+'"><td>' + node.node_id + '</td><td>' + ucwords(node.type) + '</td><td class="hide_on_mobile">' + node.hardware + '</td><td>' + node.ip_address + '</td><td class="hide_on_mobile">' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td class="hide_on_mobile">' + node.cpu_temp + ' °C</td><td class="hide_on_mobile">' + node.uptime + '</td><td class="hide_on_mobile"><a href="actions.php?a=node_delete&node_id='+node.node_id+'" onclick="return confirm(\'Are you sure?\')"><i class="fa fa-times"></i></a></td></tr>';
+                            trHTML += '<tr bgcolor="'+row_color+'"><td>'+node.node_id+'</td><td>'+ucwords(node.type)+'</td><td class="hide_on_mobile">'+node.hardware+'</td><td>'+node.ip_address+'</td><td class="hide_on_mobile">'+node.cpu_cores+'</td><td>'+node.cpu_load+'%</td><td class="hide_on_mobile">'+node.cpu_temp+' °C</td><td class="hide_on_mobile">'+node.uptime+'</td><td class="hide_on_mobile">'+node_mcp_version+'</td><td class="hide_on_mobile"><a href="actions.php?a=node_delete&node_id='+node.node_id+'" onclick="return confirm(\'Are you sure?\')"><i class="fa fa-times"></i></a></td></tr>';
                         }
                     });
                     $('#cluster_nodes').html(trHTML);
