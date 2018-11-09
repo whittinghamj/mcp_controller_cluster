@@ -539,7 +539,7 @@ desired effect
                             }else{
                                 var row_color = '#efa49b';
                             }
-                            trHTML += '<tr bgcolor="'+row_color+'"><td>' + node.node_id + '</td><td>' + ucwords(node.type) + '</td><td class="hide_on_mobile">' + node.hardware + '</td><td>' + node.ip_address + '</td><td class="hide_on_mobile">' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td class="hide_on_mobile">' + node.cpu_temp + ' °C</td><td class="hide_on_mobile">' + node.uptime + '</td><td class="hide_on_mobile"><a href="actions.php?a=node_delete&node_id='+node.node_id+'" onclick="return confirm(\'Are you sure?\')"><i class="fa fa-cross"></i></a></td></tr>';
+                            trHTML += '<tr bgcolor="'+row_color+'"><td>' + node.node_id + '</td><td>' + ucwords(node.type) + '</td><td class="hide_on_mobile">' + node.hardware + '</td><td>' + node.ip_address + '</td><td class="hide_on_mobile">' + node.cpu_cores + '</td><td>' + node.cpu_load + '%</td><td class="hide_on_mobile">' + node.cpu_temp + ' °C</td><td class="hide_on_mobile">' + node.uptime + '</td><td class="hide_on_mobile"><a href="actions.php?a=node_delete&node_id='+node.node_id+'" onclick="return confirm(\'Are you sure?\')"><i class="fa fa-times"></i></a></td></tr>';
                         }
                     });
                     $('#cluster_nodes').html(trHTML);
