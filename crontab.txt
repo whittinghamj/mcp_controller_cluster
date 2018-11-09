@@ -31,7 +31,7 @@
 # 0 * * * * /sbin/reboot
 
 # find the cluster master as write local config file
-# * * * * * php -q /mcp_cluster/setup.php >> /mcp_cluster/logs/setup.log 2>&1
+* * * * * php -q /mcp_cluster/setup.php >> /mcp_cluster/logs/setup.log 2>&1
 
 # run blinkt CPU monitor
 @reboot python /etc/mcp/cpu_load.py > /dev/null 2>&1
