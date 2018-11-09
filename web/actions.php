@@ -28,6 +28,10 @@ switch ($a)
 	case "update_api_key":
 		update_api_key();
 		break;
+
+	case "node_delete":
+		node_delete();
+		break;
 			
 // default
 				
@@ -36,11 +40,13 @@ switch ($a)
 		break;
 }
 
-function home(){
+function home()
+{
 	die('access denied to function name ' . $_GET['a']);
 }
 
-function test(){
+function test()
+{
 	echo '<h3>$_SESSION</h3>';
 	echo '<pre>';
 	print_r($_SESSION);
@@ -58,7 +64,8 @@ function test(){
 	echo '<hr>';
 }
 
-function set_status_message(){
+function set_status_message()
+{
 	$status 			= $_GET['status'];
 	$message			= $_GET['message'];
 	
@@ -84,6 +91,17 @@ function update_api_key()
 
 		// set_status_message('success','Your API Key has been saved.');
 	}
+
+	go($_SERVER['HTTP_REFERER']);
+}
+
+function node_delete()
+{
+	include("/mcp_cluster/db.php");
+
+	$data['node_id'] 	= $_GET['node_id'];
+
+	$query = $db->query("DELETE FROM `nodes` WHERE `id` = '".$data['node_id']."' ");
 
 	go($_SERVER['HTTP_REFERER']);
 }
