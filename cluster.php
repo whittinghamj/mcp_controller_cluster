@@ -29,8 +29,6 @@ function killlock(){
 	exec("rm -rf $lockfile");
 }
 
-$version = '1.0.0.0';
-
 $task = $argv[1];
 
 if(isset($argv[3]))
@@ -91,9 +89,9 @@ if($task == "node_checkin")
         // cant find this node, lets get it added
 
         $insert = $db->exec("INSERT INTO `nodes` 
-            (`updated`,`type`, `uptime`, `ip_address`, `ip_address_wan`, `mac_address`, `hardware`, `cpu_type`, `cpu_load`, `cpu_cores`, `cpu_temp`, `memory_usage`)
+            (`updated`,`type`, `uptime`, `ip_address`, `ip_address_wan`, `mac_address`, `hardware`, `cpu_type`, `cpu_load`, `cpu_cores`, `cpu_temp`, `memory_usage`, `mcp_version`)
             VALUE
-            ('".time()."','".$data['node_type']."', '".$data['uptime']."', '".$data['ip_address']."', '".$data['ip_address_wan']."', '".$data['mac_address']."', '".$data['hardware']."', '".$data['cpu_type']."','".$data['cpu_load']."', '".$data['cpu_cores']."', '".$data['cpu_temp']."', '".$data['memory_usage']."' )");
+            ('".time()."','".$data['node_type']."', '".$data['uptime']."', '".$data['ip_address']."', '".$data['ip_address_wan']."', '".$data['mac_address']."', '".$data['hardware']."', '".$data['cpu_type']."','".$data['cpu_load']."', '".$data['cpu_cores']."', '".$data['cpu_temp']."', '".$data['memory_usage']."'` '".$config['mcp_version']."' )");
         
         if (!$insert) {
             echo "\nPDO::errorInfo():\n";
@@ -117,6 +115,7 @@ if($task == "node_checkin")
 		$result = $db->exec("UPDATE `nodes` SET `cpu_load` = '".$data['cpu_load']."' WHERE `id` = '".$data['node_id']."' ");
 		$result = $db->exec("UPDATE `nodes` SET `cpu_temp` = '".$data['cpu_temp']."' WHERE `id` = '".$data['node_id']."' ");
 		$result = $db->exec("UPDATE `nodes` SET `memory_usage` = '".$data['memory_usage']."' WHERE `id` = '".$data['node_id']."' ");
+        $result = $db->exec("UPDATE `nodes` SET `mcp_version` = '".$config['mcp_version']."' WHERE `id` = '".$data['node_id']."' ");
 
 		$result = $db->exec("UPDATE `nodes` SET `status` = 'online' WHERE `id` = '".$data['node_id']."' ");
 

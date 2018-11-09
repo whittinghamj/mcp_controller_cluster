@@ -1,9 +1,10 @@
 <?php
 
 // include('/etc/mcp/global_vars.php');
-$config_file		= @file_get_contents('/etc/mcp/global_vars.php');
-$config 			= json_decode($config_file, true);
+$config_file				= @file_get_contents('/etc/mcp/global_vars.php');
+$config 					= json_decode($config_file, true);
 
+$config['mcp_version']		= '1.2';
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // mysql settings
 $database['username']		= "root";

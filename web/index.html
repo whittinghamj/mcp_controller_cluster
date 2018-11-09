@@ -525,7 +525,6 @@ desired effect
 
                     // build the table for nodes
                     $.each(nodes, function (i, node) {
-                        console.log(node.mcp_version);
                         if(node.type == 'master')
                         {
                             trHTML += '<tr bgcolor="#9ab5ed"><td>'+node.node_id+'</td><td>'+ucwords(node.type)+'</td><td class="hide_on_mobile">'+node.hardware+'</td><td>'+node.ip_address+'</td><td class="hide_on_mobile">'+node.cpu_cores+'</td><td>'+node.cpu_load+'%</td><td class="hide_on_mobile">'+node.cpu_temp+' °C</td><td class="hide_on_mobile">'+node.uptime+'</td><td class="hide_on_mobile">'+node.mcp_version+'</td><td class="hide_on_mobile"></td></tr>';
