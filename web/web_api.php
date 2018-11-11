@@ -25,6 +25,11 @@ switch ($c){
 		web_cluster_details_table();
 		break;
 
+	// build the cluster history table of jobs
+	case "web_cluster_jobs":
+		web_cluster_jobs();
+		break;
+
 	// find master on cluster
 	case "find_master":
 		find_master();
@@ -148,6 +153,16 @@ function cluster_configuration()
 	}else{
 	    $data['node_type'] = 'slave';
 	}
+
+	json_output($data);
+}
+
+function web_cluster_jobs()
+{   
+	global $db;
+
+    $query = $db->query("SELECT * FROM `node_jobs` ORDER BY `id` DESC LIMIT 20 ");
+    $data = $query->fetchAll(PDO::FETCH_ASSOC);
 
 	json_output($data);
 }
