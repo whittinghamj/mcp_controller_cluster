@@ -369,11 +369,28 @@ desired effect
                         <div class="row">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">Cluster Nodes</h3> 
+                                    <h3 class="box-title">Cluster Jobs</h3> 
                                 </div>
                                 <div class="box-body">
                                     <div class="">
-                                        <span id="node_panels"></span>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Time</th>
+                                                    <th>Node</th>
+                                                    <th>Job</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id='cluster_jobs'>
+                                                <tr>
+                                                    <td colspan="8">
+                                                        <center>
+                                                            Loading cluster jobs ...
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -478,6 +495,125 @@ desired effect
             is_master_configured();
             poll_cluster_data();
         }, refreshTime );
+
+        var refreshTime_short = 5000;
+
+        window.setInterval( function()
+        {
+            get_cluster_jobs();
+        }, refreshTime_short );
+
+        function get_cluster_jobs()
+        {
+            // get cluster details
+            $.ajax({
+                url: '/web_api.php?c=web_cluster_jobs',
+                type: 'GET',
+                dataType: 'json',
+                timeout: 30000,
+                cache: false,
+                success: function(nodes) {
+                    // set some vars
+                    var trHTML_jobs = '';
+
+                    // build the table for nodes
+                    $.each(nodes, function (i, node) {
+                        // if(node.type == 'master')
+                        // {
+                            trHTML_jobs += '<tr><td>'+node.time+'</td><td>'+node.mac+'</td><td>'+node.job+'</td></tr>';
+                        // }
+                    });
+                },
+                error: function() {
+                    // console.log(data);
+                }
+            });
+
+            // get local node details
+            $.ajax({
+                url: '/web_api.php?c=node_info',
+                type: 'GET',
+                dataType: 'json',
+                timeout: 30000,
+                cache: false,
+                success: function(node) {                    
+                    $('#hardware').html(node.hardware);
+                    $('#ip_address').html(node.ip_address);
+                    $('#uptime').html(node.uptime);
+
+                    $('#loading_content').addClass("hidden");
+
+                    if(node.type == 'master')
+                    {
+                        $('#node_master').removeClass("hidden");
+                    }else if(node.type == 'slave')
+                    {
+                        $('#node_slave').removeClass("hidden");
+
+                        go_to_master_node();
+                    }
+                },
+                error: function() {
+                    // console.log(data);
+                }
+            });
+
+            // get total miners
+            $.ajax({
+                url: '/web_api.php?c=cluster_totals',
+                type: 'GET',
+                dataType: 'json',
+                timeout: 30000,
+                cache: false,
+                success: function(data) {
+                    // chart for total miners
+                    var fake_total_miners = data.total_miners + +25
+                    $("#show_total_miners").html('');
+                    var gg1 = new JustGage({
+                        id: "show_total_miners",
+                        value: data.total_miners,
+                        min: 0,
+                        max: data.max_supported_miners.one_minute,
+                        gaugeWidthScale: 1,
+                        counter: false,
+                        relativeGaugeSize: true,
+                        formatNumber: true,
+                        label: "Miners"
+                    });
+                    
+                    // chart for total cluster load
+                    $("#show_cluster_load").html('');
+                    var gg1 = new JustGage({
+                        id: "show_cluster_load",
+                        value: data.avg_cluster_load,
+                        min: 0,
+                        max: 100,
+                        gaugeWidthScale: 1,
+                        counter: false,
+                        relativeGaugeSize: true,
+                        formatNumber: true,
+                        label: "Load"
+                    });
+
+                    // chart for cluster size
+                    $("#show_cluster_size").html('');
+                    var gg1 = new JustGage({
+                        id: "show_cluster_size",
+                        value: data.total_nodes,
+                        min: 0,
+                        max: 16,
+                        gaugeWidthScale: 1,
+                        counter: false,
+                        relativeGaugeSize: true,
+                        formatNumber: true,
+                        label: "Nodes"
+                    });
+                },
+                error: function() {
+                    // console.log(data);
+                }
+            });
+        }
 
         function is_master_configured()
         {
