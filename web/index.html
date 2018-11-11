@@ -523,96 +523,15 @@ desired effect
                             trHTML_jobs += '<tr><td>'+node.time+'</td><td>'+node.mac+'</td><td>'+node.job+'</td></tr>';
                         // }
                     });
+
+                    $('#cluster_jobs').html(trHTML_jobs);
                 },
                 error: function() {
                     // console.log(data);
                 }
             });
 
-            // get local node details
-            $.ajax({
-                url: '/web_api.php?c=node_info',
-                type: 'GET',
-                dataType: 'json',
-                timeout: 30000,
-                cache: false,
-                success: function(node) {                    
-                    $('#hardware').html(node.hardware);
-                    $('#ip_address').html(node.ip_address);
-                    $('#uptime').html(node.uptime);
-
-                    $('#loading_content').addClass("hidden");
-
-                    if(node.type == 'master')
-                    {
-                        $('#node_master').removeClass("hidden");
-                    }else if(node.type == 'slave')
-                    {
-                        $('#node_slave').removeClass("hidden");
-
-                        go_to_master_node();
-                    }
-                },
-                error: function() {
-                    // console.log(data);
-                }
-            });
-
-            // get total miners
-            $.ajax({
-                url: '/web_api.php?c=cluster_totals',
-                type: 'GET',
-                dataType: 'json',
-                timeout: 30000,
-                cache: false,
-                success: function(data) {
-                    // chart for total miners
-                    var fake_total_miners = data.total_miners + +25
-                    $("#show_total_miners").html('');
-                    var gg1 = new JustGage({
-                        id: "show_total_miners",
-                        value: data.total_miners,
-                        min: 0,
-                        max: data.max_supported_miners.one_minute,
-                        gaugeWidthScale: 1,
-                        counter: false,
-                        relativeGaugeSize: true,
-                        formatNumber: true,
-                        label: "Miners"
-                    });
-                    
-                    // chart for total cluster load
-                    $("#show_cluster_load").html('');
-                    var gg1 = new JustGage({
-                        id: "show_cluster_load",
-                        value: data.avg_cluster_load,
-                        min: 0,
-                        max: 100,
-                        gaugeWidthScale: 1,
-                        counter: false,
-                        relativeGaugeSize: true,
-                        formatNumber: true,
-                        label: "Load"
-                    });
-
-                    // chart for cluster size
-                    $("#show_cluster_size").html('');
-                    var gg1 = new JustGage({
-                        id: "show_cluster_size",
-                        value: data.total_nodes,
-                        min: 0,
-                        max: 16,
-                        gaugeWidthScale: 1,
-                        counter: false,
-                        relativeGaugeSize: true,
-                        formatNumber: true,
-                        label: "Nodes"
-                    });
-                },
-                error: function() {
-                    // console.log(data);
-                }
-            });
+            
         }
 
         function is_master_configured()
