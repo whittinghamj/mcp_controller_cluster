@@ -87,7 +87,6 @@ if($task == "node_checkin")
         $data               = get_system_stats();
 
         // cant find this node, lets get it added
-
         $insert = $db->exec("INSERT INTO `nodes` 
             (`updated`,`type`, `uptime`, `ip_address`, `ip_address_wan`, `mac_address`, `hardware`, `cpu_type`, `cpu_load`, `cpu_cores`, `cpu_temp`, `memory_usage`, `mcp_version`)
             VALUE
