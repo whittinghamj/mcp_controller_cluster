@@ -162,7 +162,16 @@ function web_cluster_jobs()
 	global $db;
 
     $query = $db->query("SELECT * FROM `node_jobs` ORDER BY `id` DESC LIMIT 20 ");
-    $data = $query->fetchAll(PDO::FETCH_ASSOC);
+    $jobs = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    $count = 0;
+    foreach($jobs as $job)
+    {
+    	$data[$count]['node']		= $job['node_mac'];
+    	$data[$count]['time'] 	= date("d-m-y H:i:s", $job['time']);
+    	$data[$count]['job']		= $job['job'];
+    	$count++;
+    }
 
 	json_output($data);
 }
