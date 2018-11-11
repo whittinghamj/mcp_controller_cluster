@@ -496,7 +496,8 @@ desired effect
             poll_cluster_data();
         }, refreshTime );
 
-        var refreshTime_short = 5000;
+        // every 0.5 seconds in milliseconds
+        var refreshTime_short = 500;
 
         window.setInterval( function()
         {
@@ -521,7 +522,7 @@ desired effect
                         // if(node.type == 'master')
                         // {
                             if (node.time != null){
-                                trHTML_jobs += '<tr bgcolor="#f2f1c4"><td>'+node.time+'</td><td></td><td>'+node.job+'</td></tr>';
+                                trHTML_jobs += '<tr bgcolor="#f2f1c4"><td>'+node.time+'</td>'+node.timestamp+'<td></td><td>'+node.job+'</td></tr>';
                             }
                         // }
                     });
