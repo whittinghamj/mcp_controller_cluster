@@ -327,6 +327,7 @@ function system_uptime()
     $uptime = str_replace(" hour", "h", $uptime);
 
     $uptime = str_replace(" days", "d", $uptime);
+    $uptime = str_replace(" day", "d", $uptime);
     
     return $uptime;
 }
