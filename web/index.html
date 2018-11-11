@@ -520,7 +520,9 @@ desired effect
                     $.each(nodes, function (i, node) {
                         // if(node.type == 'master')
                         // {
-                            trHTML_jobs += '<tr bgcolor="#f2f1c4"><td>'+node.time+'</td><td></td><td>'+node.job+'</td></tr>';
+                            if (node.time != null){
+                                trHTML_jobs += '<tr bgcolor="#f2f1c4"><td>'+node.time+'</td><td></td><td>'+node.job+'</td></tr>';
+                            }
                         // }
                     });
 
