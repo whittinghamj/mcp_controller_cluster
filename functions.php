@@ -357,11 +357,11 @@ function get_node_details($mac_address)
 
     if(isset($data[0]))
     {
-        $data[0]['node_id']                = $data[0]['id'];
+        $data[0]['node_id']                 = $data[0]['id'];
 
-        $location               = geoip_record_by_name($data[0]['ip_address_wan']);
+        $location                           = geoip_record_by_name($data[0]['ip_address_wan']);
         
-        $data[0]['location']    = $location;
+        $data[0]['location']                = $location;
         
         return $data[0];
     }else{
