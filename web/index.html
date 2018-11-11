@@ -34,15 +34,10 @@
                 display: none;
             }
         }
-
     </style>
 </head>
 
 <!--
-BODY TAG OPTIONS:
-=================
-Apply one or more of the following classes to get the
-desired effect
 |---------------------------------------------------------|
 | SKINS         | skin-blue                               |
 |               | skin-black                              |
@@ -408,13 +403,9 @@ desired effect
         </footer>
     </div>
 
-    <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
-    <!-- AdminLTE App -->
     <script src="dist/js/app.min.js"></script>
-
     <script src="raphael-2.1.4.min.js"></script>
     <script src="justgage.js"></script>
 
@@ -514,27 +505,19 @@ desired effect
                 timeout: 30000,
                 cache: false,
                 success: function(nodes) {
-                    // set some vars
                     var trHTML_jobs = '';
 
-                    // build the table for nodes
                     $.each(nodes, function (i, node) {
-                        // if(node.type == 'master')
-                        // {
                             if (node.time != null){
                                 trHTML_jobs += '<tr bgcolor="#f2f1c4"><td>'+node.time+'</td><td>'+node.node_data.ip_address+'</td><td>'+node.job+'</td></tr>';
                             }
-                        // }
                     });
 
                     $('#cluster_jobs').html(trHTML_jobs);
                 },
                 error: function() {
-                    // console.log(data);
                 }
             });
-
-            
         }
 
         function is_master_configured()
@@ -546,7 +529,6 @@ desired effect
                 timeout: 30000,
                 cache: false,
                 success: function(node) {
-                    // console.log('api_key = ' + node.api_key);
                     if(node.api_key == '')
                     {
                         $('#content_settings').modal('show');
@@ -576,7 +558,6 @@ desired effect
                 timeout: 30000,
                 cache: false,
                 success: function(nodes) {
-                    // set some vars
                     var trHTML = '';
                     var total_miners = '';
                     var node_panel = '';
@@ -602,64 +583,8 @@ desired effect
                         }
                     });
                     $('#cluster_nodes').html(trHTML);
-
-                    /*
-                    $.each(nodes, function (i, node) {
-                        if(node.type == 'slave' && node.status == 'online')
-                        {
-                            // build the container
-                            node_panel += ' <div class="col-lg-3 col-xs-6">';
-                            node_panel += '     <div class="panel panel-primary">';
-                            node_panel += '         <div class="panel-heading text-center">';
-                            node_panel += '             Node ID: ' + node.id;
-                            node_panel += '         </div>';
-                            node_panel += '         <div class="panel-body text-center">';
-                            node_panel += '             <span id="node_cpu_load_'+node.ip_address+'" class="gauge_none text-center"></span>';
-                            node_panel += '             <span class="pull-left"><strong>IP:</strong> ' + node.ip_address + '</span><br><br>';
-                            node_panel += '             <span class="pull-left"><strong>Hardware:</strong> ' + node.hardware + '</span>';
-                            node_panel += '         </div>';
-                            node_panel += '     </div>';
-                            node_panel += ' </div>';
-
-                            // chart for node cpu load
-                            $("#node_cpu_load_"+node.ip_address).html('');
-                            var gg1 = new JustGage({
-                                id: 'node_cpu_load_'+node.ip_address,
-                                value: node.cpu_load,
-                                min: 0,
-                                max: 100,
-                                gaugeWidthScale: 1,
-                                counter: false,
-                                relativeGaugeSize: true,
-                                formatNumber: true,
-                                label: "CPU Load"
-                            });
-                        }
-                    });
-                    $('#node_panels').html(node_panel);
-
-                    $.each(nodes, function (i, node) {
-                        if(node.type == 'slave' && node.status == 'online')
-                        {
-                            // chart for node cpu load
-                            $("#node_cpu_load_"+node.ip_address).html('');
-                            var gg1 = new JustGage({
-                                id: 'node_cpu_load_'+node.ip_address,
-                                value: node.cpu_load,
-                                min: 0,
-                                max: 100,
-                                gaugeWidthScale: 1,
-                                counter: false,
-                                relativeGaugeSize: true,
-                                formatNumber: true,
-                                label: "CPU Load"
-                            });
-                        }
-                    });
-                    */
                 },
                 error: function() {
-                    // console.log(data);
                 }
             });
 
@@ -688,7 +613,6 @@ desired effect
                     }
                 },
                 error: function() {
-                    // console.log(data);
                 }
             });
 
@@ -744,7 +668,6 @@ desired effect
                     });
                 },
                 error: function() {
-                    // console.log(data);
                 }
             });
         }
@@ -762,7 +685,6 @@ desired effect
                     window.setTimeout(window.location.href = "http://"+cluster_master+":1372",5000);
                 },
                 error: function() {
-                    // console.log(data);
                 }
             });
         }
@@ -783,26 +705,21 @@ desired effect
         function run_webssh()
         {
             $('#webssh').modal('toggle');
-            // evt.preventDefault(); 
             return false;
         };
 
-        // countdown timer
         var CCOUNT = 60;
         var t, count;
 
         function cddisplay()
         {
-            // displays time in span
             document.getElementById('timer').innerHTML = count;
         };
         
         function countdown()
         {
-            // starts countdown
             cddisplay();
             if (count == 0) {
-                // time is up
                 cdreset();
             } else {
                 count--;
@@ -812,14 +729,11 @@ desired effect
         
         function cdpause()
         {
-            // pauses countdown
             clearTimeout(t);
         };
         
         function cdreset()
         {
-            // resets countdown
-            // cdpause();
             count = CCOUNT;
             cddisplay();
             countdown()
@@ -827,20 +741,11 @@ desired effect
 
         $(document).ready(function()
         {
-            // run something once the page is done loading.
-
             is_master_configured();
-
             get_cluster_jobs();
-
-            // poll initial cluster data
             poll_cluster_data();
-
-            // countdown timer
             cdreset();
             countdown();
-
-            // $("#htop_output").load('http://192.168.1.103:8888/htop_app'); 
         });
 
         function toggle_content(show_div)
