@@ -468,7 +468,7 @@ function get_system_stats()
         $data['node_type']          = 'slave';
     }
 
-    $node = get_node_details($data['mac_address']);
+    $node                           = get_node_details($data['mac_address']);
 
     return $data;
 }

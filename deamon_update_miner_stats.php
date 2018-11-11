@@ -24,6 +24,8 @@ include('/mcp_cluster/functions.php');
 $options 				= getopt("p:");
 $miner_id 				= $options["p"];
 
+$node['mac_address']    = strtoupper(exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address"));
+
 $get_miner_url 			= $api_url.'/api/?key='.$config['api_key'].'&c=site_miner&miner_id='.$miner_id;
 $get_miner_details 		= file_get_contents($get_miner_url);
 $miner_details 			= json_decode($get_miner_details, true);
@@ -445,6 +447,14 @@ foreach($miner_details['miners'] as $miner)
 	*/
 
 	// echo print_r($return_results);
+
+	// post job details to cluster master
+	$insert = $db->exec("INSERT INTO `node_jobs` 
+	    (`time`,`node_mac`, `job`)
+	    VALUE
+	    ('".time()."',
+	    '".$node['mac_address']."', 
+	    'Miner ID: ".$miner_id." was polled.')");
 }
 
 ?>
