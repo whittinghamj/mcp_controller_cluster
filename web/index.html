@@ -371,6 +371,7 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
+                                                    <th width="20px">ID</th>
                                                     <th width="200px">Time</th>
                                                     <th width="120px">Node</th>
                                                     <th>Job</th>
@@ -487,8 +488,8 @@
             poll_cluster_data();
         }, refreshTime );
 
-        // every 0.5 seconds in milliseconds
-        var refreshTime_short = 500;
+        // every 5 seconds in milliseconds
+        var refreshTime_short = 5000;
 
         window.setInterval( function()
         {
@@ -509,7 +510,7 @@
 
                     $.each(nodes, function (i, node) {
                             if (node.time != null){
-                                trHTML_jobs += '<tr bgcolor="#f2f1c4"><td>'+node.time+'</td><td>'+node.node_data.ip_address+'</td><td>'+node.job+'</td></tr>';
+                                trHTML_jobs += '<tr bgcolor="#f2f1c4"><td>'+node.id+'</td><td>'+node.time+'</td><td>'+node.node_data.ip_address+'</td><td>'+node.job+'</td></tr>';
                             }
                     });
 
