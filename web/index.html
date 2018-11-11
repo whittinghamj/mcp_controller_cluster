@@ -34,6 +34,11 @@
                 display: none;
             }
         }
+
+        .table-striped>tbody>tr:nth-child(odd)>td,
+        .table-striped>tbody>tr:nth-child(odd)>th {
+            background-color: #f2f1c4;
+        }
     </style>
 </head>
 
@@ -368,7 +373,7 @@
                                 </div>
                                 <div class="box-body">
                                     <div class="">
-                                        <table class="table">
+                                        <table class="table table-striped">
                                             <thead>
                                                 <tr>
                                                     <th width="20px">ID</th>
@@ -510,7 +515,7 @@
 
                     $.each(nodes, function (i, node) {
                             if (node.time != null){
-                                trHTML_jobs += '<tr bgcolor="#f2f1c4"><td>'+node.id+'</td><td>'+node.time+'</td><td>'+node.node_data.ip_address+'</td><td>'+node.job+'</td></tr>';
+                                trHTML_jobs += '<tr><td>'+node.id+'</td><td>'+node.time+'</td><td>'+node.node_data.ip_address+'</td><td>'+node.job+'</td></tr>';
                             }
                     });
 
