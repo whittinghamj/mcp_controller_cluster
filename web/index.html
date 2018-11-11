@@ -520,7 +520,7 @@
 
                     $.each(nodes, function (i, node) {
                             if (node.time != null){
-                                trHTML_jobs += '<tr><td>'+node.id+'</td><td>'+node.time+'</td><td>'+node.node_data.ip_address+'</td><td>'+node.job+'</td></tr>';
+                                trHTML_jobs += '<tr><td class="hide_on_mobile">'+node.id+'</td><td class="hide_on_mobile">'+node.time+'</td><td>'+node.node_data.ip_address+'</td><td>'+node.job+'</td></tr>';
                             }
                     });
 
