@@ -161,7 +161,7 @@ function web_cluster_jobs()
 {   
 	global $db;
 
-    $query = $db->query("SELECT * FROM `node_jobs` ORDER BY `id` DESC LIMIT 20 ");
+    $query = $db->query("SELECT * FROM `node_jobs` ORDER BY `id` DESC LIMIT 100 ");
     $jobs = $query->fetchAll(PDO::FETCH_ASSOC);
 
     $count = 0;
