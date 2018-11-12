@@ -106,7 +106,9 @@ function cluster_load_json()
 
 	$stats['avg_cluster_load'] = number_format($data['total_cluster_load'] / $data['total_slaves'], 2);
 
-	$return_data = array($stats['avg_cluster_load'], 60);
+	$stats['cpu_load']               = number_format($data['cpu_load'] / $data['cpu_cores'], 2);
+
+	$return_data = array($stats['cpu_load'], 60);
 
 	json_output($return_data);
 }
