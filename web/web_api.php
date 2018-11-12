@@ -14,6 +14,11 @@ include('/mcp_cluster/functions.php');
 
 $c = addslashes($_GET['c']);
 switch ($c){
+
+	// get cpu load
+	case "cpu_load":
+		cpu_load();
+		break;
 		
 	// node info
 	case "node_info":
@@ -61,6 +66,15 @@ function home()
 	$data['status']				= 'success';
 	$data['message']			= 'default function';
 	json_output($data);
+}
+
+function cpu_load()
+{
+	$data['cpu_cores']              = system_cores();
+    $data['cpu_load']               = exec('ps -A -o pcpu | tail -n+2 | paste -sd+ | bc');
+    $data['cpu_load']               = number_format($data['cpu_load'] / $data['cpu_cores'], 2);
+
+    json_output($data);
 }
 
 function node_info()
