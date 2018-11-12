@@ -140,5 +140,23 @@ chmod 777 /etc/mcp
 echo '{"api_key":"","master":""}' > /etc/mcp/global_vars.php
 chmod 777 /etc/mcp/global_vars.php
 
+
+## set mysql settings
+mysql.server start
+mysql -u root -e "SET PASSWORD FOR root@'localhost' = PASSWORD(admin1372);"
+mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'admin1372';"
+mysql -u root -e "FLUSH PRIVILEGES;"
+sed -i 's/bind-address/#bind-address/' /etc/mysql/mariadb.conf.d/50-server.cnf
+/etc/init.d/mysql restart
+
+
+## create mcp_cluster database
+mysql -u root -e "CREATE DATABASE mcp_cluster /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+
+
+## create mcp_cluster database tables
+mysql -u root -e mcp_cluster < /mcp_cluster/mcp_cluster.sql
+
+
 ## reboot
 reboot
