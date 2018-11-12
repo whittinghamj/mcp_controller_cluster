@@ -155,7 +155,7 @@ mysql -u root -e "CREATE DATABASE mcp_cluster /*\!40100 DEFAULT CHARACTER SET ut
 
 
 ## create mcp_cluster database tables
-mysql -u root -e mcp_cluster < /mcp_cluster/mcp_cluster.sql
+mysql -u root -p'admin1372' mcp_cluster < /mcp_cluster/mcp_cluster.sql
 
 
 ## reboot
