@@ -16,8 +16,8 @@ $c = addslashes($_GET['c']);
 switch ($c){
 
 	// get cpu load
-	case "cpu_load":
-		cpu_load();
+	case "show_cpu_load":
+		show_cpu_load();
 		break;
 		
 	// node info
@@ -68,7 +68,7 @@ function home()
 	json_output($data);
 }
 
-function cpu_load()
+function show_cpu_load()
 {
 	$data['cpu_cores']              = system_cores();
     $data['cpu_load']               = exec('ps -A -o pcpu | tail -n+2 | paste -sd+ | bc');
