@@ -142,8 +142,9 @@ chmod 777 /etc/mcp/global_vars.php
 
 
 ## set mysql settings
-mysql.server start
+echo 'Setting MySQL root password'
 mysql -u root -e "SET PASSWORD FOR root@'localhost' = PASSWORD(admin1372);"
+echo 'Setting MySQL root login permissions'
 mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'admin1372';"
 mysql -u root -e "FLUSH PRIVILEGES;"
 sed -i 's/bind-address/#bind-address/' /etc/mysql/mariadb.conf.d/50-server.cnf
