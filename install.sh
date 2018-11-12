@@ -15,12 +15,12 @@ apt-get update
 
 ## upgrade all packages
 echo "Upgrading Core OS"
-apt-get -y -qq upgrade
+apt-get -y upgrade
 
 
 ## install dependencies
 echo "Installing Dependencies"
-apt-get install -y -qq htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php php-dev php-curl dnsutils sshpass fping jq shellinabox
+apt-get install -y htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php php-dev php-curl dnsutils sshpass fping jq shellinabox mariadb-server mysql-client php-mysql
 updatedb >> /dev/null
 
 
@@ -123,6 +123,15 @@ sh /mcp_cluster/update.sh
 chmod 777 /var/www/html
 chmod 777 /var/www/html/
 chmod 777 /var/www/html/*
+
+
+## install geoip
+/usr/share/GeoIP
+wget -N http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz -O /usr/share/GeoIP/GeoLiteCity.dat.gz
+cd /usr/share/GeoIP
+gunzip GeoLiteCity.dat.gz
+ln -s /usr/share/GeoIP/GeoLiteCity.dat /usr/share/GeoIP/GeoIPCity.dat
+cd /root
 
 
 ## reboot
