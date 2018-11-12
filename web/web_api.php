@@ -19,11 +19,6 @@ switch ($c){
 	case "show_cpu_load":
 		show_cpu_load();
 		break;
-
-	// get cpu load of all connected cluster nodes
-	case "show_cluster_nodes_cpu_load":
-		show_cluster_nodes_cpu_load();
-		break;
 		
 	// node info
 	case "node_info":
@@ -194,28 +189,6 @@ function web_cluster_jobs()
     }
 
 	json_output($data);
-}
-
-function show_cluster_nodes_cpu_load()
-{
-	global $db;
-	$nodes 		= get_nodes();
-
-	echo "Server,Instance Load";
-
-	$count 		= 0;
-	foreach($nodes as $node)
-	{
-		$data[$count]['id']						= $node['id'];
-		$data[$count]['ip_address']				= $node['ip_address'];
-		$data[$count]['cpu_load_bits']			= @file_get_contents("http://".$node['ip_address'].":1372/web_api.php?c=show_cpu_load");
-		$data[$count]['cpu_load']				= json_decode($data[$count]['cpu_load'], true);
-
-		echo $node['ip_address'].','.$data[$count]['cpu_load']['cpu_load'].'<br>';
-	}
-
-
-	// json_output($nodes);
 }
 
 function test()
