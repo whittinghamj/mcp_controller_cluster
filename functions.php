@@ -250,7 +250,7 @@ function call_remote_content($url)
 // convert array to json
 function json_output($data)
 {
-    $data['timestamp']      = time();
+    // $data['timestamp']      = time();
     $data                   = json_encode($data);
     echo $data;
     die();
