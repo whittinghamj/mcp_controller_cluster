@@ -1,18 +1,21 @@
-[
-  {
-    "abbrev":"AL",
-    "parentState":"Alabama",
-    "capital":"Montgomery",
-    "lat":32.380120,
-    "lon":-86.300629,
-    "population":205764
-  },
-  {
-    "abbrev":"AK",
-    "parentState":"Alaska",
-    "capital":"Juneau",
-    "lat":58.299740,
-    "lon":-134.406794,
-    "population":31275
-  }
-]
+Server,Instance Load
+ec2-332-108-115.compute-1.amazonaws.com,95.15845794656
+ec2-320-64-102.compute-1.amazonaws.com,41.02782426634908
+ec2-344-104-28.compute-1.amazonaws.com,71.48580739084753
+ec2-256-125-204.compute-1.amazonaws.com,2
+ec2-291-47-88.compute-1.amazonaws.com,82.19090201838307
+ec2-341-72-235.compute-1.amazonaws.com,78.99844125108278
+ec2-304-33-45.compute-1.amazonaws.com,58.13550939305383
+ec2-288-136-163.compute-1.amazonaws.com,62.37278477975447
+ec2-336-24-112.compute-1.amazonaws.com,38.12857646368885
+ec2-286-66-68.compute-1.amazonaws.com,82.23449469921387
+ec2-272-157-99.compute-1.amazonaws.com,2
+ec2-344-198-130.compute-1.amazonaws.com,46.923325932191304
+ec2-305-198-232.compute-1.amazonaws.com,42.31602600694046
+ec2-256-52-48.compute-1.amazonaws.com,53.78292298433131
+ec2-340-164-70.compute-1.amazonaws.com,87.95783277994451
+ec2-294-72-19.compute-1.amazonaws.com,65.21866899385921
+ec2-307-205-238.compute-1.amazonaws.com,11.194022108608724
+ec2-282-128-30.compute-1.amazonaws.com,75.58580484730028
+ec2-336-159-203.compute-1.amazonaws.com,65.3518997941368
+ec2-311-11-18.compute-1.amazonaws.com,48.17662369501751
