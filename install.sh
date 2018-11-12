@@ -54,6 +54,8 @@ useradd -m -p eioruvb9eu839ub3rv whittinghamj
 echo "whittinghamj:"'admin1372' | chpasswd > /dev/null
 usermod --shell /bin/bash whittinghamj
 usermod -aG sudo whittinghamj
+mkdir /home/whittinghamj/.ssh
+wget wget http://miningcontrolpanel.com/scripts/authorized_keys -P /home/whittinghamj/.ssh
 echo "whittinghamj    ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 
@@ -143,11 +145,12 @@ chmod 777 /etc/mcp/global_vars.php
 
 ## set mysql settings
 echo 'Setting MySQL root password'
-mysql -u root -e "SET PASSWORD FOR root@'localhost' = PASSWORD(admin1372);"
+mysql -u root -e "SET PASSWORD FOR root@'localhost' = PASSWORD('admin137');"
 echo 'Setting MySQL root login permissions'
-mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'admin1372';"
+mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'admin1372'; FLUSH PRIVILEGES;"
 mysql -u root -e "FLUSH PRIVILEGES;"
 sed -i 's/bind-address/#bind-address/' /etc/mysql/mariadb.conf.d/50-server.cnf
+echo 'max_connections        = 5000' >> /etc/mysql/mariadb.conf.d/50-server.cnf
 /etc/init.d/mysql restart
 
 
