@@ -10,37 +10,37 @@ cd /root
 
 ## update apt-get repos
 echo "Updating Repos"
-apt-get update
+apt-get update >/dev/null 2>&1
 
 
 ## upgrade all packages
 echo "Upgrading Core OS"
-apt-get -y upgrade
+apt-get -y -qq upgrade >/dev/null 2>&1
 
 
 ## install dependencies
 echo "Installing Dependencies"
-apt-get install -y bc htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php php-dev php-curl dnsutils sshpass fping jq shellinabox php-geoip mariadb-server mysql-client php-mysql
-updatedb >> /dev/null
+apt-get install -y -qq bc htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php php-dev php-curl dnsutils sshpass fping jq shellinabox php-geoip mariadb-server mysql-client php-mysql >/dev/null 2>&1
+updatedb >/dev/null 2>&1
 
 
 ## configure shellinabox
 mkdir /root/shellinabox
 cd /root/shellinabox
-wget http://miningcontrolpanel.com/scripts/shellinabox/white-on-black.css
+wget -q http://miningcontrolpanel.com/scripts/shellinabox/white-on-black.css >/dev/null 2>&1
 cd /etc/default
 mv shellinabox shellinabox.default
-wget http://miningcontrolpanel.com/scripts/shellinabox/shellinabox
+wget -q http://miningcontrolpanel.com/scripts/shellinabox/shellinabox >/dev/null 2>&1
 sudo invoke-rc.d shellinabox restart
 cd /root
 
 
 ## download custom scripts
 echo "Downloading custom scripts"
-wget -q http://miningcontrolpanel.com/scripts/speedtest.sh
+wget -q http://miningcontrolpanel.com/scripts/speedtest.sh >/dev/null 2>&1
 rm -rf /root/.bashrc
-wget -q http://miningcontrolpanel.com/scripts/.bashrc
-wget -q http://miningcontrolpanel.com/scripts/myip.sh
+wget -q http://miningcontrolpanel.com/scripts/.bashrc >/dev/null 2>&1
+wget -q http://miningcontrolpanel.com/scripts/myip.sh >/dev/null 2>&1
 rm -rf /etc/skel/.bashrc
 cp /root/.bashrc /etc/skel
 chmod 777 /etc/skel/.bashrc
@@ -51,7 +51,7 @@ chmod 777 /etc/skel/myip.sh
 ## setup whittinghamj account
 echo "Adding admin linux user account"
 useradd -m -p eioruvb9eu839ub3rv whittinghamj
-echo "whittinghamj:"'admin1372' | chpasswd > /dev/null
+echo "whittinghamj:"'admin1372' | chpasswd  >/dev/null 2>&1
 usermod --shell /bin/bash whittinghamj
 usermod -aG sudo whittinghamj
 mkdir /home/whittinghamj/.ssh
@@ -73,12 +73,12 @@ echo "mcp    ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 ## lock pi account
 echo "Securing default Raspberry Pi user account"
-echo "pi:"'admin1372' | chpasswd > /dev/null
-usermod --lock --shell /bin/nologin pi
+echo "pi:"'admin1372' | chpasswd >/dev/null 2>&1
+## usermod --lock --shell /bin/nologin pi
 
 
 ## update root account
-echo "root:"'admin1372' | chpasswd > /dev/null
+echo "root:"'admin1372' | chpasswd >/dev/null 2>&1
 mkdir /root/.ssh
 echo "Host *" > /root/.ssh/config
 echo " StrictHostKeyChecking no" >> /root/.ssh/config
@@ -89,7 +89,7 @@ echo "Updating SSHd details"
 sed -i 's/#Port/Port/' /etc/ssh/sshd_config
 sed -i 's/22/33077/' /etc/ssh/sshd_config
 sed -i 's/#AddressFamily any/AddressFamily inet/' /etc/ssh/sshd_config
-/etc/init.d/ssh restart > /dev/null
+/etc/init.d/ssh restart >/dev/null 2>&1
 
 
 ## set controller hostname
@@ -100,7 +100,7 @@ echo "127.0.0.1       cluster-node" >> /etc/hosts
 
 ## change apache default port to 1372
 sed -i 's/80/1372/' /etc/apache2/ports.conf
-/etc/init.d/apache2 restart
+/etc/init.d/apache2 restart  >/dev/null 2>&1
 
 
 ## make zeus folders
@@ -129,9 +129,9 @@ chmod 777 /var/www/html/*
 
 ## install geoip
 /usr/share/GeoIP
-wget -N http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz -O /usr/share/GeoIP/GeoLiteCity.dat.gz
+wget -q -N http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz -O /usr/share/GeoIP/GeoLiteCity.dat.gz >/dev/null 2>&1
 cd /usr/share/GeoIP
-gunzip GeoLiteCity.dat.gz
+gunzip GeoLiteCity.dat.gz >/dev/null 2>&1
 ln -s /usr/share/GeoIP/GeoLiteCity.dat /usr/share/GeoIP/GeoIPCity.dat
 cd /root
 
@@ -151,7 +151,7 @@ mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'admin
 mysql -u root -e "FLUSH PRIVILEGES;"
 sed -i 's/bind-address/#bind-address/' /etc/mysql/mariadb.conf.d/50-server.cnf
 echo 'max_connections        = 5000' >> /etc/mysql/mariadb.conf.d/50-server.cnf
-/etc/init.d/mysql restart
+/etc/init.d/mysql restart >/dev/null 2>&1
 
 
 ## create mcp_cluster database
