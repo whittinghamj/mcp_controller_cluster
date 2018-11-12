@@ -35,7 +35,7 @@ function show_cluster_nodes_cpu_load()
 	global $db;
 	$nodes 		= get_nodes();
 
-	echo "Server,Instance Load";
+	echo "Server,Instance Load <br>";
 
 	$count 		= 0;
 	foreach($nodes as $node)
