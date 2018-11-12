@@ -20,7 +20,7 @@ apt-get -y upgrade
 
 ## install dependencies
 echo "Installing Dependencies"
-apt-get install -y htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php php-dev php-curl dnsutils sshpass fping jq shellinabox mariadb-server mysql-client php-mysql
+apt-get install -y bc htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php php-dev php-curl dnsutils sshpass fping jq shellinabox php-geoip mariadb-server mysql-client php-mysql
 updatedb >> /dev/null
 
 
@@ -133,6 +133,12 @@ gunzip GeoLiteCity.dat.gz
 ln -s /usr/share/GeoIP/GeoLiteCity.dat /usr/share/GeoIP/GeoIPCity.dat
 cd /root
 
+
+## setup mcp config folder
+mkdir /etc/mcp
+chmod 777 /etc/mcp
+echo '{"api_key":"","master":""}' > /etc/mcp/global_vars.php
+chmod 777 /etc/mcp/global_vars.php
 
 ## reboot
 reboot
