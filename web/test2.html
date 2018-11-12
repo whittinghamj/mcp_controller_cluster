@@ -19,7 +19,7 @@
 		 */
 		function requestData() {
 			$.ajax({
-				url: 'data.php', 
+				url: 'web_api.php?c=cluster_load_json', 
 				success: function(point) {
 					var series = chart.series[0],
 						shift = series.data.length > 20; // shift if the series is longer than 20
