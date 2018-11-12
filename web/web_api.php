@@ -104,9 +104,11 @@ function cluster_load_json()
 
 	// $data['total_cluster_load'] = number_format($data['total_cluster_load'] / $data['total_miners'], 2);
 
-	$stats['avg_cluster_load'] = number_format($data['total_cluster_load'] / $data['total_slaves'], 2);
+	$stats['avg_cluster_load'] 		= number_format($data['total_cluster_load'] / $data['total_slaves'], 2);
 
-	$stats['cpu_load']               = number_format($data['cpu_load'] / $data['cpu_cores'], 2);
+	$stats['cpu_cores']              = system_cores();
+    $stats['cpu_load']               = exec('ps -A -o pcpu | tail -n+2 | paste -sd+ | bc');
+    $stats['cpu_load']               = number_format($stats['cpu_load'] / $stats['cpu_cores'], 2);
 
 	$return_data = array($stats['cpu_load'], 60);
 
