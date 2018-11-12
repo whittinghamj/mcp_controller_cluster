@@ -1,161 +1,97 @@
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpMWtXLvl-a6YsAAB2HBQvK-_c0_zDtXg&libraries=geometry"></script>
-<div id="googleMap"></div>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highcharts Example</title>
+		
+		
+		<!-- 1. Add these JavaScript inclusions in the head of your page -->
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.js"></script>
+		<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+		
+		
+		<!-- 2. Add the JavaScript to initialize the chart on document ready -->
+		<script>
+		var chart; // global
+		
+		/**
+		 * Request data from the server, add it to the graph and set a timeout to request again
+		 */
+		function requestData() {
+			$.ajax({
+				url: 'data.php', 
+				success: function(point) {
+					var series = chart.series[0],
+						shift = series.data.length > 20; // shift if the series is longer than 20
+		
+					// add the point
+					chart.series[0].addPoint(eval(point), true, shift);
+					
+					// call it again after one second
+					setTimeout(requestData, 1000);	
+				},
+				cache: false
+			});
+		}
+			
+		$(document).ready(function() {
+			chart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'container',
+					defaultSeriesType: 'spline',
+					events: {
+						load: requestData
+					}
+				},
+				title: {
+					text: 'Live random data'
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 150,
+					maxZoom: 20 * 1000
+				},
+				yAxis: {
+					minPadding: 0.2,
+					maxPadding: 0.2,
+					title: {
+						text: 'Value',
+						margin: 80
+					}
+				},
+				series: [{
+					name: 'Random data',
+					data: []
+				}]
+			});		
+		});
+		</script>
+		
+	</head>
+	<body>
+		
+		<!-- 3. Add the container -->
+		<div id="container" style="width: 800px; height: 400px; margin: 0 auto"></div>
+		
+		<div style="width: 800px; margin: 0 auto">
+			<p>This example shows how to run a live chart with data retrieved from the server
+			each second. Study the source code for details.</p>
+			<p>This is the content of the PHP file, <a href="live-server-data.php">
+				live-server-data.php</a>:</p>
+<pre>&lt;?php 
+// Set the JSON header
+header("Content-type: text/json");
 
-<style type="text/css">
-    html,
-    body,
-    #googleMap {
-        height: 100%;
-        width: 100%;
-        margin: 0px;
-        padding: 0px
-    }
-</style>
+// The x value is the current JavaScript time, which is the Unix time multiplied by 1000.
+$x = time() * 1000;
+// The y value is a random number
+$y = rand(0, 100);
 
-<script>
-    function drawCurve(P1, P2, map) {
-        var lineLength = google.maps.geometry.spherical.computeDistanceBetween(P1, P2);
-        var lineHeading = google.maps.geometry.spherical.computeHeading(P1, P2);
-        if (lineHeading < 0) {
-            var lineHeading1 = lineHeading + 45;
-            var lineHeading2 = lineHeading + 135;
-        } else {
-            var lineHeading1 = lineHeading + -45;
-            var lineHeading2 = lineHeading + -135;
-        }
-        
-        var pA = google.maps.geometry.spherical.computeOffset(P1, lineLength / 2.2, lineHeading1);
-        var pB = google.maps.geometry.spherical.computeOffset(P2, lineLength / 2.2, lineHeading2);
-
-        var curvedLine = new GmapsCubicBezier(P1, pA, pB, P2, 0.01, map);
-    }
-
-    var x = new google.maps.LatLng(14.560774500000008, 121.02631410000006);
-    var london = new google.maps.LatLng(51.5073509, -0.12775829999998223);
-    var rcbc = new google.maps.LatLng(14.560648, 121.016781); // has two points
-    var powerplant = new google.maps.LatLng(14.565066, 121.036184);
-
-    var trafalgar = new google.maps.LatLng(14.560774500000008, 121.02631410000006);
-    var mapua = new google.maps.LatLng(14.562883, 121.022039);
-
-    function initialize() {
-        var mapProp = {
-            center: x,
-            zoom: 3,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-
-        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-
-        var myTrip = [london, rcbc];
-        var myTrip2 = [rcbc, powerplant];
-
-        drawCurve(london, rcbc, map);
-        drawCurve(rcbc, powerplant, map);
-
-        var marker = new google.maps.Marker({
-            position: x,
-        });
-
-        var marker2 = new google.maps.Marker({
-            position: london,
-        });
-
-        var marker3 = new google.maps.Marker({
-            position: rcbc,
-        });
-
-        var marker4 = new google.maps.Marker({
-            position: powerplant,
-        });
-
-        marker4.setMap(map);
-        marker3.setMap(map);
-        marker2.setMap(map);
-        marker.setMap(map);
-        flightPath.setMap(map);
-        flightPath2.setMap(map);
-    }
-
-google.maps.event.addDomListener(window, 'load', initialize);
-// original Belzier Curve code from nicoabie's answer to this question on StackOverflow:
-// https://stackoverflow.com/questions/5347984/letting-users-draw-curved-lines-on-a-google-map
-var GmapsCubicBezier = function(latlong1, latlong2, latlong3, latlong4, resolution, map) {
-  var lat1 = latlong1.lat();
-  var long1 = latlong1.lng();
-  var lat2 = latlong2.lat();
-  var long2 = latlong2.lng();
-  var lat3 = latlong3.lat();
-  var long3 = latlong3.lng();
-  var lat4 = latlong4.lat();
-  var long4 = latlong4.lng();
-
-  var points = [];
-
-  for (it = 0; it <= 1; it += resolution) {
-    points.push(this.getBezier({
-      x: lat1,
-      y: long1
-    }, {
-      x: lat2,
-      y: long2
-    }, {
-      x: lat3,
-      y: long3
-    }, {
-      x: lat4,
-      y: long4
-    }, it));
-  }
-  var path = [];
-  for (var i = 0; i < points.length - 1; i++) {
-    path.push(new google.maps.LatLng(points[i].x, points[i].y));
-    path.push(new google.maps.LatLng(points[i + 1].x, points[i + 1].y, false));
-  }
-
-  var Line = new google.maps.Polyline({
-    path: path,
-    geodesic: true,
-    strokeColor: "##35495e",
-    strokeOpacity: 0.8,
-    strokeWeight: 3
-      /* dashed line:
-          icons: [{
-            icon: {
-              path: 'M 0,-1 0,1',
-              strokeOpacity: 1,
-              scale: 4
-            },
-            offset: '0',
-            repeat: '20px'
-          }], */
-  });
-
-  Line.setMap(map);
-
-  return Line;
-};
-
-
-GmapsCubicBezier.prototype = {
-
-  B1: function(t) {
-    return t * t * t;
-  },
-  B2: function(t) {
-    return 3 * t * t * (1 - t);
-  },
-  B3: function(t) {
-    return 3 * t * (1 - t) * (1 - t);
-  },
-  B4: function(t) {
-    return (1 - t) * (1 - t) * (1 - t);
-  },
-  getBezier: function(C1, C2, C3, C4, percent) {
-    var pos = {};
-    pos.x = C1.x * this.B1(percent) + C2.x * this.B2(percent) + C3.x * this.B3(percent) + C4.x * this.B4(percent);
-    pos.y = C1.y * this.B1(percent) + C2.y * this.B2(percent) + C3.y * this.B3(percent) + C4.y * this.B4(percent);
-    return pos;
-  }
-};
-</script>
+// Create a PHP array and echo it as JSON
+$ret = array($x, $y);
+echo json_encode($ret);
+?&gt;</pre>
+			
+		</div>
+	</body>
+</html>
