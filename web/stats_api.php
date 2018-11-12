@@ -43,9 +43,11 @@ function show_cluster_nodes_cpu_load()
 		$data[$count]['id']						= $node['id'];
 		$data[$count]['ip_address']				= $node['ip_address'];
 		$data[$count]['cpu_load_bits']			= @file_get_contents("http://".$node['ip_address'].":1372/web_api.php?c=show_cpu_load");
-		$data[$count]['cpu_load']				= json_decode($data[$count]['cpu_load'], true);
+		$data[$count]['cpu_load']				= json_decode($data[$count]['cpu_load_bits'], true);
 
 		echo $node['ip_address'].','.$data[$count]['cpu_load']['cpu_load'].'<br>';
+
+		$count++;
 	}
 
 
