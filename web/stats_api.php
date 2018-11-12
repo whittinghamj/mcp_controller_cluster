@@ -35,7 +35,9 @@ function show_cluster_nodes_cpu_load()
 	global $db;
 	$nodes 		= get_nodes();
 
-	echo "Server,Instance Load <br>";
+	header("Content-Type: application/octet-stream");
+
+	echo "Server,Instance Load";
 
 	$count 		= 0;
 	foreach($nodes as $node)
