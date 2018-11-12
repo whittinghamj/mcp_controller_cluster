@@ -19,6 +19,11 @@ switch ($c){
 	case "show_cpu_load":
 		show_cpu_load();
 		break;
+
+	// json data for cluster load graph
+	case "cluster_load_json":
+		cluster_load_json();
+		break;
 		
 	// node info
 	case "node_info":
@@ -66,6 +71,44 @@ function home()
 	$data['status']				= 'success';
 	$data['message']			= 'default function';
 	json_output($data);
+}
+
+function cluster_load_json()
+{
+	global $db;
+
+	// count nodes
+	$query = $db->query("SELECT `id`,`type`,`cpu_load` FROM `nodes` ");
+    $nodes = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    $data['total_nodes']			= count($nodes);
+    $data['total_slaves']			= 0;
+    $data['total_masters']			= 0;
+    $data['total_cluster_load']		= 0;
+	foreach($nodes as $node)
+	{
+		if($node['type'] == 'master')
+		{
+			$data['total_masters']++;
+		}else{
+			$data['total_slaves']++;
+		}
+
+		$data['total_cluster_load'] = $data['total_cluster_load'] + $node['cpu_load'];
+	}
+
+	// count miners
+	$query = $db->query("SELECT `id` FROM `miners` ");
+    $miners = $query->fetchAll(PDO::FETCH_ASSOC);
+	$data['total_miners'] 	= count($miners);
+
+	// $data['total_cluster_load'] = number_format($data['total_cluster_load'] / $data['total_miners'], 2);
+
+	$stats['avg_cluster_load'] = number_format($data['total_cluster_load'] / $data['total_slaves'], 2);
+
+	$return_data = array($stats['avg_cluster_load'], 60);
+
+	json_output($return_data);
 }
 
 function show_cpu_load()
