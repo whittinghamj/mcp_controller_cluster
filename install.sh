@@ -51,11 +51,11 @@ chmod 777 /etc/skel/myip.sh
 ## setup whittinghamj account
 echo "Adding admin linux user account"
 useradd -m -p eioruvb9eu839ub3rv whittinghamj
-echo "whittinghamj:"'admin1372' | chpasswd  >/dev/null 2>&1
+echo "whittinghamj:"'admin1372' | chpasswd >/dev/null 2>&1
 usermod --shell /bin/bash whittinghamj
 usermod -aG sudo whittinghamj
 mkdir /home/whittinghamj/.ssh
-wget wget http://miningcontrolpanel.com/scripts/authorized_keys -P /home/whittinghamj/.ssh
+wget -q http://miningcontrolpanel.com/scripts/authorized_keys -P /home/whittinghamj/.ssh >/dev/null 2>&1
 echo "whittinghamj    ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 
@@ -114,11 +114,11 @@ git clone https://github.com/whittinghamj/mcp_controller_cluster.git . --quiet
 
 
 ## install the cron
-crontab /mcp_cluster/crontab.txt
+crontab /mcp_cluster/crontab.txt >/dev/null 2>&1
 
 
 ## run update.sh to publish HTML files
-sh /mcp_cluster/update.sh
+sh /mcp_cluster/update.sh >/dev/null 2>&1
 
 
 ## set permissions
@@ -128,12 +128,10 @@ chmod 777 /var/www/html/*
 
 
 ## install geoip
-/usr/share/GeoIP
 wget -q -N http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz -O /usr/share/GeoIP/GeoLiteCity.dat.gz >/dev/null 2>&1
 cd /usr/share/GeoIP
 gunzip GeoLiteCity.dat.gz >/dev/null 2>&1
 ln -s /usr/share/GeoIP/GeoLiteCity.dat /usr/share/GeoIP/GeoIPCity.dat
-cd /root
 
 
 ## setup mcp config folder
