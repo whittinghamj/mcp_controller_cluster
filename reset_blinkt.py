@@ -3,3 +3,5 @@
 import blinkt
 
 blinkt.set_clear_on_exit()
+
+blinkt.show()
