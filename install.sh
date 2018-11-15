@@ -160,5 +160,14 @@ mysql -u root -e "CREATE DATABASE mcp_cluster /*\!40100 DEFAULT CHARACTER SET ut
 mysql -u root -p'admin1372' mcp_cluster < /mcp_cluster/mcp_cluster.sql
 
 
+## download and install blinkt LED for pi's
+curl https://get.pimoroni.com/blinkt | bash
+
+
+## install psutils for python
+sudo pip install psutil
+sudo python -c "import psutil"
+
+
 ## reboot
 reboot
