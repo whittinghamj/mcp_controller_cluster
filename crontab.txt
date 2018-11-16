@@ -34,4 +34,4 @@
 * * * * * php -q /mcp_cluster/setup.php >> /mcp_cluster/logs/setup.log 2>&1
 
 # run blinkt CPU monitor
-@reboot python /etc/mcp/cpu_load.py > /dev/null 2>&1
+@reboot python /mcp_cluster/cluster_workload_with_cpu_load.py > /dev/null 2>&1

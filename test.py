@@ -27,7 +27,6 @@ while True:
         if i in pixels:
             if cpu < 10:
                 blinkt.set_pixel(i, 0,255,0)         # Green
-                time.sleep(0.05)
             elif (cpu > 11) and (cpu < 20):
                 blinkt.set_pixel(i, 56,255,0)
             elif (cpu > 21) and (cpu < 30): # Lime
