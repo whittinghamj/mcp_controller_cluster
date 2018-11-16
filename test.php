@@ -27,12 +27,12 @@ if(!file_exists($functions))
 include('/mcp_cluster/db.php');
 include('/mcp_cluster/functions.php');
 
-$data['cpu_cores']              = system_cores();
-$data['cpu_load']               = exec('ps -A -o pcpu | tail -n+2 | paste -sd+ | bc');
-$data['cpu_load']               = number_format($data['cpu_load'] / $data['cpu_cores'], 2);
-
 foreach(range(0, 58) as $time)
 {
+	$data['cpu_cores']              = system_cores();
+	$data['cpu_load']               = exec('ps -A -o pcpu | tail -n+2 | paste -sd+ | bc');
+	$data['cpu_load']               = number_format($data['cpu_load'] / $data['cpu_cores'], 2);
+
 	if($data['cpu_load'] >= 0)
 	{
 		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 0 255 0')
