@@ -1,72 +1,58 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('error_reporting', E_ALL); 
 
-// get local ip establish subnet
-$my_ip = exec('sh /mcp_cluster/lan_ip.sh');
-$my_ip_bits = explode('.', $my_ip);
+// reset from last run
+ecec("kill $(ps aux | grep 'cluster_workload_with_cpu_load.py' | awk '{print $2}')");
 
-// scan my local subnet for cluster nodes
-exec('rm -rf /mcp_cluster/node_ip_addresses.txt && touch /mcp_cluster/node_ip_addresses.txt');
-exec('nmap -p1372 "'.$my_ip_bits[0].'.'.$my_ip_bits[1].'.'.$my_ip_bits[2].'.0/24" -oG - | grep 1372/open | awk \'{ print $2 }\' >> /mcp_cluster/node_ip_addresses.txt');
+// set vars
+$time_to_run = 60;
 
-$nodes = file('/mcp_cluster/node_ip_addresses.txt');
-
-// print_r($nodes);
-
-// This loop creates a new fork for each of the items in $tasks.
-foreach($nodes as $node)
+$global_vars = '/etc/mcp/global_vars.php';
+if(!file_exists($global_vars))
 {
-	$node 						= str_replace(' ', '', $node);
-	$node 						= trim($node, " \t.");
-	$node 						= trim($node, " \n.");
-	$node 						= trim($node, " \r.");
-
-	$pid = pcntl_fork();
-	if ($pid == -1)
-	{
-		exit("Error forking...\n");
-	}elseif($pid == 0){
-		execute_task($node);
-		exit();
-	}
+	echo $global_vars . " is missing. git clone could be in progress. \n";
+	die();
 }
 
-// This while loop holds the parent process until all the child threads
-// are complete - at which point the script continues to execute.
-while(pcntl_waitpid(0, $status) != -1);
-
-// You could have more code here.
-echo "Done \n";
-
-/**
- * Helper method to execute a task.
- */
-function execute_task($ip_address)
+$functions = '/mcp_cluster/functions.php';
+if(!file_exists($functions))
 {
-	// echo "Checking: '${ip_address}'\n";
-	// Simulate doing actual work with sleep().
-	// $execution_time = rand(5, 10);
-	// sleep($execution_time);
+	echo $functions . " is missing. git clone could be in progress. \n";
+	die();
+}
 
-	$remote_content 	= @file_get_contents("http://".$ip_address.":1372/web_api.php?c=cluster_configuration");
-	$remote_data		= json_decode($remote_content, true);
+include('/mcp_cluster/db.php');
+include('/mcp_cluster/functions.php');
 
-	if(is_array($remote_data))
+$data['cpu_cores']              = system_cores();
+$data['cpu_load']               = exec('ps -A -o pcpu | tail -n+2 | paste -sd+ | bc');
+$data['cpu_load']               = number_format($data['cpu_load'] / $data['cpu_cores'], 2);
+
+foreach(range(0, 58) as $time)
+{
+	if($data['cpu_load'] >= 0)
 	{
-		if(isset($remote_data['node_type']) && $remote_data['node_type'] == 'master')
-		{
-			echo "MCP Cluster Master found on " . $ip_address."\n";
-
-			$api_key = $remote_data['api_key'];
-			$master_ip_address = $remote_data['master_ip_address'];
-
-			$data['api_key'] = $remote_data['api_key'];
-			$data['master'] = $remote_data['master_ip_address'];
-
-			$json = json_encode($data, true);
-
-			file_put_contents('/etc/mcp/global_vars.php', $json);
-			
-		}
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 0 255 0')
+	}elseif($data['cpu_load'] >=11){
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 56 255 0')
+	}elseif($data['cpu_load'] >=21){
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 113 255 0')
+	}elseif($data['cpu_load'] >=31){
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 170 255 0')
+	}elseif($data['cpu_load'] >=41){
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 226 255 0')
+	}elseif($data['cpu_load'] >=51){
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 226 0')
+	}elseif($data['cpu_load'] >=61){
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 170 0')
+	}elseif($data['cpu_load'] >=71){
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 113 0')
+	}elseif($data['cpu_load'] >=81){
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 56 0')
+	}elseif($data['cpu_load'] >=91){
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 0 0')
 	}
-	// echo "Completed task: ${task_id}. Took ${execution_time} seconds.\n";
+	sleep(1);
 }
