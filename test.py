@@ -25,14 +25,14 @@ while True:
             pixels = random.sample(range(blinkt.NUM_PIXELS), random.randint(1, 5))
             for i in range(blinkt.NUM_PIXELS):
                 if i in pixels:
-                    blinkt.set_pixel(i, color_one, color_two, color_three)
+                    blinkt.set_pixel(i, 0, 255, 0)
                 else:
                     blinkt.set_pixel(i, 0, 0, 0)
             blinkt.show()
             time.sleep(0.05)
 
-        blinkt.set_all(0,255,0)         # Green
-        blinkt.show()
+        # blinkt.set_all(0,255,0)         # Green
+        # blinkt.show()
     elif (cpu > 11) and (cpu < 20):
         blinkt.set_all(56,255,0)
         blinkt.show()
