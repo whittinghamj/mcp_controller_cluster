@@ -17,7 +17,7 @@ blinkt.set_brightness(0.25)
 # Run in an infinite loop and display relevant colour on the Blinkt!.
 # Create your own 10 step gradient via http://www.perbang.dk/rgbgradient/
 while True:
-    cpu_raw = psutil.cpu_percent(interval=1)
+    cpu_raw = psutil.cpu_percent(interval=0.1)
     cpu = int(cpu_raw)
     print cpu
 
@@ -27,6 +27,7 @@ while True:
         if i in pixels:
             if cpu < 10:
                 blinkt.set_pixel(i, 0,255,0)         # Green
+                time.sleep(0.05)
             elif (cpu > 11) and (cpu < 20):
                 blinkt.set_pixel(i, 56,255,0)
             elif (cpu > 21) and (cpu < 30): # Lime
