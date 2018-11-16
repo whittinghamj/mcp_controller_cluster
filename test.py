@@ -58,5 +58,12 @@ while True:
         blinkt.set_all(255,56,0)
         blinkt.show()
     else:
-        blinkt.set_all(255,0,0)         # Red
-	blinkt.show()
+        while True:
+            pixels = random.sample(range(blinkt.NUM_PIXELS), random.randint(1, 5))
+            for i in range(blinkt.NUM_PIXELS):
+                if i in pixels:
+                    blinkt.set_pixel(i, 255, 0, 0)
+                else:
+                    blinkt.set_pixel(i, 0, 0, 0)
+            blinkt.show()
+            time.sleep(0.05)
