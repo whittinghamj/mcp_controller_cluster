@@ -35,31 +35,41 @@ foreach(range(0, 58) as $time)
 
 	console_output("CPU Load: ".$data['cpu_load']);
 
+	$descriptorspec = array(
+		0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
+		1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
+		2 => array("file", "/tmp/error-output.txt", "a") // stderr is a file to write to
+	);
+
 	if($data['cpu_load'] >= 0 && $data['cpu_load'] < 10)
 	{
-		$proc = proc_open('python /mcp_cluster/cluster_workload_with_cpu_load.py 0 255 0');
+		$proc = 'python /mcp_cluster/cluster_workload_with_cpu_load.py 0 255 0';
 	}elseif($data['cpu_load'] >=11 && $data['cpu_load'] < 20){
-		$proc = proc_open('python /mcp_cluster/cluster_workload_with_cpu_load.py 56 255 0');
+		$proc = 'python /mcp_cluster/cluster_workload_with_cpu_load.py 56 255 0';
 	}elseif($data['cpu_load'] >=21 && $data['cpu_load'] < 30){
-		$proc = proc_open('python /mcp_cluster/cluster_workload_with_cpu_load.py 113 255 0');
+		$proc = 'python /mcp_cluster/cluster_workload_with_cpu_load.py 113 255 0';
 	}elseif($data['cpu_load'] >=31 && $data['cpu_load'] < 40){
-		$proc = proc_open('python /mcp_cluster/cluster_workload_with_cpu_load.py 170 255 0');
+		$proc = 'python /mcp_cluster/cluster_workload_with_cpu_load.py 170 255 0';
 	}elseif($data['cpu_load'] >=41 && $data['cpu_load'] < 50){
-		$proc = proc_open('python /mcp_cluster/cluster_workload_with_cpu_load.py 226 255 0');
+		$proc = 'python /mcp_cluster/cluster_workload_with_cpu_load.py 226 255 0';
 	}elseif($data['cpu_load'] >=51 && $data['cpu_load'] < 60){
-		$proc = proc_open('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 226 0');
+		$proc = 'python /mcp_cluster/cluster_workload_with_cpu_load.py 255 226 0';
 	}elseif($data['cpu_load'] >=61 && $data['cpu_load'] < 70){
-		$proc = proc_open('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 170 0');
+		$proc = 'python /mcp_cluster/cluster_workload_with_cpu_load.py 255 170 0';
 	}elseif($data['cpu_load'] >=71 && $data['cpu_load'] < 80){
-		$proc = proc_open('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 113 0');
+		$proc = 'python /mcp_cluster/cluster_workload_with_cpu_load.py 255 113 0';
 	}elseif($data['cpu_load'] >=81 && $data['cpu_load'] < 90){
-		$proc = proc_open('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 56 0');
+		$proc = 'python /mcp_cluster/cluster_workload_with_cpu_load.py 255 56 0';
 	}elseif($data['cpu_load'] >=91){
-		$proc = proc_open('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 0 0');
+		$proc = 'python /mcp_cluster/cluster_workload_with_cpu_load.py 255 0 0';
 	}
 
-	// run the non-blocking process
+	// set non-blocking process
     stream_set_blocking($proc, 0);
 
+    // run the process
+    exec($proc);
+
+    // sleep for 1 second
 	sleep(1);
 }
