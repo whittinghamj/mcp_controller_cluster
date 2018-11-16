@@ -24,8 +24,6 @@ while True:
     #print cpu      # Uncomment out to show CPU usage in the terminal
     if cpu < 10:
         while True:
-            if time.time() > timeout:
-                break
             pixels = random.sample(range(blinkt.NUM_PIXELS), random.randint(1, 5))
             for i in range(blinkt.NUM_PIXELS):
                 if i in pixels:
