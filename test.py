@@ -21,6 +21,7 @@ blinkt.set_brightness(0.25)
 while True:
     cpu_raw = psutil.cpu_percent(interval=1)
     cpu = int(cpu_raw)
+    print cpu
 
     pixels = random.sample(range(blinkt.NUM_PIXELS), random.randint(1, 5))
     for i in range(blinkt.NUM_PIXELS):
