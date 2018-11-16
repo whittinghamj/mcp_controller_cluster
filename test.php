@@ -33,6 +33,8 @@ foreach(range(0, 58) as $time)
 	$data['cpu_load']               = exec('ps -A -o pcpu | tail -n+2 | paste -sd+ | bc');
 	$data['cpu_load']               = number_format($data['cpu_load'] / $data['cpu_cores'], 2);
 
+	console_output("CPU Load: ".$data['cpu_load']);
+
 	if($data['cpu_load'] >= 0)
 	{
 		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 0 255 0');
