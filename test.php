@@ -35,25 +35,25 @@ foreach(range(0, 58) as $time)
 
 	if($data['cpu_load'] >= 0)
 	{
-		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 0 255 0')
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 0 255 0');
 	}elseif($data['cpu_load'] >=11){
-		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 56 255 0')
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 56 255 0');
 	}elseif($data['cpu_load'] >=21){
-		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 113 255 0')
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 113 255 0');
 	}elseif($data['cpu_load'] >=31){
-		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 170 255 0')
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 170 255 0');
 	}elseif($data['cpu_load'] >=41){
-		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 226 255 0')
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 226 255 0');
 	}elseif($data['cpu_load'] >=51){
-		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 226 0')
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 226 0');
 	}elseif($data['cpu_load'] >=61){
-		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 170 0')
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 170 0');
 	}elseif($data['cpu_load'] >=71){
-		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 113 0')
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 113 0');
 	}elseif($data['cpu_load'] >=81){
-		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 56 0')
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 56 0');
 	}elseif($data['cpu_load'] >=91){
-		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 0 0')
+		exec('python /mcp_cluster/cluster_workload_with_cpu_load.py 255 0 0');
 	}
 	sleep(1);
 }
