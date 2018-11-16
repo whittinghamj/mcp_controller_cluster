@@ -6,8 +6,6 @@ import time
 import sys
 import blinkt
 
-timeout = time.time() + 1
-
 try:
     import psutil
 except ImportError:
@@ -25,6 +23,7 @@ while True:
 
     pixels = random.sample(range(blinkt.NUM_PIXELS), random.randint(1, 5))
     for i in range(blinkt.NUM_PIXELS):
+        print i
         if i in pixels:
             if cpu < 10:
                 blinkt.set_all(i, 0,255,0)         # Green
