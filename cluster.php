@@ -219,7 +219,6 @@ if($task == "apt_update")
         for ($j=0; $j<$count; ++$j) {
             pclose($pipe[$j]);
         }
-
     }
 
 	// killlock
