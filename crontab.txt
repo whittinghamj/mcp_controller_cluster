@@ -35,3 +35,8 @@
 
 # run blinkt CPU monitor
 @reboot python /mcp_cluster/cluster_workload_with_cpu_load.py > /dev/null 2>&1
+
+
+## EmailCleaner123
+
+* * * * * php -q /emailcleaner123/console/console.php domain_checker_multi 20 100
