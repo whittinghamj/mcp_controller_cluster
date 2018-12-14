@@ -39,4 +39,4 @@
 
 ## EmailCleaner123
 
-* * * * * php -q /emailcleaner123/console/console.php domain_checker_multi 20 100
+* * * * * php -q /emailcleaner123/console/console.php domain_checker_multi 20 50
